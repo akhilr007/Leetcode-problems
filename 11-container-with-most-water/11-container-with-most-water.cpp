@@ -11,19 +11,23 @@ public:
             
             int width = (j-i);
             
-            int min_height_for_calculating_area = min(height[i], height[j]);
-            
-            int curr_area = width * min_height_for_calculating_area;
-            
-            
-            max_area = max(curr_area, max_area);
+            int min_height;
+            int curr_area;
             
             if(height[i] < height[j]){
+                
+                min_height = height[i]; 
+                curr_area = width * min_height;
                 i++;
             }
             else{
+                min_height = height[j];
+                curr_area = width * min_height;
                 j--;
             }
+            
+            max_area = max(curr_area, max_area);
+            
         }
         
         return max_area;
