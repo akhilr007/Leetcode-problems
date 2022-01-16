@@ -1,36 +1,46 @@
 class Solution {
 public:
-    int maxArea(vector<int>& height) {
+    int maxArea(vector<int>& arr) {
+        
+//         int maxArea=0;
+//         for(int i=0; i<height.size(); i++){
+//             for(int j=i+1; j<height.size(); j++){
+                
+//                 int currArea = (j-i)*min(height[i], height[j]);
+                
+//                 if(currArea > maxArea){
+//                     maxArea = currArea;
+//                 }
+                
+//             }
+//         }
+        
+//         return maxArea;
         
         int i=0;
-        int j=height.size()-1;
+        int j=arr.size()-1;
         
-        int max_area=0;
+        int maxArea=0;
         
         while(i<j){
             
-            int width = (j-i);
+            // compare b/w heights of i and j
+            int minHeight = min(arr[i], arr[j]);
+            int currArea = (j-i)*minHeight;
             
-            int min_height;
-            int curr_area;
+            if(currArea > maxArea){
+                maxArea = currArea;
+            }
             
-            if(height[i] < height[j]){
-                
-                min_height = height[i]; 
-                curr_area = width * min_height;
+            // if height of arr[i] is smaller , then increment i otherwise decrement j'
+            if(arr[i]<arr[j]){
                 i++;
             }
             else{
-                min_height = height[j];
-                curr_area = width * min_height;
                 j--;
             }
-            
-            max_area = max(curr_area, max_area);
-            
         }
         
-        return max_area;
-        
+        return maxArea;
     }
 };
