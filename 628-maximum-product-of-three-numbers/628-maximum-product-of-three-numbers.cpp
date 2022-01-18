@@ -30,9 +30,6 @@ public:
             else if(nums[i] > max3){
                 max3 = nums[i];
             }
-        }
-        
-        for(int i=0; i<n; i++){
             
             if(nums[i] < min1){
                 
@@ -44,6 +41,7 @@ public:
                 min2 = nums[i];
             }
         }
+    
         
         int p1 = max1*max2*max3;
         int p2 = min1*min2*max1;
