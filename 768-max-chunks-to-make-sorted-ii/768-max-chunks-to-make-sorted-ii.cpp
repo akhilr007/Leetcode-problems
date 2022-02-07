@@ -4,13 +4,6 @@ public:
         
         int n = arr.size();
         
-        vector<int> lmax(n);
-        lmax[0] = arr[0];
-        
-        for(int i=1; i<n; i++){
-            lmax[i] = max(lmax[i-1], arr[i]);
-        }
-        
         vector<int> rmin(n+1);
         rmin[n] = INT_MAX;
         
@@ -19,8 +12,10 @@ public:
         }
         
         int countChunks=0;
+        int lmax = INT_MIN;
         for(int i=0; i<n; i++){
-            if(lmax[i] <= rmin[i+1]){
+            lmax = max(lmax, arr[i]);
+            if(lmax <= rmin[i+1]){
                 countChunks++;
             }
         }
