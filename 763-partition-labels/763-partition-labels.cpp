@@ -2,11 +2,11 @@ class Solution {
 public:
     vector<int> partitionLabels(string s) {
         
-        map<char,int> mp;
+        int mp[26];;
         int n=s.length();
         
         for(int i=0; i<n; i++){
-            mp[s[i]] = i;
+            mp[s[i]-'a'] = i;
         }
         
         int prev = -1;
@@ -16,7 +16,7 @@ public:
         
         for(int i=0; i<n; i++){
             
-            maxImpact = max(maxImpact , mp[s[i]]);
+            maxImpact = max(maxImpact , mp[s[i]-'a']);
             
             if(maxImpact == i){
                 int p = maxImpact - prev;
