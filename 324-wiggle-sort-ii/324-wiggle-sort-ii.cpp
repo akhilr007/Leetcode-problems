@@ -2,25 +2,23 @@ class Solution {
 public:
     void wiggleSort(vector<int>& nums) {
         
-        int n = nums.size();
-        if(n==0){
-            return;
-        }
         sort(nums.begin(), nums.end());
-        vector<int>res(n);
+        int n=nums.size();
+        
+        vector<int> res(n);
         
         int i=1;
         int j=n-1;
         
         while(i<n){
-            res[i]=nums[j];
+            res[i] = nums[j];
             i += 2;
             j--;
         }
         
         i=0;
         while(i<n){
-            res[i]=nums[j];
+            res[i] = nums[j];
             i += 2;
             j--;
         }
