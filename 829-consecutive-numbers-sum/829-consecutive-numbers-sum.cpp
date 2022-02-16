@@ -4,13 +4,11 @@ public:
         
         int count=0;
         
-        for(int k=1; k*(k-1) < 2*n; k++){
+        for(int k=1; k*(k-1)<2*n; k++){
             
-            int numerator = n - (k * (k-1) / 2);
+            int numerator = n-(k*(k-1)/2);
             
-            if(numerator % k == 0){
-                count++;
-            }
+            if(numerator%k==0) count++;
         }
         return count;
     }
