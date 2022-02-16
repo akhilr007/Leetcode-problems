@@ -1,65 +1,64 @@
 class Solution {
 public:
-    string pushDominoes(string str) {
+    string pushDominoes(string s) {
         
-        int n = str.length();
-    
-    vector<int> left(n);
-    int nearestLeft = -1;
-    
-    for(int i=n-1; i>=0; i--){
+        int n = s.length();
         
-        if(str[i] == 'L'){
-            nearestLeft = i;
-        }
-        else if(str[i] == 'R'){
-            nearestLeft = -1;
-        }
+        int nearestLeft=-1;
+        vector<int> left(n);
         
-        left[i] = nearestLeft;
-    }
-    
-    vector<int> right(n);
-    int nearestRight = -1;
-    
-    for(int i=0; i<n; i++){
-        
-        if(str[i] == 'R'){
-            nearestRight = i;
-        }
-        else if(str[i] == 'L'){
-            nearestRight = -1;
-        }
-        right[i] = nearestRight;
-    }
-    
-    string ans ="";
-    
-    for(int i=0; i<n; i++){
-        
-        if(str[i] == '.'){
+        for(int i=n-1; i>=0; i--){
             
-            int nearLeft = left[i];
-            int nearRight = right[i];
-            
-            int leftDiff = nearLeft == -1 ? INT_MAX : abs(nearLeft - i);
-            int rightDiff = nearRight == -1 ? INT_MAX : abs(nearRight - i);
-            
-            if(leftDiff == rightDiff){
-                ans += '.';
+            if(s[i] == 'L'){
+                nearestLeft = i;
             }
-            else if(leftDiff < rightDiff){
-                ans += 'L';
+            else if(s[i] == 'R'){
+                nearestLeft = -1;
+            }
+            left[i] = nearestLeft;
+        }
+        
+        int nearestRight = -1;
+        vector<int> right(n);
+        
+        for(int i=0; i<n; i++){
+            
+            if(s[i]=='R'){
+                nearestRight = i;
+            }
+            else if(s[i]=='L'){
+                nearestRight = -1;
+            }
+            right[i] = nearestRight;
+        }
+        
+        string ans="";
+        for(int i=0; i<n; i++){
+            
+            if(s[i]=='.'){
+                
+                int nearLeft = left[i];
+                int nearRight = right[i];
+                
+                int leftDiff = nearLeft == -1 ? INT_MAX : abs(nearLeft-i);
+                int rightDiff = nearRight == -1 ? INT_MAX : abs(nearRight-i);
+                
+                if(leftDiff == rightDiff){
+                    ans += '.';
+                }
+                else if(leftDiff < rightDiff){
+                    ans += 'L';
+                }
+                else{
+                    ans += 'R';
+                }
+                
             }
             else{
-                ans += 'R';
+                ans += s[i];
             }
         }
-        else{
-            ans += str[i];
-        }
-    }
-    
-    return ans;
+        
+        return ans;
     }
 };
