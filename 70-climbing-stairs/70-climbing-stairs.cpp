@@ -13,7 +13,7 @@ public:
     }
     int climbStairs(int n) {
         
-        vector<int> dp(n+1, 0);
+        // vector<int> dp(n+1, 0);
         // return f(n, dp);
         
         // dp[1] = 1;
