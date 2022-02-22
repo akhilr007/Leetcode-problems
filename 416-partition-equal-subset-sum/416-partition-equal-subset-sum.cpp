@@ -27,23 +27,30 @@ public:
         
         int target = totalSum/2;
         
-        vector<vector<bool>> dp(n, vector<bool> (target+1, 0));
+        // vector<vector<bool>> dp(n, vector<bool> (target+1, 0));
         // return f(n-1, target, nums, dp);
         
-        for(int i=0; i<n; i++) dp[i][0] = true;
-        if(nums[0] <= target) dp[0][nums[0]] = true;
+        vector<int> prev(target+1, 0), cur(target+1, 0);
+        
+        prev[0] = cur[0] = true;
+        
+        if(nums[0] <= target) prev[nums[0]] = true;
+        
+        // for(int i=0; i<n; i++) dp[i][0] = true;
+        // if(nums[0] <= target) dp[0][nums[0]] = true;
         
         for(int i=1; i<n; i++){
             for(int t=1; t<=target; t++){
                 
-                bool notTake = dp[i-1][t];
+                bool notTake = prev[t];
                 bool take = false;
-                if(nums[i] <= t) take = dp[i-1][t-nums[i]];
+                if(nums[i] <= t) take = prev[t-nums[i]];
                 
-                dp[i][t] = notTake | take;
+                cur[t] = notTake | take;
             }
+            prev = cur;
         }
         
-        return dp[n-1][target];
+        return prev[target];
     }
 };
