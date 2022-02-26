@@ -26,7 +26,26 @@ public:
         
         int tar = totalSum/2;
         
-        vector<vector<int>> dp(n, vector<int> (tar+1, -1));
-        return f(n-1, nums, tar, dp);
+        vector<vector<bool>> dp(n, vector<bool> (tar+1, false));
+        //return f(n-1, nums, tar, dp);
+        
+        // for target -> 0 
+        for(int i=0; i<n; i++) dp[i][0] = true;
+        if(nums[0] <= tar) dp[0][nums[0]] = true;
+        
+        
+        for(int i=1; i<n; i++){
+            for(int t=1; t<=tar; t++){
+                
+                bool notTake = dp[i-1][t];
+                bool take = false;
+                if(nums[i] <= t) take = dp[i-1][t-nums[i]];
+                
+                dp[i][t] = notTake | take;
+            }
+        }
+        
+        return dp[n-1][tar];
+        
     }
 };
