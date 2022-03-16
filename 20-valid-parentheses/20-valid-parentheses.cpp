@@ -6,38 +6,30 @@ public:
         
         for(int i=0; i<s.length(); i++){
             
-            // check for open brackets
-            char ch = s[i];
-            
-            if(ch == '(' || ch == '{' || ch == '['){
-                st.push(ch);
+            if(s[i] == '(' || s[i] == '[' || s[i] == '{'){
+                st.push(s[i]);
             }
             
-            else if(ch == ')' || ch == ']' || ch == '}'){
+            else if(s[i] == ')' || s[i] == ']' || s[i] == '}'){
                 
-                if(ch == ')'){
-                    if(st.size()==0 || st.top() != '('){
-                        return false;
-                    }
+                if(s[i] == ')'){
+                    
+                    if(st.size() == 0 || st.top() != '(') return false;
                 }
                 
-                else if(ch == '}'){
-                    if(st.size()==0 || st.top() != '{'){
-                        return false;
-                    }
+                else if(s[i] == '}'){
+                    
+                    if(st.size() == 0 || st.top() != '{') return false;
                 }
                 
-                else if(ch == ']'){
-                    if(st.size()==0 || st.top() != '['){
-                        return false;
-                    }
+                else if(s[i] == ']'){
+                    
+                    if(st.size() == 0 || st.top() != '[') return false;
                 }
                 
                 st.pop();
             }
-            
         }
-        
         
         if(st.size()>0) return false;
         else return true;
