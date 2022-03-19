@@ -1,23 +1,23 @@
 class Solution {
 public:
-    void travel(int i, int j, vector<vector<char>>& grid, vector<vector<bool>>& visited){
+    void travel(int i, int j, vector<vector<char>>& grid){
         
-        if(i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || visited[i][j] == true || grid[i][j] == '0'){
+        if(i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || grid[i][j] == '2' || grid[i][j] == '0'){
             return;
         }
         
         //mark
-        visited[i][j] = true;
+        grid[i][j] = '2';
         
         // travel
         // top
-        travel(i-1, j, grid, visited);
+        travel(i-1, j, grid);
         // left
-        travel(i, j-1, grid, visited);
+        travel(i, j-1, grid);
         // down
-        travel(i+1, j, grid, visited);
+        travel(i+1, j, grid);
         // right;
-        travel(i, j+1, grid, visited);
+        travel(i, j+1, grid);
         
     }
     
@@ -26,15 +26,15 @@ public:
         int n=grid.size();
         int m=grid[0].size();
         
-        vector<vector<bool>> visited(n, vector<bool> (m, false));
+        //vector<vector<bool>> visited(n, vector<bool> (m, false));
         int noOfIslands=0;
         
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 
-                if(grid[i][j] == '1' && visited[i][j] == false){
+                if(grid[i][j] == '1'){
                     
-                    travel(i, j, grid, visited);
+                    travel(i, j, grid);
                     noOfIslands++;
                 }
             }
