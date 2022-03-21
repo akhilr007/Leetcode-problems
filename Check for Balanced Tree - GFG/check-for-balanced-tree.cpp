@@ -112,19 +112,35 @@ class Solution{
         return max(left, right) + 1;
     }
     public:
-    //Function to check whether a binary tree is balanced or not.
-    bool isBalanced(Node *root)
-    {
+    pair<bool, int> isBalancedFast(Node* root){
+        
         if(root == NULL){
-            return true;
+            pair<bool, int> p = make_pair(true, 0);
+            return p;
         }
         
-        bool left = isBalanced(root->left);
-        bool right = isBalanced(root->right);
+        pair<bool, int> left = isBalancedFast(root->left);
+        pair<bool, int> right = isBalancedFast(root->right);
         
-        bool checkBal = abs(height(root->left) - height(root->right)) <= 1;
+        bool leftAns = left.first;
+        bool rightAns = right.first;
         
-        return (left && right && checkBal);
+        bool isBal = abs(left.second - right.second) <= 1;
+        
+        pair<bool, int> ans;
+        if(leftAns && rightAns && isBal){
+            ans.first = true;
+            ans.second = max(left.second, right.second)+1;
+        }
+        else{
+            ans.second = false;
+        }
+        
+        return ans;
+    }
+    bool isBalanced(Node *root)
+    {
+        return isBalancedFast(root).first;
     }
 };
 
