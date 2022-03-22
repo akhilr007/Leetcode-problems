@@ -10,7 +10,7 @@ public:
             int u = vec[0];
             int v = vec[1];
             
-            graph[u].push_back(v);
+            graph[v].push_back(u);
         }
         
         vector<int> indegree(numCourses, 0);
