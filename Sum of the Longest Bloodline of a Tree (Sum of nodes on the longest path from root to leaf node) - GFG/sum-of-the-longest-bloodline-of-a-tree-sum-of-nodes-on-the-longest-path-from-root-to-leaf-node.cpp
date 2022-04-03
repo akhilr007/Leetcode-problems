@@ -126,7 +126,7 @@ public:
                 maxLen = len;
             }
             else if(len == maxLen){
-                maxSum = sum;
+                maxSum = max(maxSum, sum);
             }
             return;
         }    
