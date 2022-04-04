@@ -12,30 +12,22 @@ class Solution {
 public:
     ListNode* swapNodes(ListNode* head, int k) {
         
-        if(head == NULL || head->next == NULL) return head;
+        vector<ListNode*> nodes;
         
-        ListNode* left = head;
-        ListNode* right = head;
         ListNode* curr = head;
-        
-        int counter = 1;
         
         while(curr != NULL){
             
-            if(counter < k){
-                left = left->next;
-            }
-            if(counter > k){
-                right = right->next;
-            }
+            nodes.push_back(curr);
             curr = curr->next;
-            counter++;
         }
         
-        int temp = left->val;
-        left->val = right->val;
-        right->val = temp;
+        int len = nodes.size();
         
-        return head;
+        int temp = nodes[k-1]->val;
+        nodes[k-1]->val = nodes[len-k]->val;
+        nodes[len-k]->val = temp;
+        
+        return nodes[0];
     }
 };
