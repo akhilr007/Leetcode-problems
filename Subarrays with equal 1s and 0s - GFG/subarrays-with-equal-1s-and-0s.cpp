@@ -25,7 +25,7 @@ class Solution{
                 sum += 1;
             }
             
-            if(mp.find(0) == mp.end()){
+            if(mp.find(sum) == mp.end()){
                 mp[sum]++;
             }
             else{
