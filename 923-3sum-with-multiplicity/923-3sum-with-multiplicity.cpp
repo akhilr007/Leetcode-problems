@@ -27,10 +27,12 @@ public:
                         // nc3
                         ans += ((f1)*(f1-1)*(f1-2))/6;
                     }
+                    // case 2 first 2 elements are same and third is different
                     else if(el1 == el2 and el1 != el3){
                         // nc2 * nc1
                         ans += ((f1)*(f1-1))/2 * f3;
                     }
+                    // case 3 all are different
                     else if(el1 < el2 and el2 < el3){
                         ans += f1*f2*f3;
                     }
