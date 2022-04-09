@@ -1,27 +1,37 @@
 class Solution {
 public:
-    int gcd(int a, int b){
-        
-        if(b == 0) return a;
-        
-        return gcd(b, a%b);
-    }
-    
     bool hasGroupsSizeX(vector<int>& deck) {
         
         unordered_map<int, int> mp;
         
-        for(auto val : deck){
-            mp[val]++;
+        int mini=INT_MAX;
+        for(auto el : deck){
+            mp[el]++;
         }
         
-        int ans=0;
         for(auto it : mp){
-            
-            int val = it.second;
-            ans = gcd(ans, val);
+            mini = min(mini, it.second);
         }
         
-        return ans >= 2;
+        if(mini < 2) return false;
+        
+        for(int x=2; x<=mini; x++){
+            
+            bool flag = true;
+            
+            for(auto it : mp){
+                
+                int val = it.second;
+                
+                if(val % x != 0){
+                    flag = false;
+                    break;
+                }
+            }
+            
+            if(flag) return true;
+        }
+        
+        return false;
     }
 };
