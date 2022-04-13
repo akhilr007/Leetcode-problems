@@ -1,24 +1,9 @@
 class Solution {
 public:
-    void dfs(int i, int j, vector<vector<int>>& grid, int& count){
-        
-        if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size() || grid[i][j] == 0){
-            count++;
-            return;
-        }
-        else if(grid[i][j] == 2){
-            return;
-        }
-        
-        grid[i][j]=2;
-        
-        dfs(i-1, j, grid, count);
-        dfs(i, j-1, grid, count);
-        dfs(i+1, j, grid, count);
-        dfs(i, j+1, grid, count);
-    }
-    
     int islandPerimeter(vector<vector<int>>& grid) {
+        
+        queue<pair<int, int>> q;
+        int dir[4][2]  {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
         
         int count=0;
         
@@ -26,7 +11,30 @@ public:
             for(int j=0; j<grid[0].size(); j++){
                 
                 if(grid[i][j] == 1){
-                    dfs(i, j, grid, count);
+                    
+                    q.push({i, j});
+                    
+                    while(q.size() > 0){
+                        
+                        auto rem = q.front();
+                        q.pop();
+                        
+                        int r = rem.first;
+                        int c = rem.second;
+                        
+                        for(int d=0; d<4; d++){
+                            
+                            int row = r + dir[d][0];
+                            int col = c + dir[d][1];
+                            
+                            if(row < 0 || col < 0 || row >= grid.size() || col >= grid[0].size()){
+                                count++;
+                            }
+                            else if(grid[row][col] == 0){
+                                count++;
+                            }
+                        }
+                    }
                 }
             }
         }
