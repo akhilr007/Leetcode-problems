@@ -26,6 +26,6 @@ public:
             return searchBST(root->right, val);
         }
         
-        return root;
+        return NULL;
     }
 };
