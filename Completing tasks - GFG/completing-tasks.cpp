@@ -16,7 +16,7 @@ class Solution {
   public:
     pair<vector<int>, vector<int>> findTasks(int *arr, int m, int n) {
         
-        set<int> s;
+        unordered_set<int> s;
         vector<int> t1, t2;
         
         for(int i=0; i<m; i++){
