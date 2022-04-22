@@ -36,7 +36,7 @@ public:
         }
         
         // search for the key in map
-        for(auto entry : map[bucket]){
+        for(auto& entry : map[bucket]){
             if(entry.first == key){
                 return entry.second;
             }
@@ -58,7 +58,7 @@ public:
         toRemove.first = -1;
         toRemove.second = -1;
         
-        for(auto entry : map[bucket]){
+        for(auto& entry : map[bucket]){
             
             if(entry.first == key){
                 toRemove.first=entry.first;
