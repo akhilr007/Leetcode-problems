@@ -18,17 +18,30 @@ private:
         return max(height(root->left), height(root->right))+1;
     }
 public:
-    int diameterOfBinaryTree(TreeNode* root) {
+    pair<int, int> diameterFast(TreeNode* root){
         
         if(root == NULL){
-            return 0;
+            pair<int, int> p = make_pair(0 , -1);
+            return p;
         }
         
-        int op1 = diameterOfBinaryTree(root->left);
-        int op2 = diameterOfBinaryTree(root->right);
+        auto left = diameterFast(root->left);
+        auto right = diameterFast(root->right);
         
-        int op3 = height(root->left) + height(root->right) + 2;
+        int op1 = left.first;
+        int op2 = right.first;
         
-        return max(max(op1, op2), op3);
+        int op3 = left.second + right.second + 2;
+        
+        pair<int, int> ans;
+        ans.first = max(max(op1, op2), op3);
+        ans.second = max(left.second, right.second)+1;
+        
+        return ans;
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root) {
+        
+        return diameterFast(root).first;
     }
 };
