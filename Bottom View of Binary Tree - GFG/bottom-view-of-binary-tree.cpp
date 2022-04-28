@@ -99,29 +99,29 @@ class Solution {
         vector<int> ans;
         if(root == NULL) return ans;
         
-        map<int, int> bottom;
+        map<int, int> bottomNodes;
         queue<pair<Node*, int>> q;
-        q.push(make_pair(root, 0));
         
-        while(q.size()>0){
+        q.push({root, 0});
+        
+        while(q.size() > 0){
             
-            auto rem = q.front();
-            q.pop();
+            auto rem = q.front(); q.pop();
             
             Node* node = rem.first;
             int hd = rem.second;
             
-            bottom[hd] = node->data;
+            bottomNodes[hd] = node->data;
             
             if(node->left){
-                q.push(make_pair(node->left, hd-1));
+                q.push({node->left, hd-1});
             }
             if(node->right){
-                q.push(make_pair(node->right, hd+1));
+                q.push({node->right, hd+1});
             }
         }
         
-        for(auto i : bottom){
+        for(auto i : bottomNodes){
             ans.push_back(i.second);
         }
         
