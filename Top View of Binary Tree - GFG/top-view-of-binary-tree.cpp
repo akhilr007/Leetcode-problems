@@ -109,8 +109,8 @@ class Solution
         vector<int> ans;
         if(root == NULL) return ans;
         
-        map<int, int> topNodes;// hd->nodes
-        queue<pair<Node*, int>> q; // nodes->hd
+        map<int, int> topNodes;
+        queue<pair<Node*, int>> q;
         
         q.push({root, 0});
         
@@ -125,17 +125,19 @@ class Solution
                 topNodes[hd] = node->data;
             }
             
-            if(node->left) q.push({node->left, hd-1});
-            if(node->right) q.push({node->right, hd+1});
+            if(node->left){
+                q.push({node->left, hd-1});
+            }
+            if(node->right){
+                q.push({node->right, hd+1});
+            }
         }
         
         for(auto i : topNodes){
-            
             ans.push_back(i.second);
         }
         
         return ans;
-        
     }
 
 };
