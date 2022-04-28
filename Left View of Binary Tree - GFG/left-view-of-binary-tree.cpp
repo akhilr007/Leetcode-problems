@@ -128,7 +128,10 @@ struct Node
 
 //Function to return a list containing elements of left view of the binary tree.
 void solve(Node* root, vector<int>& ans, int level){
-    if(root == NULL) return;
+    
+    if(root == NULL){
+        return;
+    }
     
     if(level == ans.size()){
         ans.push_back(root->data);
