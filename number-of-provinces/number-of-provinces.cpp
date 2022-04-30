@@ -1,55 +1,74 @@
-class Solution {
+class UnionFind{
+private:
+    vector<int> parent;
+    vector<int> rank;
+    int count;
+    
 public:
-    int find(int x, vector<int>& parent){
-        
-        if(parent[x] == x){
+    
+    UnionFind(int size) : parent(size), rank(size), count(size){
+        for(int i=0; i<size; i++){
+            rank[i]=0;
+            parent[i] = i;
+        }
+    }
+    
+    int find(int x){
+        if(x == parent[x]){
             return x;
         }
         
-        return parent[x] = find(parent[x], parent);
+        return parent[x] = find(parent[x]);
     }
     
-    void Union(int u, int v, vector<int>& parent, vector<int>& rank, int& provincesConnected){
+    void unionSet(int u, int v){
         
-        int rootU = find(u, parent);
-        int rootV = find(v, parent);
+        int sl1 = find(u);
+        int sl2 = find(v);
         
-        if(rootU != rootV){
+        if(sl1 != sl2){
             
-            if(rank[rootU] < rank[rootV]){
-                parent[rootU] = parent[rootV];
+            if(rank[sl1] < rank[sl2]){
+                parent[sl1] = parent[sl2];
             }
-            else if(rank[rootU] < rank[rootV]){
-                parent[rootV] = parent[rootU];
+            else if(rank[sl2] < rank[sl1]){
+                parent[sl2] = parent[sl1];
             }
             else{
-                parent[rootU] = parent[rootV];
-                rank[rootV]++;
+                parent[sl1] = parent[sl2];
+                rank[sl2]++;
             }
             
-            provincesConnected--;
+            count--;
         }
     }
     
+    int getCount(){
+        return count;
+    }
+    
+    
+};
+
+class Solution {
+public:
     int findCircleNum(vector<vector<int>>& isConnected) {
         
+        if(isConnected.size() == 0) return 0;
+        
         int n = isConnected.size();
-        int m = isConnected[0].size();
         
-        vector<int> parent(n), rank(n, 0);
-        for(int i=0; i<n; i++){
-            parent[i] = i;
-        }
+        UnionFind uf(n);
         
-        int provincesConnected=n;
-        for(int i=0; i<n; i++){
-            for(int j=i+1; j<m; j++){
+        for(int i=0; i<isConnected.size(); i++){
+            for(int j=i+1; j<isConnected.size(); j++){
+                
                 if(isConnected[i][j] == 1){
-                    Union(i, j, parent, rank, provincesConnected);
+                    uf.unionSet(i, j);
                 }
             }
         }
         
-        return provincesConnected;
+        return uf.getCount();
     }
 };
