@@ -1,63 +1,77 @@
 class Solution {
 public:
-    int merge(vector<int>& nums, int lo, int mid, int hi){
+    int count;
+    
+    vector<int> merge(vector<int>& left, vector<int>& right){
         
-        int count=0;
-        int j=mid+1;
+        int i=0;
+        int j=0;
+        int n=left.size(), m=right.size();
         
-        for(int i=lo; i<=mid; i++){
-            while(j<=hi and nums[i] > 2LL * nums[j]){
+        while(i<n and j<m){
+            if(left[i] > 2LL *right[j]){
+                count += (n-i);
                 j++;
             }
-            
-            count += (j-(mid+1));
+            else{
+                i++;
+            }
         }
         
-        vector<int> temp;
-        int left=lo, right=mid+1;
         
-        while(left<=mid and right<=hi){
+        i=0;
+        j=0;
+        int k=0;
+        
+        vector<int> res(n+m);
+        
+        while(i<n and j<m){
             
-            if(nums[left] <= nums[right]){
-                temp.push_back(nums[left++]);
+            if(left[i] < right[j]){
+                res[k] = left[i];
+                i++;
+                k++;
             }
             else{
-                temp.push_back(nums[right++]);
+                res[k] = right[j];
+                j++;
+                k++;
             }
         }
         
-        while(left <= mid){
-            temp.push_back(nums[left++]);
+        while(i<n){
+            res[k] = left[i];
+            i++;
+            k++;
         }
         
-        while(right <= hi){
-            temp.push_back(nums[right++]);
+        while(j<m){
+            res[k] = right[j];
+            j++;
+            k++;
         }
         
-        for(int i=lo; i<=hi; i++){
-            nums[i] = temp[i-lo];
-        }
-        
-        return count;
+        return res;
         
     }
     
-    int mergeSort(vector<int>& nums, int lo, int hi){
+    vector<int> mergeSort(vector<int>& nums, int lo, int hi){
         
-        if(lo >= hi){
-            return 0;
+        if(lo==hi){
+            vector<int> ba(1);
+            ba[0] = nums[lo];
+            return ba;
         }
         
         int mid = (lo+hi)/2;
-        
-        int inv = mergeSort(nums, lo, mid);
-        inv += mergeSort(nums, mid+1, hi);
-        inv += merge(nums, lo, mid, hi);
-        return inv;
+        vector<int> left = mergeSort(nums, lo, mid);
+        vector<int> right = mergeSort(nums, mid+1, hi);
+        vector<int> arr = merge(left, right);
+        return arr;
     }
-    
     int reversePairs(vector<int>& nums) {
-        
-        return mergeSort(nums, 0, nums.size()-1);
+        count=0;
+        mergeSort(nums, 0, nums.size()-1);
+        return count;
     }
 };
