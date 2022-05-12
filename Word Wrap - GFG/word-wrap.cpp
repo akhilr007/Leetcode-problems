@@ -9,7 +9,7 @@ using namespace std;
 
 class Solution {
 public:
-    int f(int i, int rem, vector<int>& nums, int& k, vector<vector<int>>& dp){
+        int f(int i, int rem, vector<int>& nums, int& k, vector<vector<int>>& dp){
 
         if(i == nums.size()) return 0;
 
@@ -25,6 +25,10 @@ public:
             // word
 
             // and the remaining will be the spaces left after putting nums[i] onto the line and add 1 for spacebar
+            // and if k-nums[i]-1<0 then put 0 
+            // suppose for eg : k = 5 and nums[i] = 5 and rem = 3 so k-nums[i]-1 will be -ve so put 0
+            // because k-nums[i] will be 0
+
             cost = (rem+1)*(rem+1) + f(i+1, k-nums[i]-1 < 0 ? 0 : k-nums[i]-1, nums, k, dp);
         }
 
@@ -37,7 +41,7 @@ public:
             // my next available space will be k
 
             int choice1 = f(i+1, k, nums, k, dp);
-            int choice2 = (rem+1)*(rem+1)+f(i+1, k-nums[i]-1, nums, k, dp);
+            int choice2 = (rem+1)*(rem+1) + f(i+1, k-nums[i]-1, nums, k, dp);
             cost = min(choice1, choice2);
         }
 
