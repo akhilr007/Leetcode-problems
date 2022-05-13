@@ -20,30 +20,31 @@ class Solution {
 public:
     Node* connect(Node* root) {
         
-        if(root == NULL) return root;
+        if(root == NULL) return NULL;
         
-        queue<Node*> q;
-        q.push(root);
+        Node* head = root;
         
-        while(q.size()>0){
+        while(head != NULL){
             
-            int size = q.size();
-            Node* nextRight = NULL;
+            Node* dummy = new Node(0);
+            Node* temp = dummy;
             
-            for(int i=0; i<size; i++){
+            while(head != NULL){
                 
-                auto rem = q.front(); q.pop();
-                
-                rem->next = nextRight;
-                nextRight = rem;
-                
-                if(rem->right){
-                    q.push(rem->right);
+                if(head->left != NULL){
+                    temp->next = head->left;
+                    temp = temp->next;
                 }
-                if(rem->left){
-                    q.push(rem->left);
+                
+                if(head->right != NULL){
+                    temp->next = head->right;
+                    temp = temp->next;
                 }
+                
+                head = head->next;
             }
+            
+            head = dummy->next;
         }
         
         return root;
