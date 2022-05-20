@@ -75,7 +75,7 @@ public:
 
         return maxArea;
     }
-    
+
     int maximalRectangle(vector<vector<char>>& matrix){
 
         vector<int> v;
