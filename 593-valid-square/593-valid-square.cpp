@@ -10,6 +10,7 @@ public:
         int dist = dx*dx + dy*dy;
         s.insert(dist);
         
+        if(s.size()>2) return false;
         return true;
     }
     
