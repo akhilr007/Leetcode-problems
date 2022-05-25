@@ -10,12 +10,12 @@ public:
             string temp = s;
             sort(temp.begin(), temp.end());
             
-            m[temp].push_back(s);
+            m[temp].emplace_back(s);
             
         }
         
         for(auto it : m){
-            result.push_back(it.second);
+            result.emplace_back(it.second);
         }
         
         return result;
