@@ -33,11 +33,12 @@ public:
             }
         }
         
-        int level=0;
+        int level=-1;
         
         while(q.size()>0){
             
             int size = q.size();
+            level++;
             
             for(int i=0; i<size; i++){
                 
@@ -61,7 +62,7 @@ public:
                     }
                 }
             }
-            level++;
+            //level++;
         }
         
         return -1;
