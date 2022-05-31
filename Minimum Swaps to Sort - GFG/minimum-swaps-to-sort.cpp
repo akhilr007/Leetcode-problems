@@ -11,25 +11,36 @@ class Solution
     //Function to find the minimum number of swaps required to sort the array. 
 	int minSwaps(vector<int>&nums)
 	{
-	    int n=nums.size();
+	    // Code here
+	    int n = nums.size();
 	    vector<pair<int, int>> arr(n);
+	    
 	    for(int i=0; i<n; i++){
-	        arr[i] = {nums[i], i};
+	        arr[i] = make_pair(nums[i], i);
 	    }
+	    
 	    sort(arr.begin(), arr.end());
 	    
-	    int count=0;
+	    vector<bool> vis(n, false);
+	    
+	    int ans=0;
 	    for(int i=0; i<n; i++){
-	        if(arr[i].second == i) continue;
-	        
-	        else{
-	            count++;
-	            swap(arr[arr[i].second], arr[i]);
-	            i--;
+	        if(vis[i] == true or arr[i].second == i){
+	            continue;
 	        }
+	        
+	        int clen=0;
+	        int j=i;
+	        while(vis[j] == false){
+	            vis[j] = true;
+	            clen++;
+	            j = arr[j].second;
+	        }
+	        
+	        ans += clen-1;
 	    }
 	    
-	    return count;
+	    return ans;
 	}
 };
 
