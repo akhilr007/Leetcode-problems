@@ -12,19 +12,19 @@ class Solution
 	int minSwaps(vector<int>&nums)
 	{
 	    int n=nums.size();
-	    vector<pair<int, int>> sortedArr(n);
+	    vector<pair<int, int>> arr(n);
 	    for(int i=0; i<n; i++){
-	        sortedArr[i] = {nums[i], i};
+	        arr[i] = {nums[i], i};
 	    }
-	    sort(sortedArr.begin(), sortedArr.end());
+	    sort(arr.begin(), arr.end());
 	    
 	    int count=0;
 	    for(int i=0; i<n; i++){
-	        if(sortedArr[i].second == i) continue;
+	        if(arr[i].second == i) continue;
 	        
 	        else{
 	            count++;
-	            swap(sortedArr[sortedArr[i].second], sortedArr[i]);
+	            swap(arr[arr[i].second], arr[i]);
 	            i--;
 	        }
 	    }
