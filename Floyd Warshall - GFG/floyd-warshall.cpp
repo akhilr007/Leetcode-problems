@@ -11,40 +11,34 @@ class Solution {
   public:
 	void shortest_distance(vector<vector<int>>&matrix){
 	    int n=matrix.size();
-	    int m=matrix[0].size();
-	    
-	    for(int i=0; i<n; i++)
-	    {
-	        for(int j=0; j<m; j++)
-	        {
-	            if(matrix[i][j] == -1)
-	            {
-	                matrix[i][j] = INT_MAX;
-	            }
-	        }
-	    }
-	    
-	    for(int k=0; k<n; k++)
-	    {
-	        for(int u=0; u<n; u++)
-	        {
-	            for(int v=0; v<m; v++)
-	            {
-	                if(u != k && v != k && u != v && matrix[u][k] != INT_MAX && matrix[k][v] != INT_MAX && matrix[u][k] + matrix[k][v] < matrix[u][v])
-	                {
-	                    matrix[u][v] = matrix[u][k] + matrix[k][v];
-	                }
-	            }
-	        }
-	    }
-	    
-	    for(int i=0; i<n; i++){
-	        for(int j=0; j<m; j++){
-	            if(matrix[i][j] == INT_MAX){
-	                matrix[i][j] = -1;
-	            }
-	        }
-	    }
+        int m=matrix[0].size();
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix[i][j] == -1){
+                    matrix[i][j] = INT_MAX;
+                }
+            }
+        }
+
+        for(int k=0; k<n; k++){
+            for(int u=0; u<n; u++){
+                for(int v=0; v<m; v++){
+
+                    if(k!=u && k!=v && u!=v && matrix[u][k] != INT_MAX && matrix[k][v] != INT_MAX &&
+                     matrix[u][k] + matrix[k][v] < matrix[u][v]){
+                         matrix[u][v] = matrix[u][k] + matrix[k][v];
+                     }
+                }
+            }
+        }
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(matrix[i][j] == INT_MAX) matrix[i][j] = -1;
+            }
+        }
+    
 	}
 };
 
