@@ -6,36 +6,36 @@ using namespace std;
 class Solution {
 public:
 	int isNegativeWeightCycle(int n, vector<vector<int>>edges){
-	    
 	    vector<int> path(n, INT_MAX);
-	    path[0]=0;
-	    
-	    for(int it=0; it<n; it++) // v-1 edges
-	    {
-	        for(int i=0; i<edges.size(); i++) // edges
-	        {
-	            int u = edges[i][0];
-	            int v = edges[i][1];
-	            int wt = edges[i][2];
-	            
-	            if(path[u] != INT_MAX && path[u] + wt < path[v]){
-	                path[v] = path[u] + wt;
-	            }
-	        }
-	    }
-	    
-	    for(int i=0; i<edges.size(); i++){
-	        
-	        int u = edges[i][0];
-	        int v = edges[i][1];
-	        int wt = edges[i][2];
-	        
-	        if(path[u] != INT_MAX && path[u] + wt < path[v]){
-	            return 1;
-	        }
-	    }
-	    
-	    return 0;
+        path[0] = 0;
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<edges.size(); j++){
+                int u = edges[j][0];
+                int v = edges[j][1];
+                int wt = edges[j][2];
+
+                if(path[u] == INT_MAX) continue;
+
+                if(path[u] + wt < path[v]){
+                    path[v] = path[u] + wt;
+                }
+            }
+        }
+
+        for(int j=0; j<edges.size(); j++){
+            int u = edges[j][0];
+                int v = edges[j][1];
+                int wt = edges[j][2];
+
+                if(path[u] == INT_MAX) continue;
+
+                if(path[u] + wt < path[v]){
+                    return true;
+                }
+        }
+
+        return false;
 	}
 };
 
