@@ -21,21 +21,23 @@ class Solution
         st.push(src);
     }
     
-    void dfs(int src, vector<int> adj[], vector<bool>& vis){
+    void dfs(int src, vector<int> adj[], vector<bool>& vis, int& count){
         
         vis[src] = true;
+        count++;
         
         for(int nbr : adj[src]){
             if(vis[nbr] == false){
-                dfs(nbr, adj, vis);
+                dfs(nbr, adj, vis, count);
             }
         }
+        
     }
     
     //Function to find a Mother Vertex in the Graph.
 	int findMotherVertex(int V, vector<int>adj[])
 	{
-	    vector<bool> vis(V,false);
+	    vector<bool> vis(V, false);
 	    stack<int> st;
 	    
 	    for(int i=0; i<V; i++){
@@ -44,21 +46,17 @@ class Solution
 	        }
 	    }
 	    
-	    int pmv = st.top();
+	    int probableMotherVertex = st.top();
+	    int count=0;
 	    
-	    for(int i=0; i<V; i++){
-	        vis[i]=false;
+	    for(int i=0; i<V; i++) vis[i]=false;
+	    
+	    dfs(probableMotherVertex, adj, vis, count);
+	    
+	    if(count == V){
+	        return probableMotherVertex;
 	    }
-	    
-	    dfs(pmv, adj, vis);
-	    
-	    for(int i=0; i<V; i++){
-	        if(vis[i] == false){
-	            return -1;
-	        }
-	    }
-	    
-	    return pmv;
+	    return -1;
 	}
 
 };
