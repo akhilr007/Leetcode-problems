@@ -9,26 +9,26 @@ using namespace std;
 
 class Solution {
   public:
-    void dfs(vector<int> adj[], int src, int par, vector<bool>& vis,
-    vector<bool>& ap, vector<int>& disc, vector<int>& low, int& osc, int& t){
-        
-        disc[src]=low[src]=t;
+    void dfs(vector<int> adj[], int src, int par, vector<bool>& vis, vector<bool>& ap,
+    vector<int>& disc, vector<int>& low, int& t, int& osc){
+
+        disc[src] = low[src] = t;
         t++;
-        
+
         vis[src] = true;
-        
+
         for(int nbr : adj[src]){
-            
-            if(par == nbr) continue;
-            
+
+            if(par == nbr){
+                continue;
+            }
             else if(vis[nbr] == true){
                 low[src] = min(low[src], disc[nbr]);
             }
-            
             else{
-                dfs(adj, nbr, src, vis, ap, disc, low, osc, t);
+                dfs(adj, nbr, src, vis, ap, disc, low, t, osc);
                 low[src] = min(low[src], low[nbr]);
-                
+
                 if(par == -1){
                     osc++;
                     if(osc > 1){
@@ -46,24 +46,24 @@ class Solution {
         
         vector<bool> vis(v, false), ap(v, false);
         vector<int> disc(v, 0), low(v, 0);
-        
-        int par=-1;
-        int osc=0; // original source count
         int t=0;
-        
-        dfs(adj, 0, par, vis, ap, disc, low, osc, t);
-        
+        int par=-1; // parent
+        int osc=0; // original source count
+
+        dfs(adj, 0, par, vis, ap, disc, low, t, osc);
+
         vector<int> res;
         for(int i=0; i<v; i++){
             if(ap[i]==true){
                 res.push_back(i);
             }
         }
-        
+
         if(res.size()==0){
             res.push_back(-1);
             return res;
         }
+
         return res;
     }
 };
