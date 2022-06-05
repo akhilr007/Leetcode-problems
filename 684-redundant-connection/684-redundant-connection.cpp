@@ -1,59 +1,66 @@
-class Solution {
+class UnionFind{
+private: 
+    vector<int> rank, parent;
 public:
-    int find(int x, vector<int>& parent){
-        
+    UnionFind(int size) : rank(size), parent(size){
+        for(int i=0; i<size; i++){
+            rank[i]=1;
+            parent[i]=i;
+        }
+    }
+    
+    int find(int x){
         if(parent[x] == x){
             return x;
         }
         
-        int sl = find(parent[x], parent);
-        parent[x] = sl;
-        return sl;
+        int temp = find(parent[x]);
+        parent[x] = temp;
+        return temp;
     }
     
-    void dsu(int v1, int v2, vector<int>& parent, vector<int>& rank, vector<int>& ans){
+    bool unionSet(int x, int y){
         
-        int sl1 = find(v1, parent);
-        int sl2 = find(v2, parent);
+        int lx = find(x);
+        int ly = find(y);
         
-        if(sl1 != sl2){
+        if(lx != ly){
             
-            if(rank[sl1] < rank[sl2]){
-                parent[sl1] = sl2;
+            if(rank[lx] > rank[ly]){
+                parent[ly] = lx;
             }
-            else if(rank[sl2] < rank[sl1]){
-                parent[sl2] = sl1;
+            else if(rank[lx] < rank[ly]){
+                parent[lx] = ly;
             }
             else{
-                parent[sl1] = sl2;
-                rank[sl2]++;
+                parent[ly] = lx;
+                rank[lx]++;
             }
+            
+            return true;
         }
-        
         else{
-            ans.push_back(v1);
-            ans.push_back(v2);
+            return false;
         }
     }
-    
+};
+
+class Solution {
+public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         
         int n = edges.size();
-        vector<int> ans;
+        UnionFind uf(n+1);
         
-        vector<int> parent(n+1), rank(n+1, 0);
-        for(int i=1; i<n+1; i++){
-            parent[i]=i;
+        for(auto edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            
+            if(uf.unionSet(u,v)==false){
+                return edge;
+            }
         }
         
-        for(int i=0; i<edges.size(); i++){
-            
-            int v1 = edges[i][0];
-            int v2 = edges[i][1];
-            
-            dsu(v1, v2, parent, rank, ans);
-        }
-        
-        return ans;
+        return vector<int>();
     }
 };
