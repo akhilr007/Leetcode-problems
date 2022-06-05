@@ -18,19 +18,10 @@ public:
         return true;
     }
     
-    void solve(vector<vector<char>>& board, int row, vector<vector<string>>& ans,
-        vector<bool>& cols, vector<bool>& diagonal, vector<bool>& reverseDiagonal, int& count){
+    void solve(vector<vector<char>>& board, int row,vector<bool>& cols, 
+    vector<bool>& diagonal, vector<bool>& reverseDiagonal, int& count){
         
         if(row == board.size()){
-            vector<string> v;
-            for(int i=0; i<board.size(); i++){
-                string s="";
-                for(int j=0; j<board.size(); j++){
-                    s += board[i][j];
-                }
-                v.push_back(s);
-            }
-            ans.push_back(v);
             count++;
             return;
         }
@@ -38,15 +29,15 @@ public:
         for(int col=0; col<board.size(); col++){
             
             if(isSafe(cols, reverseDiagonal, diagonal, row, col)){
+                
                 board[row][col] = 'Q';
                 
                 cols[col] = true;
                 diagonal[row+col] = true;
                 reverseDiagonal[row-col+board.size()] = true;
                 
-                solve(board, row+1, ans, cols, diagonal, reverseDiagonal, count);
+                solve(board, row+1, cols, diagonal, reverseDiagonal, count);
                 
-                board[row][col] = 'Q';
                 cols[col] = false;
                 diagonal[row+col] = false;
                 reverseDiagonal[row-col+board.size()] = false;
@@ -60,16 +51,13 @@ public:
     int totalNQueens(int n) {
         
         vector<vector<char>> board(n, vector<char> (n, '.'));
-        
-        vector<vector<string>> ans;
         int count=0;
         
         vector<bool> cols(n, false);
         vector<bool> diagonal(2*n-1, false);
         vector<bool> reverseDiagonal(2*n-1, false);
-        solve(board, 0, ans, cols, diagonal, reverseDiagonal, count);
+        solve(board, 0, cols, diagonal, reverseDiagonal, count);
         
-        int res = ans.size();
         return count;
     }
 };
