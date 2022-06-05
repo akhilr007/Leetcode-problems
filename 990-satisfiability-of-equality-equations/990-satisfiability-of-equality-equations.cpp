@@ -1,71 +1,64 @@
-class Solution {
+class UnionFind{
+private:
+    vector<int> rank, parent;
 public:
+    UnionFind(int size): rank(size), parent(size){
+        for(int i=0; i<size; i++){
+            rank[i]=1;
+            parent[i]=i;
+        }
+    }
     
-    int find(int x, vector<int>& parent){
-        
+    int find(int x){
         if(parent[x] == x){
             return x;
         }
         
-        int sl = find(parent[x], parent);
-        parent[x] = sl;
-        return sl;
+        int temp = find(parent[x]);
+        parent[x] = temp;
+        return temp;
     }
     
-    void DSU(char op1, char op2, vector<int>& parent, vector<int>& rank){
+    void unionSet(int x, int y){
         
-        int v1 = op1 - 'a';
-        int v2 = op2 - 'a';
+        int lx = find(x);
+        int ly = find(y);
         
-        int sl1 =find(v1, parent);
-        int sl2 = find(v2, parent);
-        
-        if(sl1 != sl2){
-            
-            if(rank[sl1] < rank[sl2]){
-                parent[sl1] = sl2;
+        if(lx != ly){
+            if(rank[lx] > rank[ly]){
+                parent[ly]=lx;
             }
-            else if(rank[sl2] < rank[sl1]){
-                parent[sl2] = sl1;
+            else if(rank[lx] < rank[ly]){
+                parent[lx] = ly;
             }
             else{
-                parent[sl1] = sl2;
-                rank[sl2]++;
+                parent[ly] = lx;
+                rank[lx]++;
             }
         }
     }
-    
+};
+
+class Solution {
+public:
     bool equationsPossible(vector<string>& equations) {
         
-        vector<int> parent(26, 0), rank(26, 0);
+        UnionFind uf(26); 
         
-        for(int i=0; i<26; i++){
-            parent[i]=i;
-        }
-        
-        // create DSU with equality strings
-        for(int i=0; i<equations.size(); i++){
-            
-            string eqn = equations[i];
-            
-            if(equations[i][1] == '='){
-                
-                char op1 = equations[i][0];
-                char op2 = equations[i][3];
-                
-                DSU(op1, op2, parent, rank);
+        for(auto s : equations){
+            if(s[1] == '='){
+                int u = s[0]-'a';
+                int v = s[3]-'a';
+                uf.unionSet(u, v);
             }
         }
         
-        // verification with inequality strings
-        for(int i=0; i<equations.size(); i++){
-            
-            if(equations[i][1] == '!'){
+       for(auto s : equations){
+            if(s[1] == '!'){
+                int u = s[0]-'a';
+                int v = s[3]-'a';
                 
-                char op1 = equations[i][0];
-                char op2 = equations[i][3];
-                
-                if(find(op1-'a', parent) == find(op2-'a', parent)){
+                if(uf.find(u) == uf.find(v)){
                     return false;
                 }
             }
