@@ -19,7 +19,7 @@ public:
     }
     
     void solve(vector<vector<char>>& board, int row, vector<vector<string>>& ans,
-        vector<bool>& cols, vector<bool>& diagonal, vector<bool>& reverseDiagonal){
+        vector<bool>& cols, vector<bool>& diagonal, vector<bool>& reverseDiagonal, int& count){
         
         if(row == board.size()){
             vector<string> v;
@@ -31,6 +31,7 @@ public:
                 v.push_back(s);
             }
             ans.push_back(v);
+            count++;
             return;
         }
         
@@ -43,7 +44,7 @@ public:
                 diagonal[row+col] = true;
                 reverseDiagonal[row-col+board.size()] = true;
                 
-                solve(board, row+1, ans, cols, diagonal, reverseDiagonal);
+                solve(board, row+1, ans, cols, diagonal, reverseDiagonal, count);
                 
                 board[row][col] = 'Q';
                 cols[col] = false;
@@ -61,13 +62,14 @@ public:
         vector<vector<char>> board(n, vector<char> (n, '.'));
         
         vector<vector<string>> ans;
+        int count=0;
         
         vector<bool> cols(n, false);
         vector<bool> diagonal(2*n-1, false);
         vector<bool> reverseDiagonal(2*n-1, false);
-        solve(board, 0, ans, cols, diagonal, reverseDiagonal);
+        solve(board, 0, ans, cols, diagonal, reverseDiagonal, count);
         
         int res = ans.size();
-        return res;
+        return count;
     }
 };
