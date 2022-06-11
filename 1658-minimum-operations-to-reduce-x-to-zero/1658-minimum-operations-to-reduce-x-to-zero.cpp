@@ -29,6 +29,7 @@ public:
         
         if(maxLenSubArray == -1) return -1;
         
-        return nums.size() - maxLenSubArray;
+        int len = nums.size();
+        return len - maxLenSubArray;
     }
 };
