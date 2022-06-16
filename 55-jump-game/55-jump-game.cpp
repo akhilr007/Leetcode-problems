@@ -21,12 +21,21 @@ private:
     return f(0, nums, n, dp);
 */
 public:
-    
-    
+
     bool canJump(vector<int>& nums) {
         
         int n=nums.size();
-        vector<int> dp(n, -1);
-        return f(0, nums, n, dp);
+        
+        int goal = n-1;// destination point
+        
+        for(int i=n-2; i>=0; i--){
+            if(i + nums[i] >= goal){
+                goal = i;
+            }
+        }
+         
+        if(goal == 0) return true;
+        return false;
+        
     }
 };
