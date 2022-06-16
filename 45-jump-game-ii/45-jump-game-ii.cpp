@@ -1,4 +1,6 @@
 class Solution {
+    // TC -> O(n^n) SC -> O(1) recursion
+    // TC -> O(N*N) SC -> O(N) + O(N)(stack space) memoization
 private:
     int f(int i, vector<int>& nums, vector<int>& dp){
         
@@ -17,11 +19,30 @@ private:
         return dp[i] = mini;
     }
     
+/*
+    int n=nums.size();
+    vector<int> dp(n, -1);
+    return f(0, nums, dp);
+*/    
 public:
     int jump(vector<int>& nums) {
         
         int n=nums.size();
-        vector<int> dp(n, -1);
-        return f(0, nums, dp);
+        
+        int l=0, r=0;
+        int minSteps=0;
+        
+        while(r<n-1){
+            int farthestJump=0;
+            for(int i=l; i<=r; i++){
+                farthestJump = max(farthestJump, i+nums[i]);
+                
+            }
+            l = r+1;
+            r = farthestJump;
+            minSteps++;
+        }
+        
+        return minSteps;
     }
 };
