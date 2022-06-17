@@ -1,6 +1,7 @@
 class Solution {
-public:
-    bool checkValidString(string s) {
+private:
+    // using two stacks
+    bool checkValidStringUsingStack(string s) {
         
         stack<int> star;
         stack<int> pair;
@@ -47,4 +48,32 @@ public:
         
         return true;
     }
+    
+public:
+    bool checkValidString(string s) {
+        
+        // leftMin -> min open brackets 
+        // leftMax -> max open brackets
+        int leftMin=0, leftMax=0;
+        
+        for(int i=0; i<s.length(); i++){
+            
+            if(s[i] == '('){
+                leftMin++, leftMax++;
+            }
+            else if(s[i] == ')'){
+                leftMin--, leftMax--;
+            }
+            else{
+                leftMin--;
+                leftMax++;
+            }
+            
+            if(leftMin<0) leftMin = 0;
+            if(leftMax<0) return false;
+        }
+        
+        return leftMin==0;
+        
+    }  
 };
