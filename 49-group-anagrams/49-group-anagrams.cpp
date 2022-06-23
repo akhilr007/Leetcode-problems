@@ -6,12 +6,8 @@ public:
         
         unordered_map<string, vector<string>> mp;
         
-        for(auto s : strs){
-            
-            string temp = s;
-            sort(temp.begin(), temp.end());
-                
-            mp[temp].push_back(s);
+        for(auto& s : strs){
+            mp[strsort(s)].push_back(s);
         }
         
         for(auto it : mp){
@@ -19,5 +15,20 @@ public:
         }
         
         return result;
+    }
+    
+    string strsort(string& s){
+        
+        int counter[26] = {0};
+        for(auto& c : s){
+            counter[c-'a']++;
+        }
+        
+        string temp;
+        for(int i=0; i<26; i++){
+            temp += string(counter[i], i+'a');
+        }
+        
+        return temp;
     }
 };
