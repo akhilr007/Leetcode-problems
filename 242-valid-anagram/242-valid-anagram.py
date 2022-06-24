@@ -3,17 +3,18 @@ class Solution:
         
         if len(s) != len(t):
             return False
-    
-        hashmap = {}
+
+        freq = {}
+
+        for c in s:
+            freq[c] = freq.get(c, 0) + 1
+
+        for c in t:
+            if c not in freq:
+                return False
+            else:
+                freq[c] = freq.get(c)-1
+                if freq[c] == 0:
+                    del freq[c]
         
-        for i in range(len(s)):
-            hashmap[s[i]] = hashmap.get(s[i], 0) + 1
-            
-        
-        for i in range(len(t)):
-            if t[i] in hashmap:
-                hashmap[t[i]] = hashmap.get(t[i])-1
-                if hashmap[t[i]] == 0:
-                    del hashmap[t[i]]
-        
-        return len(hashmap) == 0
+        return len(freq) == 0
