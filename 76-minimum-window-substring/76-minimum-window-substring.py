@@ -34,13 +34,8 @@ class Solution:
                     
             r += 1
         
-        print(end)
         if res == 1000000:
             return ""
     
-        ans = ""
-        for i in range(start, end):
-            ans += s[i]
-
-        return ans
+        return s[start:end]
         
