@@ -1,44 +1,68 @@
 class MinStack {
 private:
-    stack<int> allData;
-    stack<int> minData;
+    stack<long long> st;
+    long long minEl;
 public:
     MinStack() {
-       
+        
     }
     
     void push(int val) {
         
-        allData.push(val);
-        
-        if(minData.empty() || val <= minData.top()){
-            minData.push(val);
+        if(st.size() == 0){
+            st.push(val);
+            minEl = val;
+        }
+        // if the val is greater than min element then min we be same as before so just
+        // push the element into stack
+        else if(val >= minEl){
+            st.push(val);
+        }
+        // if the val is less than min then we need to store some flag value to stack
+        // so that we can identify it later
+        // if val < min
+        // then stack-> val + val - min and update the min to val
+        else{
+            st.push(val + (val - minEl));
+            minEl = val;
         }
     }
     
     void pop() {
         
-        if(allData.empty()) return;
+        if(st.size() == 0) return;
         
-        int val = allData.top();
-        allData.pop();
-        
-        if(!minData.empty() && val == minData.top()){
-            minData.pop();
+        if(st.top() >= minEl){
+            st.pop();
+        }
+        else{
+            // top of stack = value + value - minEl
+            // minEl = value 
+            // agar top of stack pop kiya to minEl me be previous minEl update karna hoga
+            // minEl = 2*value - (value + value - min)
+            long long updatedMin = 2*minEl - st.top();
+            minEl = updatedMin;
+            st.pop();
         }
     }
     
     int top() {
-        if(allData.empty()) return -1;
+        if(st.size() == 0) return -1;
         
-        return allData.top();
+        if(st.top() >= minEl){
+            return (int)st.top();
+        }
+        else{
+            // agar top of stack min se small hai to matlab humne top of stack kuch flag
+            // store kiya hua h aur real value minEl me hai
+            return (int)minEl;
+        }
     }
     
     int getMin() {
+        if(st.size() == 0) return -1;
         
-        if(minData.empty()) return -1;
-        
-        return minData.top();
+        return (int)minEl;
     }
 };
 
