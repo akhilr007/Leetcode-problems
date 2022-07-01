@@ -10,10 +10,6 @@ public:
     int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
         
         sort(boxTypes.begin(), boxTypes.end(), comp);
-        for(auto v : boxTypes){
-            cout<<v[0]<<" "<<v[1]<<endl;
-        }
-        cout<<endl;
         
         int maxUnits=0;
         
