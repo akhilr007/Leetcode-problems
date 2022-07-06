@@ -11,5 +11,13 @@ class Solution:
     
     
     def fib(self, n: int) -> int:
-        dp = [-1]*(n+1)
-        return self.f(n, dp)
+        if(n <= 1):
+            return n
+        
+        first, second = 0, 1
+        result=first+second
+        for i in range(2, n+1):
+            result = first + second
+            first = second
+            second = result
+        return result
