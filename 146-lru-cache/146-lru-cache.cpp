@@ -1,58 +1,59 @@
-
-
-class LRUCache {
-public:
-    class Node{    
+class Node{
 public:
     int key;
     int val;
     Node* next;
     Node* prev;
+    
     Node(int key, int val){
         this->key = key;
         this->val = val;
+        next = NULL;
+        prev = NULL;
     }
 };
-    int cap;
-    unordered_map<int, Node*> m;
-    Node* head, *tail;
 
+class LRUCache {
+private:
+    int cap;
+    unordered_map<int, Node*> cache;
+    Node* head;
+    Node* tail;
+    
+    void remove(Node* node){
+        Node* prev = node->prev;
+        Node* next = node->next;
+        
+        prev->next = next;
+        next->prev = prev;
+    }
+    
+    void insert(Node* node){
+        Node* prev = tail->prev;
+        Node* next = tail;
+        
+        prev->next = node;
+        next->prev = node;
+        
+        node->prev = prev;
+        node->next = next;
+    }
+    
+public:
     LRUCache(int capacity) {
-        head = new Node(-1, -1);
-        tail = new Node(-1, -1);
         cap = capacity;
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        
         head->next = tail;
-        tail->prev = head;
-    }
-    
-    void addNode(Node* newNode){
-        
-        Node* temp = head->next;
-        newNode->next = temp;
-        newNode->prev = head;
-        head->next = newNode;
-        temp->prev = newNode;
-    }
-    
-    void deleteNode(Node* delNode){
-        
-        Node* delNext = delNode->next;
-        Node* delPrev = delNode->prev;
-        delPrev->next = delNext;
-        delNext->prev = delPrev;
+        tail->prev = head; 
     }
     
     int get(int key) {
-        
-        if(m.find(key) != m.end()){
-            Node* dataNode = m[key];
-            int res = dataNode->val;
-            // delete the key from map so that it can be put as last recently used
-            m.erase(key);
-            deleteNode(dataNode);
-            addNode(dataNode);
-            m[key] = head->next;
-            return res;
+        if(cache.find(key) != cache.end()){
+            remove(cache[key]);
+            insert(cache[key]);
+            return cache[key]->val;
         }
         
         return -1;
@@ -60,19 +61,18 @@ public:
     
     void put(int key, int value) {
         
-        if(m.find(key) != m.end()){
-            Node* existingNode = m[key];
-            m.erase(key);
-            deleteNode(existingNode);
+        if(cache.find(key) != cache.end()){
+            remove(cache[key]);
         }
         
-        if(m.size() == cap){
-            m.erase(tail->prev->key);
-            deleteNode(tail->prev);
-        }
+        cache[key] = new Node(key, value);
+        insert(cache[key]);
         
-        addNode(new Node(key, value));
-        m[key] = head->next;
+        if(cache.size() > cap){
+            Node* lru = head->next;
+            remove(lru);
+            cache.erase(lru->key);
+        }
     }
 };
 
