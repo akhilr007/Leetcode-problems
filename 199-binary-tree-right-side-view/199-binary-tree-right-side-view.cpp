@@ -11,23 +11,29 @@
  */
 class Solution {
 public:
-    void solve(TreeNode* root, vector<int>& ans, int level){
-        
-        if(root == NULL){
-            return;
-        }
-        
-        if(level == ans.size()){
-            ans.push_back(root->val);
-        }
-        
-        solve(root->right, ans, level+1);
-        solve(root->left, ans, level+1);
-    }
     vector<int> rightSideView(TreeNode* root) {
         
-        vector<int> ans;
-        solve(root, ans, 0) ; // 0->starting level
-        return ans;
+        vector<int> output;
+        if(root == NULL) return output;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        TreeNode* curr = root;
+        
+        while(!q.empty()){
+            int size = q.size();
+            for(int i=0; i<size; i++){
+                
+                auto rem = q.front(); q.pop();
+                
+                if(i == size-1) output.push_back(rem->val);
+                
+                if(rem->left) q.push(rem->left);
+                if(rem->right) q.push(rem->right);
+            }
+        }
+        
+        return output;
     }
 };
