@@ -29,7 +29,7 @@ public:
         if(root == NULL and subRoot == NULL) return true;
         if(root == NULL or subRoot == NULL) return false;
         
-        if(isSameTree(root, subRoot)){
+        if(root->val == subRoot->val && isSameTree(root, subRoot)){
             return true;
         }
         
