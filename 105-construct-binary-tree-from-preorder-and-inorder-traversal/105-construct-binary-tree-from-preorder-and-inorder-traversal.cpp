@@ -11,33 +11,39 @@
  */
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& preorder, int& index, int inorderStart, int inorderEnd, int n, unordered_map<int, int>& mp){
+    int findPosition(int el, vector<int>& inorder){
         
-        if(index >= n || inorderStart > inorderEnd){
-            return NULL;
+        for(int i=0; i<inorder.size(); i++){
+            if(inorder[i] == el) return i;
         }
         
-        int element = preorder[index++];
-        TreeNode* root = new TreeNode(element);
-        int position = mp[element];
+        return -1;
+    }
+    
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& preorder, int& idx, int instart, int inend, unordered_map<int, int>& m){
         
-        root->left = buildTree(inorder, preorder, index, inorderStart, position-1, n, mp);
-        root->right = buildTree(inorder, preorder, index, position+1, inorderEnd, n, mp);
+        if(idx >= inorder.size() || instart > inend) return NULL;
+        
+        int el = preorder[idx++];
+        TreeNode* root = new TreeNode(el);
+        int pos = m[el];
+        
+        root->left = buildTree(inorder, preorder, idx,  instart, pos-1, m);
+        root->right = buildTree(inorder, preorder, idx, pos+1, inend, m);
         return root;
     }
+    
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         
-        int n = inorder.size();
+        int n=inorder.size();
+        int preOrderIndex = 0;
         
-        int preOrderIndex=0;
-        
-        // create mapping of nodes
-        unordered_map<int, int> mp;
-        for(int i=0; i<n; i++){
-            mp[inorder[i]] = i;
+        unordered_map<int, int> m;
+        for(int i=0; i<inorder.size(); i++){
+            m[inorder[i]] = i;
         }
         
-        TreeNode* root = buildTree(inorder, preorder, preOrderIndex, 0, n-1, n, mp);
+        TreeNode* root = buildTree(inorder, preorder, preOrderIndex, 0, n-1, m);
         return root;
     }
 };
