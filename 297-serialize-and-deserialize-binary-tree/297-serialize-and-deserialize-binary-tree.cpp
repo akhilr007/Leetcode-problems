@@ -8,7 +8,8 @@
  * };
  */
 class Codec {
-private:
+public:
+    
     void encode(TreeNode* root, ostringstream& out){
         
         if(root == NULL){
@@ -21,23 +22,6 @@ private:
         encode(root->right, out);
     }
     
-    TreeNode* decode(istringstream& in){
-        
-        string value = "";
-        in >> value;
-        
-        if(value == "N"){
-            return NULL;
-        }
-        
-        TreeNode* root = new TreeNode(stoi(value));
-        root->left = decode(in);
-        root->right = decode(in);
-        return root;
-    }
-    
-    
-public:
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
         
@@ -45,8 +29,21 @@ public:
         encode(root, out);
         return out.str();
     }
-
+    
     // Decodes your encoded data to tree.
+    TreeNode* decode(istringstream& in){
+        
+        string value = "";
+        in >> value;
+        
+        if(value == "N") return NULL;
+        
+        TreeNode* root = new TreeNode(stoi(value));
+        root->left = decode(in);
+        root->right = decode(in);
+        return root;
+    }
+    
     TreeNode* deserialize(string data) {
         
         istringstream in(data);
