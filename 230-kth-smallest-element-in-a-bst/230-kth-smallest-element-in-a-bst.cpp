@@ -11,28 +11,26 @@
  */
 class Solution {
 public:
-    void kthSmallestUtil(TreeNode* root, int& k, int& res){
+    void kthSmallestUtil(TreeNode* root, int k, int& count, int& ans){
         
         if(root == NULL) return;
         
-        kthSmallestUtil(root->left, k, res);
+        kthSmallestUtil(root->left, k, count, ans);
         
-        k -= 1;
-        
-        if(k == 0){
-            res = root->val;
+        count += 1;
+        if(count == k){
+            ans = root->val;
             return;
         }
         
-        kthSmallestUtil(root->right, k, res);
-        
+        kthSmallestUtil(root->right, k, count, ans);
     }
     
     int kthSmallest(TreeNode* root, int k) {
         
-        int res=-1;
-        kthSmallestUtil(root, k, res);
-        
-        return res;
+        int ans = 0;
+        int count=0;
+        kthSmallestUtil(root, k, count, ans);
+        return ans;
     }
 };
