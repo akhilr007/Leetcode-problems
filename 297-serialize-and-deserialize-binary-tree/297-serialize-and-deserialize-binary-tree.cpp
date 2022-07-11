@@ -8,77 +8,49 @@
  * };
  */
 class Codec {
+private:
+    void encode(TreeNode* root, ostringstream& out){
+        
+        if(root == NULL){
+            out << "N ";
+            return;
+        }
+        
+        out << root->val <<" ";
+        encode(root->left, out);
+        encode(root->right, out);
+    }
+    
+    TreeNode* decode(istringstream& in){
+        
+        string value = "";
+        in >> value;
+        
+        if(value == "N"){
+            return NULL;
+        }
+        
+        TreeNode* root = new TreeNode(stoi(value));
+        root->left = decode(in);
+        root->right = decode(in);
+        return root;
+    }
+    
+    
 public:
-
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
         
-        if(root == NULL) return "";
-        
-        string s="";
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        while(q.size()>0){
-            
-            auto rem = q.front(); q.pop();
-            
-            if(rem == NULL){
-                s += "#,";
-            }
-            else{
-                s += to_string(rem->val) + ',';
-            }
-            
-            if(rem != NULL){
-                q.push(rem->left);
-                q.push(rem->right);
-            }
-        }
-        
-        return s;
+        ostringstream out;
+        encode(root, out);
+        return out.str();
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
         
-        if(data.size() == 0) return NULL;
-        
-        stringstream s(data);
-        string str;
-        getline(s, str, ',');
-        
-        TreeNode* root = new TreeNode(stoi(str));
-        
-        queue<TreeNode*> q;
-        q.push(root);
-        
-        while(q.size()>0){
-            
-            auto rem = q.front(); q.pop();
-            
-            getline(s, str, ',');
-            if(str == "#"){
-                rem->left = NULL;
-            }
-            else{
-                TreeNode* node = new TreeNode(stoi(str));
-                rem->left = node;
-                q.push(node);
-            }
-            
-            getline(s, str, ',');
-            if(str == "#"){
-                rem->right = NULL;
-            }
-            else{
-                TreeNode* node = new TreeNode(stoi(str));
-                rem->right = node;
-                q.push(node);
-            }
-        }
-        
-        return root;
+        istringstream in(data);
+        return decode(in);
     }
 };
 
