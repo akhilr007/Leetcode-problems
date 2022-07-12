@@ -6,11 +6,14 @@ public:
         for(int i=0; i<points.size(); i++){
             
             long dist = (points[i][0])*(points[i][0]) + (points[i][1])*(points[i][1]);
-            pq.push({dist, points[i]});
-        }
-        
-        while(pq.size()>k){
-            pq.pop();
+            
+            if(pq.size() < k){
+                pq.push({dist, points[i]});
+            }
+            else{
+                pq.push({dist, points[i]});
+                pq.pop();
+            }
         }
         
         vector<vector<int>> res;
