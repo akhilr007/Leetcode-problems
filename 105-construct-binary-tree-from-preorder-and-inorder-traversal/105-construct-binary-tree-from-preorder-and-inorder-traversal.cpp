@@ -11,39 +11,33 @@
  */
 class Solution {
 public:
-    int findPosition(int el, vector<int>& inorder){
+    int findElementInInorder(int val, vector<int>& inorder){
         
         for(int i=0; i<inorder.size(); i++){
-            if(inorder[i] == el) return i;
+            if(inorder[i] == val) return i;
         }
-        
         return -1;
     }
     
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& preorder, int& idx, int instart, int inend, unordered_map<int, int>& m){
+    TreeNode* helper(vector<int>& preorder, vector<int>& inorder, int instart, int inend, int& index){
         
-        if(idx >= inorder.size() || instart > inend) return NULL;
+        if(index >= inorder.size() or instart > inend) return NULL;
         
-        int el = preorder[idx++];
-        TreeNode* root = new TreeNode(el);
-        int pos = m[el];
+        int element = preorder[index++];
+        TreeNode* root = new TreeNode(element);
+        int pos = findElementInInorder(element, inorder);
         
-        root->left = buildTree(inorder, preorder, idx,  instart, pos-1, m);
-        root->right = buildTree(inorder, preorder, idx, pos+1, inend, m);
+        root->left = helper(preorder, inorder, instart, pos-1, index);
+        root->right = helper(preorder, inorder, pos+1, inend, index);
         return root;
     }
     
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         
-        int n=inorder.size();
-        int preOrderIndex = 0;
+        int preorderind = 0;
         
-        unordered_map<int, int> m;
-        for(int i=0; i<inorder.size(); i++){
-            m[inorder[i]] = i;
-        }
+        int n = inorder.size();
         
-        TreeNode* root = buildTree(inorder, preorder, preOrderIndex, 0, n-1, m);
-        return root;
+        return helper(preorder, inorder, 0, n, preorderind);
     }
 };
