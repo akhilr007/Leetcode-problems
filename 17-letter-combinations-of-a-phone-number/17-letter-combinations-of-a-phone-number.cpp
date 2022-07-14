@@ -1,31 +1,17 @@
 class Solution {
-private:
-    string keys[10] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 public:
-    vector<string> helper(string& digits){
+    void dfs(int i, string curStr, string digits, vector<string>& digitToChar, vector<string>& res){
         
-        if(digits.length() == 0){
-            vector<string> bans;
-            bans.push_back("");
-            return bans;
+        if(curStr.length() == digits.length()){
+            res.push_back(curStr);
+            return;
         }
         
-        char ch = digits[0];
-        string ros = digits.substr(1);
-        
-        vector<string> rans = helper(ros);
-        vector<string> ans;
-        
-        string chars = keys[ch-'0'];
-        
-        for(int i=0; i<chars.length(); i++){
-            char mch = chars[i];
-            for(int j=0; j<rans.size(); j++){
-                ans.push_back(mch + rans[j]);
-            }
+        int digitIndex = digits[i]-'0';
+        for(auto c : digitToChar[digitIndex]){
+            dfs(i+1, curStr+c, digits, digitToChar, res);
         }
         
-        return ans;
     }
     
     vector<string> letterCombinations(string digits) {
@@ -33,7 +19,9 @@ public:
         vector<string> res;
         if(digits.length() == 0) return res;
         
-        res = helper(digits);
+        vector<string> digitToChar = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        
+        dfs(0, "", digits, digitToChar, res);
         return res;
     }
 };
