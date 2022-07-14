@@ -11,24 +11,16 @@
  */
 class Solution {
 public:
-    int findElementInInorder(int val, vector<int>& inorder){
-        
-        for(int i=0; i<inorder.size(); i++){
-            if(inorder[i] == val) return i;
-        }
-        return -1;
-    }
-    
-    TreeNode* helper(vector<int>& preorder, vector<int>& inorder, int instart, int inend, int& index){
+    TreeNode* helper(vector<int>& preorder, vector<int>& inorder, int instart, int inend, int& index, unordered_map<int, int>& m){
         
         if(index >= inorder.size() or instart > inend) return NULL;
         
         int element = preorder[index++];
         TreeNode* root = new TreeNode(element);
-        int pos = findElementInInorder(element, inorder);
+        int pos = m[element];
         
-        root->left = helper(preorder, inorder, instart, pos-1, index);
-        root->right = helper(preorder, inorder, pos+1, inend, index);
+        root->left = helper(preorder, inorder, instart, pos-1, index, m);
+        root->right = helper(preorder, inorder, pos+1, inend, index, m);
         return root;
     }
     
@@ -37,7 +29,11 @@ public:
         int preorderind = 0;
         
         int n = inorder.size();
+        unordered_map<int, int> m;
+        for(int i=0; i<inorder.size(); i++){
+            m[inorder[i]] = i;
+        }
         
-        return helper(preorder, inorder, 0, n, preorderind);
+        return helper(preorder, inorder, 0, n, preorderind, m);
     }
 };
