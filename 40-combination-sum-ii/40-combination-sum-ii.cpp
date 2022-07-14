@@ -1,38 +1,30 @@
 class Solution {
-private:
-    vector<vector<int>> ans;
 public:
-    void helper(int i, vector<int>& candidates, vector<int>& combinations, int target, bool pre){
+    void helper(int i, vector<int>& candidates, int target, vector<int>& ans, vector<vector<int>>& res){
         
         if(target == 0){
-            ans.push_back(combinations);
+            res.push_back(ans);
             return;
         }
-        // 1 1 2 5 6 7 10
+        if(target < 0 || i >= candidates.size()) return;
         
-        if(target < 0) return;
+        ans.push_back(candidates[i]);
+        helper(i+1, candidates, target - candidates[i], ans, res);
         
-        if(i == candidates.size()) return;
+        ans.pop_back();
+        while(i+1 < candidates.size() && candidates[i] == candidates[i+1]) i++;
         
-        
-        // do not pick the element
-        helper(i+1, candidates, combinations, target, false);
-        if(i>0 && candidates[i] == candidates[i-1] && (!pre)) return;
-        
-        // pick the element
-        combinations.push_back(candidates[i]);
-        helper(i+1, candidates, combinations, target - candidates[i], true);
-        combinations.pop_back();
-        
-        
+        helper(i+1, candidates, target, ans, res);
         
     }
     
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         
-        vector<int> combinations;
         sort(candidates.begin(), candidates.end());
-        helper(0, candidates, combinations, target, false);
-        return ans;
+        vector<vector<int>> res;
+        vector<int> ans;
+        
+        helper(0, candidates, target, ans, res);
+        return res;
     }
 };
