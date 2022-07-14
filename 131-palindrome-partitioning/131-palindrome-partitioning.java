@@ -1,8 +1,8 @@
 class Solution {
-public:
-    bool isPalindrome(string& s, int i, int j){
+    public boolean isPali(String s, int i, int j){
+        
         while(i <= j){
-            if(s[i] != s[j]) return false;
+            if(s.charAt(i) != s.charAt(j)) return false;
             i++;
             j--;
         }
@@ -10,27 +10,28 @@ public:
         return true;
     }
     
-    void dfs(int i, string& s, vector<string>& ans, vector<vector<string>>& res){
+    public void dfs(int i, String s, List<String> ans, List<List<String>> result){
         
         if(i >= s.length()){
-            res.push_back(ans);
+            result.add(new ArrayList(ans));
             return;
         }
         
-        for(int j=i; j<s.length(); j++){
-            if(isPalindrome(s, i, j)){
-                ans.push_back(s.substr(i, j-i+1));
-                dfs(j+1, s, ans, res);
-                ans.pop_back();
+        for(int j = i; j<s.length(); j++){
+            if(isPali(s, i, j)){
+                ans.add(s.substring(i, j+1));
+                dfs(j+1, s, ans, result);
+                ans.remove(ans.size()-1);
             }
         }
     }
-    vector<vector<string>> partition(string s) {
+    
+    public List<List<String>> partition(String s) {
         
-        vector<vector<string>> res;
-        vector<string> ans;
+        List<List<String>> result = new ArrayList<>();
+        List<String> ans = new ArrayList<>();
         
-        dfs(0, s, ans, res);
-        return res;
+        dfs(0, s, ans, result);
+        return result;
     }
-};
+}
