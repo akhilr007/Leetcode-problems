@@ -1,62 +1,58 @@
 class Solution {
 public:
-    int find(vector<vector<int>>& grid, queue<pair<int, int>>& q){
-
-        int fresh=0;
-        for(int i=0; i<grid.size(); i++){
-            for(int j=0; j<grid[0].size(); j++){
-                if(grid[i][j] == 1){
-                    fresh++;
-                }
+    int calculate(vector<vector<int>>& grid, queue<pair<int, int>>& q, int n, int m){
+        
+        int freshOranges = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if(grid[i][j] == 1) freshOranges++;
                 else if(grid[i][j] == 2){
                     q.push({i, j});
                 }
             }
         }
-
-        return fresh;
+        
+        return freshOranges;
     }
-
+    
     int orangesRotting(vector<vector<int>>& grid) {
         
-        int n=grid.size();
-        int m=grid[0].size();
-
-        queue<pair<int, int>> q; // to store rotten oranges index
-        int freshOranges = find(grid, q);
-
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        queue<pair<int, int>> q;
+        int freshOranges = calculate(grid, q, n, m);
+        
         if(freshOranges == 0) return 0;
-
+        
         int dir[4][2] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-
-        int level = -1;
-
-        while(q.size() > 0){
-
+        int levels = -1;
+        
+        while(!q.empty()){
+            levels++;
             int size = q.size();
-            level++;
-
-            for(int k=0; k<size; k++){
-
+            
+            for(int i=0; i<size; i++){
+                
                 auto rem = q.front(); q.pop();
+            
+                int r = rem.first;
+                int c = rem.second;
 
-                int i = rem.first;
-                int j = rem.second;
+                for(int dr=0; dr<4; dr++){
+                    int r_ = r + dir[dr][0];
+                    int c_ = c + dir[dr][1];
 
-                for(int d=0; d<4; d++){
-                    int r = i + dir[d][0];
-                    int c = j + dir[d][1];
-
-                    if(r>=0 && c>=0 && r<n && c<m && grid[r][c] == 1){
-                        q.push({r, c});
-                        grid[r][c] = 0;
+                    if(r_>=0 && r_<n && c_>=0 && c_<m && grid[r_][c_] == 1){
+                        q.push({r_, c_});
+                        grid[r_][c_] = 2;
                         freshOranges--;
                     }
                 }
             }
         }
-
-        if(freshOranges==0) return level;
-        else return -1;
+        
+        if(freshOranges > 0) return -1;
+        return levels;
     }
 };
