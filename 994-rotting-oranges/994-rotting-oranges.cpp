@@ -26,10 +26,10 @@ public:
         if(freshOranges == 0) return 0;
         
         int dir[4][2] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-        int levels = -1;
+        int time = 0;
         
-        while(!q.empty()){
-            levels++;
+        while(!q.empty() && freshOranges > 0){
+        
             int size = q.size();
             
             for(int i=0; i<size; i++){
@@ -50,9 +50,10 @@ public:
                     }
                 }
             }
+            time++;
         }
         
         if(freshOranges > 0) return -1;
-        return levels;
+        return time;
     }
 };
