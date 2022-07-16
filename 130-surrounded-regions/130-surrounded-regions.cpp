@@ -1,67 +1,43 @@
-class Solution{
+class Solution {
 public:
-    void dfs(int i, int j, vector<vector<char>>& board){
-
-        if(i<0 || j<0 || i>=board.size() || j>=board[0].size() || board[i][j] == 'V' || board[i][j] == 'X'){
+    void dfs(int r, int c, vector<vector<char>>& board){
+        
+        if(r<0 || c<0 || r>=board.size() || c>=board[0].size() || board[r][c] != 'O'){
             return;
         }
-
-        board[i][j] = 'V';
-        dfs(i-1, j, board);
-        dfs(i, j-1, board);
-        dfs(i+1, j, board);
-        dfs(i, j+1, board);
-
+        
+        board[r][c] = 'T';
+        dfs(r-1, c, board);
+        dfs(r, c-1, board);
+        dfs(r+1, c, board);
+        dfs(r, c+1, board);
     }
-
-    void solve(vector<vector<char>>& board){
-
-        int n=board.size();
-        int m=board[0].size();
-
-        // first row
-        for(int j=0; j<m; j++){
-            if(board[0][j] == 'O'){
-                dfs(0, j, board);
-            }
-        }
-
-        // last row
-        for(int j=0; j<m; j++){
-            if(board[n-1][j] == 'O'){
-                dfs(n-1, j, board);
-            }
-        }
-
-        // first col
-        for(int i=0; i<n; i++){
-            if(board[i][0] == 'O'){
-                dfs(i, 0, board);
-            }
-        }
-
-        // last col
-        for(int i=0; i<n; i++){
-            if(board[i][m-1] == 'O'){
-                dfs(i, m-1, board);
-            }
-        }
-
-        // mark all the remaining O's with X
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(board[i][j] == 'O'){
-                    board[i][j] = 'X';
+    
+    void solve(vector<vector<char>>& board) {
+        
+        int ROWS = board.size();
+        int COLS = board[0].size();
+        
+        // 1. capture the unsurrounded regions
+        for(int r=0; r<ROWS; r++){
+            for(int c=0; c<COLS; c++){
+                if(board[r][c] == 'O' && (r == 0 || r == ROWS-1 || c == 0 || c==COLS-1)){
+                    dfs(r, c, board);
                 }
             }
         }
-
-        // mark all the V's to O's
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(board[i][j] == 'V'){
-                    board[i][j] = 'O';
-                }
+        
+        // 2. capture the surrounded regions
+        for(int r=0; r<ROWS; r++){
+            for(int c=0; c<COLS; c++){
+                if(board[r][c] == 'O') board[r][c] = 'X';
+            }
+        }
+        
+        // 3. uncapture the unsurrounded regions
+        for(int r=0; r<ROWS; r++){
+            for(int c=0; c<COLS; c++){
+                if(board[r][c] == 'T') board[r][c] = 'O';
             }
         }
     }
