@@ -1,15 +1,16 @@
 class UnionFind{
-private: 
+private:
     vector<int> rank, parent;
 public:
     UnionFind(int size) : rank(size), parent(size){
         for(int i=0; i<size; i++){
-            rank[i]=1;
-            parent[i]=i;
-        }
+            rank[i] =  1;
+            parent[i] = i;
+         }
     }
     
     int find(int x){
+        
         if(parent[x] == x){
             return x;
         }
@@ -25,11 +26,10 @@ public:
         int ly = find(y);
         
         if(lx != ly){
-            
             if(rank[lx] > rank[ly]){
                 parent[ly] = lx;
             }
-            else if(rank[lx] < rank[ly]){
+            else if(rank[ly] > rank[lx]){
                 parent[lx] = ly;
             }
             else{
@@ -39,15 +39,14 @@ public:
             
             return true;
         }
-        else{
-            return false;
-        }
+        else return false;
     }
 };
 
 class Solution {
 public:
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        
         
         int n = edges.size();
         UnionFind uf(n+1);
@@ -56,11 +55,9 @@ public:
             int u = edge[0];
             int v = edge[1];
             
-            if(uf.unionSet(u,v)==false){
-                return edge;
-            }
+            if(uf.unionSet(u, v)==false) return edge;
         }
         
-        return vector<int>();
+        return vector<int> ();
     }
 };
