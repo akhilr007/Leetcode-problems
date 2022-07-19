@@ -1,46 +1,37 @@
 class Solution {
 public:
-    
-    void dfs(string src, unordered_map<string, priority_queue<string, vector<string>, greater<string>>>& m, vector<string>& ans){
+    void dfs(string src, unordered_map<string, queue<string>>& adj,
+             vector<vector<string>>& tickets, vector<string>& res){
         
-        auto& nbrs = m[src];
-        
-        while(nbrs.size()>0){
-            string nbr = nbrs.top();
-            nbrs.pop();
+        auto& q = adj[src];
+        while(q.size()>0){
             
-            dfs(nbr, m, ans);
+            string nbr = q.front();
+            q.pop();
+            
+            dfs(nbr, adj, tickets, res);
+            
         }
         
-        ans.push_back(src);
+        res.push_back(src);
+        
     }
-    
+             
     vector<string> findItinerary(vector<vector<string>>& tickets) {
         
-        // min priority queue
-        unordered_map<string, priority_queue<string, vector<string>, greater<string>>> m;
+        sort(tickets.begin(), tickets.end());
         
-        for(auto ticket : tickets){
-            
-            if(m.find(ticket[0]) != m.end()){
-                priority_queue<string, vector<string>, greater<string>> p;
-                p = m[ticket[0]];
-                p.push(ticket[1]);
-                m[ticket[0]] = p;
-            }
-            else{
-                m[ticket[0]].push(ticket[1]);
-            }
+        unordered_map<string, queue<string>> adj;
+        
+        for(auto ticket: tickets){
+            adj[ticket[0]].push(ticket[1]);
         }
-    
-        
-        vector<string> ans;
-        dfs("JFK", m, ans);
-        
-        reverse(ans.begin(), ans.end());
         
         
-        return ans;
+        vector<string> res;
+        dfs("JFK", adj, tickets, res);
+        reverse(res.begin(), res.end());
         
+        return res;
     }
 };
