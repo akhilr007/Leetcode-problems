@@ -28,18 +28,15 @@ public:
                     for(int k=0; k<26; k++){
                         
                         word[j] = 'a' + k;
-                        if(dict.find(word) != dict.end()){
-                            q.push(word);
-                        }
+                        if(dict.find(word) != dict.end()) q.push(word);
                     }
                     
                     word[j] = c;
                 }
             }
             
-            ans++;
+            ans+=1;
         }
-        
         return 0;
     }
 };
