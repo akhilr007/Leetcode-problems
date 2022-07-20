@@ -1,8 +1,6 @@
 class Edge{
 public:
-    int nbr;
-    int wt;
-    
+    int nbr, wt;
     Edge(int nbr, int wt){
         this->nbr = nbr;
         this->wt = wt;
@@ -13,48 +11,46 @@ class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         
-        vector<Edge> graph[n+1];
+        vector<Edge> adj[n+1];
         for(int i=0; i<times.size(); i++){
             int src = times[i][0];
             int nbr = times[i][1];
             int wt = times[i][2];
             
-            graph[src].push_back(Edge(nbr, wt));
+            adj[src].push_back(Edge(nbr, wt));
         }
         
-        queue<pair<int, int>> q;
-        q.push(make_pair(k, 0)); // vertex->weight
+        priority_queue<pair<int, int>,vector<pair<int, int>>, greater<pair<int,int>>> pq; // {weight, node}
+        unordered_set<int> visit;
+        pq.push({0, k});
         
-        vector<int> signal(n+1, INT_MAX);
-        signal[k]=0;
+        int t=0;
         
-        while(q.size()>0){
+        while(!pq.empty()){
             
-            auto rem = q.front();
-            q.pop();
+            auto rem = pq.top();
+            pq.pop();
             
-            int src = rem.first;
-            //int wt = rem.second;
+            int wt = rem.first;
+            int src = rem.second;
             
-            for(Edge edge : graph[src]){
-                
+            if(visit.find(src) != visit.end()) continue;
+            visit.insert(src);
+            
+            t = max(t, wt);
+            
+            for(auto edge : adj[src]){
                 int nbr = edge.nbr;
-                int time = edge.wt;
+                int w1 = edge.wt;
                 
-                int arrivalTime = signal[src] + time;
-                if(signal[nbr] > arrivalTime){
-                    signal[nbr] = arrivalTime;
-                    q.push(make_pair(nbr, time));
+                if(visit.find(nbr) == visit.end()){
+                    int weight = w1+wt;
+                    pq.push({weight, nbr});
                 }
             }
         }
         
-        int ans=0;
-        for(int i=1; i<=n; i++){
-            if(signal[i]==INT_MAX) return -1;
-            ans = max(ans, signal[i]);
-        }
-        
-        return ans;
+        if(visit.size() == n) return t;
+        else return -1;
     }
 };
