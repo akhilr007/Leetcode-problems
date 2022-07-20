@@ -1,42 +1,39 @@
 class Solution {
 public:
     int swimInWater(vector<vector<int>>& grid) {
-
-        int n=grid.size();
+        
+        int n = grid.size();
         
         priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
-        pq.push(make_tuple(grid[0][0], 0, 0)); // msf -> minimum weight so far, row, col
-
-        vector<vector<bool>> vis(n, vector<bool>(n, false));
-
+        pq.push(make_tuple(grid[0][0], 0, 0));
+        
+        vector<vector<bool>> visit(n, vector<bool>(n, false));
         int dir[4][2] = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-
-        while(pq.size()>0){
+        
+        int t=0;
+        
+        while(!pq.empty()){
             
-            auto [msf, row, col] = pq.top();
+            auto [t, row, col] = pq.top();
             pq.pop();
-
-            if(row == n-1 && col == n-1){
-                return msf;
-            }
             
-            if(vis[row][col] == true){
-                continue;
-            }
-
-            vis[row][col] = true;
-
-            for(int d=0; d<4; d++){
-                int i = row + dir[d][0];
-                int j = col + dir[d][1];
-
-                if(i<0 || j<0 || i>=n || j>=n || vis[i][j] == true) continue;
+            if(row == n-1 and col == n-1) return t;
+            
+            if(visit[row][col] == true) continue;
+            
+            visit[row][col] = true;
+            
+            for(int dr=0; dr<4; dr++){
+                int r = row + dir[dr][0];
+                int c = col + dir[dr][1];
                 
-                int maxi = max(msf, grid[i][j]);
-                pq.push(make_tuple(maxi, i, j));
-            } 
+                if(r<0 || c<0 || r>=n || c>=n || visit[r][c] == true) continue;
+                
+                int maxi = max(t, grid[r][c]);
+                pq.push(make_tuple(maxi, r, c));
+            }
         }
-
-        return 0;
+        
+        return -1;
     }
 };
