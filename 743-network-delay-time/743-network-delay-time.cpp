@@ -44,8 +44,7 @@ public:
                 int w1 = edge.wt;
                 
                 if(visit.find(nbr) == visit.end()){
-                    int weight = w1+wt;
-                    pq.push({weight, nbr});
+                    pq.push({w1+wt, nbr});
                 }
             }
         }
