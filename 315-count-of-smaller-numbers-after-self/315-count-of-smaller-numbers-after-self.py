@@ -1,35 +1,31 @@
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         
-        arr = []
-        for i in range(len(nums)):
-            arr.append((nums[i], i))
+        arr = [ (nums[i], i) for i in range(len(nums))]
         
         count = [0]*len(nums)
         
-        def mergeSort(l, h):
-            
+        def mergesort(l, h):
             if l == h:
-                res = []
-                res.append(arr[l])
-                return res
+                ans=[]
+                ans.append(arr[l])
+                return ans
             
-            mid = (l + h) // 2
-            left = mergeSort(l, mid)
-            right = mergeSort(mid+1, h)
+            mid = (l + h)//2
+            left = mergesort(l, mid)
+            right = mergesort(mid+1, h)
             
-            mergeArr = merge(left, right)
-            return mergeArr
+            merged = merge(left, right)
+            return merged
         
         def merge(left, right):
             
             n, m = len(left), len(right)
             i, j = 0, 0
             
-            output = []
+            output =[]
             
             while i<n and j<m:
-                
                 x, i1 = left[i]
                 y, i2 = right[j]
                 
@@ -48,10 +44,8 @@ class Solution:
             while j<m:
                 output.append(right[j])
                 j += 1
-                
+            
             return output
         
-        mergeSort(0, len(arr)-1)
+        mergesort(0, len(nums)-1)
         return count
-    
-    
