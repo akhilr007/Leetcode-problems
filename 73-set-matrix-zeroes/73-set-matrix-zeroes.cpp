@@ -1,32 +1,38 @@
 class Solution {
 public:
-    void setZeroes(vector<vector<int>>& grid) {
+    void setZeroes(vector<vector<int>>& matrix) {
         
-        int n=grid.size();
-        int m=grid[0].size();
-        int col0=1;
+        int ROWS = matrix.size(), COLS = matrix[0].size();
+        bool rowZero = false;
         
-        for(int i=0; i<n; i++){
-            
-            if(grid[i][0]==0) col0=0;
-            
-            for(int j=1; j<m; j++){
-                
-                if(grid[i][j] == 0){
-                    grid[i][0] = grid[0][j] = 0;
+        // determin which rows/cols need to be zero
+        for(int r=0; r<ROWS; r++){
+            for(int c=0; c<COLS; c++){
+                if(matrix[r][c] == 0){
+                    
+                    matrix[0][c] = 0;
+                    
+                    if(r>0) matrix[r][0] = 0;
+                    else rowZero = true;
                 }
             }
         }
         
-        for(int i=n-1; i>=0; i--){
-            
-            for(int j=m-1; j>=1; j--){
-                if(grid[i][0] == 0 || grid[0][j] == 0){
-                    grid[i][j]=0;
+        
+        for(int r=1; r<ROWS; r++){
+            for(int c=1; c<COLS; c++){
+                
+                if(matrix[r][0] == 0 or matrix[0][c] == 0){
+                    matrix[r][c] = 0;
                 }
             }
-            
-            if(col0==0) grid[i][0] = 0;
+        }
+        
+        if(matrix[0][0] == 0){
+            for(int r=0; r<ROWS; r++) matrix[r][0] = 0;
+        }
+        if(rowZero == true){
+            for(int c=0; c<COLS; c++) matrix[0][c] = 0;
         }
     }
 };
