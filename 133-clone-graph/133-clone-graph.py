@@ -9,11 +9,12 @@ class Node:
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:
-            return None
+            return node
         
         oldToNew = {}
         
         def dfs(node):
+            
             if node in oldToNew:
                 return oldToNew[node]
             
