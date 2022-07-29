@@ -30,14 +30,15 @@ public:
         Node* copy = new Node(node->val);
         oldToNew[node] = copy;
         
-        for(auto nbr : node->neighbors){
+        for(auto nbr: node->neighbors){
             copy->neighbors.push_back(dfs(nbr, oldToNew));
         }
+        
         return copy;
     }
     
     Node* cloneGraph(Node* node) {
-        if(node == NULL) return NULL;
+        if(node == NULL) return node;
         unordered_map<Node*, Node*> oldToNew;
         
         return dfs(node, oldToNew);
