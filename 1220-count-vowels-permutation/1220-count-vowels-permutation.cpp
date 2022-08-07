@@ -2,28 +2,26 @@ class Solution {
 public:
     int countVowelPermutation(int n) {
         
-        vector<vector<long>> dp(5, vector<long>(n+1, 0));
-        for(int i=0; i<5; i++){
-            dp[i][1] = 1;
-        }
+        vector<vector<long>> dp(5, vector<long>(1, 1)), cur(5, vector<long>(1, 0));
         
         int a=0, e=1, i=2, o=3, u=4;
         long mod = 1e9+7;
         
         for(int j=2; j<=n; j++){
-            dp[a][j] = ((dp[e][j-1]%mod) + (dp[i][j-1]%mod) + (dp[u][j-1]%mod) % mod);
-            dp[e][j] = ((dp[a][j-1]%mod) + (dp[i][j-1]%mod) % mod);
-            dp[i][j] = ((dp[e][j-1]%mod) + (dp[o][j-1]%mod ) % mod);
-            dp[o][j] = dp[i][j-1] % mod;
-            dp[u][j] = ((dp[i][j-1]%mod) + (dp[o][j-1]%mod)% mod);
+            cur[a][0] = ((dp[e][0]%mod) + (dp[i][0]%mod) + (dp[u][0]%mod))%mod;
+            cur[e][0] = ((dp[a][0]%mod) + (dp[i][0]%mod))%mod;
+            cur[i][0] = ((dp[e][0]%mod) + (dp[o][0]%mod))%mod;
+            cur[o][0] = dp[i][0]%mod;
+            cur[u][0] = ((dp[i][0]%mod) + (dp[o][0]%mod))%mod;
+            dp = cur;
         }
         
-        long sum=0;
+        long ans=0;
         for(int j=0; j<5; j++){
-            sum += dp[j][n];
+            ans += dp[j][0];
         }
         
-        sum = sum % mod;
-        return (int)sum;
+        ans %= mod;
+        return (int)ans;
     }
 };
