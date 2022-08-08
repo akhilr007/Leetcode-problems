@@ -10,10 +10,8 @@ public:
         }
         
         for(auto nbr : adj[src]){
-                dfs(nbr, n, ans, result, adj);
+            dfs(nbr, n, ans, result, adj);
         }
-        
-        ans.pop_back();
         
     }
     
