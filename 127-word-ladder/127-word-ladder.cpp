@@ -2,41 +2,41 @@ class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         
-        unordered_set<string> dict(wordList.begin(), wordList.end());
+        unordered_set<string> wordSet(wordList.begin(), wordList.end());
+        if(wordSet.find(endWord) == wordSet.end()) return 0;
         
         queue<string> q;
         q.push(beginWord);
-        
-        int ans=1;
+        int level = 1;
         
         while(!q.empty()){
             
             int size = q.size();
-            for(int i=0; i<size; i++){
+            while(size-- > 0){
                 
-                string word = q.front();
+                auto word = q.front();
                 q.pop();
                 
-                if(word == endWord) return ans;
+                if(word == endWord) return level;
                 
-                dict.erase(word);
+                wordSet.erase(word);
                 
-                for(int j=0; j<word.size(); j++){
-                    
-                    char c = word[j];
-                    
-                    for(int k=0; k<26; k++){
-                        
-                        word[j] = 'a' + k;
-                        if(dict.find(word) != dict.end()) q.push(word);
+                for(int i=0; i<word.length(); i++){
+                    char c = word[i];
+                    for(char ch='a'; ch<='z'; ch++){
+                        word[i] = ch;
+                        if(wordSet.find(word) != wordSet.end()){
+                            q.push(word);
+                        }
                     }
-                    
-                    word[j] = c;
+                    word[i] = c;
                 }
             }
             
-            ans+=1;
+            level++;
+            
         }
+        
         return 0;
     }
 };
