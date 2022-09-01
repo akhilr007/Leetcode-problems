@@ -14,19 +14,20 @@
  * }
  */
 class Solution {
-    int res;
-    public  void helper(TreeNode root, int maxVal){
+    public int helper(TreeNode root, int maxVal, int[] res){
         
-        if(root == null) return;
+        if(root == null) return 0;
         
-        res += root.val >= maxVal ? 1 : 0;
+        res[0] += root.val >= maxVal ? 1 : 0;
         
-        helper(root.left, Math.max(maxVal, root.val));
-        helper(root.right, Math.max(maxVal, root.val));
+        helper(root.left, Math.max(maxVal, root.val), res);
+        helper(root.right, Math.max(maxVal, root.val), res);
+        
+        return res[0];
     }
+    
     public int goodNodes(TreeNode root) {
-        res = 0;
-        helper(root, root.val);
-        return res;
+        int[] res = {0};
+        return helper(root, root.val, res);
     }
 }
