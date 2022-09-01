@@ -11,22 +11,21 @@
  */
 class Solution {
 public:
-    int countGoodNodes(TreeNode* root, int maxVal){
+    int countGoodNodes(TreeNode* root, int maxVal, int& res){
         
         if(root == NULL) return 0;
         
-        int res = root->val >= maxVal ? 1 : 0;
-        maxVal = max(maxVal, root->val);
+        res += root->val >= maxVal ? 1 : 0;
         
-        res += countGoodNodes(root->left, maxVal);
-        res += countGoodNodes(root->right, maxVal);
+        countGoodNodes(root->left, max(root->val, maxVal), res);
+        countGoodNodes(root->right, max(root->val, maxVal), res);
         
         return res;
     }
     
     int goodNodes(TreeNode* root) {
         
-        int maxVal = root->val;
-        return countGoodNodes(root, maxVal);
+        int res = 0;
+        return countGoodNodes(root, root->val, res);
     }
 };
