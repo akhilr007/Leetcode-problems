@@ -2,24 +2,23 @@ class Solution {
 public:
     bool canArrange(vector<int>& arr, int k) {
         
-        unordered_map<int, int> mp; // rem -> count;
-        
-        for(auto el : arr){
-            int rem = (el % k + k)%k;
-            
-            mp[rem]++;
+        if(arr.size()%2) return false;
+        // fmap of remainder of arr
+        unordered_map<int, int> fmap;
+        for(auto val : arr){
+            int rem = ((val%k)+k)%k;
+            fmap[rem]++;
         }
         
-        for(auto el : arr){
+        for(auto val : arr){
             
-            int rem = ((el % k) + k)%k;
+            int rem = ((val%k)+k)%k;
             
             if(rem == 0){
-                // then count of rem should be even
-                if(mp[rem] % 2 != 0) return false;
+                if(fmap[rem] % 2) return false;
             }
             else{
-                if(mp[rem] != mp[k-rem]) return false;
+                if(fmap[rem] != fmap[k - rem]) return false;
             }
         }
         
