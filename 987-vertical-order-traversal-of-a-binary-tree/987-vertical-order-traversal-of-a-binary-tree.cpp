@@ -17,45 +17,37 @@ public:
         if(root == NULL) return ans;
         
         map<int, map<int, multiset<int>>> m;
-        // [hd ->[[level]->nodes]]
         queue<pair<TreeNode*, pair<int, int>>> q;
-        q.push({root, {0, 0}});
+        q.push({root, {0, 0}}); // node, {hd, level}
         
         while(q.size()>0){
             
             auto rem = q.front(); q.pop();
             
-            TreeNode* node = rem.first;
+            auto node = rem.first;
             int hd = rem.second.first;
-            int level = rem.second.second;
+            int lvl = rem.second.second;
             
-            m[hd][level].insert(node->val);
+            m[hd][lvl].insert(node->val);
             
             if(node->left){
-                q.push({node->left, {hd-1, level+1}});
+                q.push({node->left, {hd-1, lvl+1}});
             }
             if(node->right){
-                q.push({node->right, {hd+1, level+1}});
+                q.push({node->right, {hd+1, lvl+1}});
             }
         }
-        
         
         for(auto i : m){
             
-            vector<int> res;
-            
+            vector<int> levels;
             for(auto j : i.second){
                 for(auto k : j.second){
-                    res.push_back(k);
+                    levels.push_back(k);
                 }
             }
-            
-            ans.push_back(res);
+            ans.push_back(levels);
         }
-        
         return ans;
-        
-        
-        
     }
 };
