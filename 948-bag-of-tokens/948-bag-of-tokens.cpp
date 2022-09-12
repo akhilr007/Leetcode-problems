@@ -14,7 +14,7 @@ public:
         
         int maxScore = 0;
         int score = 0;
-        while(i <= j && power >= 0){
+        while(i <= j){
             if(tokens[i] <= power){
                 power -= tokens[i];
                 score += 1;
