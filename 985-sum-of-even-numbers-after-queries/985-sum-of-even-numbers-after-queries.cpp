@@ -22,12 +22,12 @@ public:
             else{
                 if(val % 2 == 0){
                     evenSum += val;
-                    nums[index] += val;
                 }
                 else{
                     evenSum -= nums[index];
-                    nums[index] += val;
                 }
+                
+                nums[index] += val;
                 
             }
             
