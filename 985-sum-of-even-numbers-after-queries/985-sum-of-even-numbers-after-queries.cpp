@@ -14,10 +14,9 @@ public:
             
             // odd ke saath odd add karne pe hi even sum milega
             if(nums[index] % 2){
-                if(val % 2 ){
+                if(val % 2){
                     evenSum += nums[index] + val;
                 }
-                nums[index] += val;
             }
             else{
                 if(val % 2 == 0){
@@ -26,11 +25,9 @@ public:
                 else{
                     evenSum -= nums[index];
                 }
-                
-                nums[index] += val;
-                
             }
             
+            nums[index] += val;
             ans.push_back(evenSum);
         }
         return ans;
