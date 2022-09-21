@@ -3,17 +3,9 @@ public:
     vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
         
         vector<int> ans;
-        unordered_map<int, int> odds, evens;
-        
         int evenSum=0;
-        for(int i=0; i<nums.size(); i++){
-            if(nums[i]%2){
-                odds[i] = nums[i];
-            }
-            else{
-                evens[i] = nums[i];
-                evenSum += nums[i];
-            }
+        for(auto val : nums){
+            if(val % 2 == 0) evenSum += val;
         }
         
         for(int i=0; i<queries.size(); i++){
@@ -38,8 +30,6 @@ public:
                 }
                 
             }
-            
-            cout<<nums[index]<<" ";
             
             ans.push_back(evenSum);
         }
