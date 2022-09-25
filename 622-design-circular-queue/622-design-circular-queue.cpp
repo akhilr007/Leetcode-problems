@@ -37,7 +37,7 @@ public:
     }
     
     int Front() {
-        if(front == -1) return -1;
+        if(isEmpty()) return -1;
         return a[front];
     }
     
