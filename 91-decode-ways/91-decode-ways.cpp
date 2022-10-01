@@ -22,6 +22,7 @@ public:
     
     int numDecodings(string s) {
         
+        if(s[0] == '0') return 0;
         int n = s.length();
         vector<int> dp(n+1, -1);
         
