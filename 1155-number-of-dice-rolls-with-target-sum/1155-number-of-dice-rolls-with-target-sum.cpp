@@ -56,6 +56,30 @@ public:
         return dp[d][t] % MOD;
     }
     
+    int tabulationOptimisation(int d, int f, int t){
+        
+        vector<int> prev(t+1, 0), cur(t+1, 0);
+        // base case -> if(dice == 0 and target == 0) return 1
+        prev[0] = 1;
+        
+        for(int dice=1; dice<=d; dice++){
+            for(int target=1; target<=t; target++){
+                
+                int ans=0;
+                for(int i=1; i<=f; i++){
+                    if(target-i >= 0)
+                        ans = ((ans % MOD) + prev[target-i] % MOD) % MOD;
+                }
+                
+                cur[target] = ans;
+            }
+            
+            cur = prev;
+        }
+        
+        return prev[t] % MOD;
+    }
+    
     int numRollsToTarget(int n, int k, int target) {
         
         // two states changing -> dice and target
