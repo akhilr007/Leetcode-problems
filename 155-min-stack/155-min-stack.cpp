@@ -1,76 +1,53 @@
 class MinStack {
-private:
-    stack<long long> st;
-    long long minEl;
-public:
-    MinStack() {
-        
+    
+    private Stack<Integer> st;
+    private Stack<Integer> mini;
+    
+    public MinStack() {
+        st = new Stack<>();
+        mini = new Stack<>();
     }
     
-    void push(int val) {
+    public void push(int val) {
         
-        if(st.size() == 0){
-            st.push(val);
-            minEl = val;
+        st.push(val);
+        
+        if(mini.size() == 0){
+            mini.push(val);
         }
-        // if the val is greater than min element then min we be same as before so just
-        // push the element into stack
-        else if(val >= minEl){
-            st.push(val);
-        }
-        // if the val is less than min then we need to store some flag value to stack
-        // so that we can identify it later
-        // if val < min
-        // then stack-> val + val - min and update the min to val
         else{
-            st.push(val + (val - minEl));
-            minEl = val;
+            if(val <= mini.peek()) mini.push(val);
         }
     }
     
-    void pop() {
+    public void pop() {
         
-        if(st.size() == 0) return;
+        int minEl = mini.peek();
         
-        if(st.top() >= minEl){
+        if(minEl == st.peek()){
             st.pop();
+            mini.pop();
         }
-        else{
-            // top of stack = value + value - minEl
-            // minEl = value 
-            // agar top of stack pop kiya to minEl me be previous minEl update karna hoga
-            // minEl = 2*value - (value + value - min)
-            long long updatedMin = 2*minEl - st.top();
-            minEl = updatedMin;
-            st.pop();
-        }
+        else st.pop();
     }
     
-    int top() {
-        if(st.size() == 0) return -1;
+    public int top() {
         
-        if(st.top() >= minEl){
-            return (int)st.top();
-        }
-        else{
-            // agar top of stack min se small hai to matlab humne top of stack kuch flag
-            // store kiya hua h aur real value minEl me hai
-            return (int)minEl;
-        }
+        if(st.size() == 0) return -1;
+        return st.peek();
     }
     
-    int getMin() {
-        if(st.size() == 0) return -1;
-        
-        return (int)minEl;
+    public int getMin() {
+        if(mini.size() == 0) return -1;
+        return mini.peek();
     }
-};
+}
 
 /**
  * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj->push(val);
- * obj->pop();
- * int param_3 = obj->top();
- * int param_4 = obj->getMin();
+ * MinStack obj = new MinStack();
+ * obj.push(val);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
  */
