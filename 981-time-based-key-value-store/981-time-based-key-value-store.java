@@ -20,7 +20,7 @@ class TimeMap {
     public void set(String key, String value, int timestamp) {
         
         if(map.containsKey(key) == false){
-            map.put(key, new ArrayList<Pair>());
+            map.put(key, new ArrayList<>());
             ArrayList<Pair> p = map.get(key);
             p.add(new Pair(value, timestamp));
         }
