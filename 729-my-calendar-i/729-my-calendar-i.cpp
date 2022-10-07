@@ -1,26 +1,29 @@
 class MyCalendar {
-private:
-    map<int, int> bookings;
-public:
-    MyCalendar() {
-        
+    
+    private TreeMap<Integer, Integer> bookings;
+    public MyCalendar() {
+        bookings = new TreeMap<>();   
     }
     
-    bool book(int start, int end) {
+    public boolean book(int start, int end) {
         
-        auto nextBooking = bookings.upper_bound(start);
+        // prev booking start time of curr booking
+        Integer prevBooking = bookings.floorKey(start);
+        // next booking start time of curr booking
+        Integer nextBooking = bookings.ceilingKey(start);
         
-        if(nextBooking == bookings.end() || end <= nextBooking->second){
-            bookings[end] = start;
+        if((prevBooking == null || bookings.get(prevBooking) <= start) &&
+          (nextBooking == null || end <= nextBooking)){
+            bookings.put(start, end);
             return true;
         }
         
         return false;
     }
-};
+}
 
 /**
  * Your MyCalendar object will be instantiated and called as such:
- * MyCalendar* obj = new MyCalendar();
- * bool param_1 = obj->book(start,end);
+ * MyCalendar obj = new MyCalendar();
+ * boolean param_1 = obj.book(start,end);
  */
