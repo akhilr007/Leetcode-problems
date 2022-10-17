@@ -1,11 +1,11 @@
 class Solution {
-public:
-    bool checkIfPangram(string sentence) {
-        unordered_map<char, int> m;
-        for(auto& ch : sentence){
-            m[ch]++;
+    public boolean checkIfPangram(String sentence) {
+        int seen=0;
+        for(char ch : sentence.toCharArray()){
+            int bit = ch - 'a';
+            seen = seen | (1 << bit);
         }
         
-        return m.size() == 26 ? true : false;
+        return seen == ((1 << 26) - 1);
     }
-};
+}
