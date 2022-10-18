@@ -56,9 +56,10 @@ public:
         if(cache.find(key) != cache.end()){
             // remove the key from linked list and insert it to left of tail so that it becomes latest
             // key to be used and return its val
+            int value = cache[key]->val;
             remove(cache[key]);
             insert(cache[key]);
-            return cache[key]->val;
+            return value;
         }
 
         // if not found, return -1
@@ -71,14 +72,18 @@ public:
         if(cache.find(key) != cache.end()){
             remove(cache[key]);
         }
-
+        
         cache[key] = new Node(key, val);
         insert(cache[key]);
-
+        
         if(cache.size() > cap){
             Node* LRU = head->next;
             remove(LRU);
             cache.erase(LRU->key);
         }
+
+        
+
+        
     }
 };
