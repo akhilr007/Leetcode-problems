@@ -13,7 +13,7 @@ public:
             }
         }
         
-        map<pair<int, int>, int> m;
+        unordered_map<string, int> m;
         int ans=0;
         for(auto i: p1){
             for(auto j: p2){
@@ -21,8 +21,9 @@ public:
                 int x = i.first - j.first;
                 int y = i.second - j.second;
                 
-                m[{x, y}]++;
-                ans = max(ans, m[{x, y}]);
+                string s = to_string(x) + "#" + to_string(y);
+                m[s]++;
+                ans = max(ans, m[s]);
             }
         }
         
