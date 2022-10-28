@@ -1,20 +1,20 @@
-class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
         
-        grouping = {}
+        Map<String, ArrayList<String>> map = new HashMap<>();
         
-        for s in strs:
-            tmp = ''.join(sorted(s))
+        for(String s : strs){
+            char[] ca = s.toCharArray();
+            Arrays.sort(ca);
             
-            if tmp not in grouping:
-                grouping[tmp] = [s]
-            else:
-                grouping[tmp].append(s)
+            String tmp = String.valueOf(ca);
+            if(map.containsKey(tmp) == false){
+                map.put(tmp, new ArrayList<>());
+            }
+            
+            map.get(tmp).add(s);
+        }
         
-        res = []
-        for val in grouping.values():
-            res.append(val)
-            
-        return res
-    
-            
+        return new ArrayList<>(map.values());
+    }
+}
