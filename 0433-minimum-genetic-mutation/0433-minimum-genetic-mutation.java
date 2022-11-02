@@ -1,55 +1,52 @@
 class Solution {
-public:
-    int minMutation(string start, string end, vector<string>& bank) {
+    public int minMutation(String start, String end, String[] bank) {
         
-        if(start == end) return 0;
+        if(start.equals(end)) return 0;
         
-        unordered_set<string> allowed;
-        unordered_set<string> visit;
-        unordered_set<char> chars;
+        HashSet<String> visited = new HashSet<>();
+        HashSet<String> wordsAllowed = new HashSet<>();
         
-        chars.insert('A');
-        chars.insert('C');
-        chars.insert('G');
-        chars.insert('T');
+        for(String s: bank) wordsAllowed.add(s);
         
-        for(auto s : bank) allowed.insert(s);
+        char[] charset = new char[] {'A', 'C', 'G', 'T'};
         
-        queue<string> q;
-        q.push(start);
-        visit.insert(start);
+        Queue<String> q= new LinkedList<>();
+        q.offer(start);
+        visited.add(start);
         
         int level=0;
-        
         while(q.size()>0){
             
             int size=q.size();
             while(size-- > 0){
                 
-                auto str = q.front();
-                q.pop();
+                String temp = q.poll();
+                char[] str = temp.toCharArray();
                 
-                for(int i=0; i<str.size(); i++){
-                    
-                    for(auto x: chars){
+                for(int i=0; i<str.length; i++){
+                    char oldChar = str[i];
+                    for(char c : charset){
                         
-                        string change = str;
-                        change[i] = x;
+                        str[i] = c;
+                        String s = new String(str);
                         
-                        if(visit.find(change) == visit.end() && allowed.find(change) != allowed.end()){
-                            if(change == end) return level+1;
+                        if(wordsAllowed.contains(s) && !visited.contains(s)){
                             
-                            q.push(change);
-                            visit.insert(change);
+                            if(s.equals(end)) return level+1;
                             
+                            System.out.println(s);
+                            q.offer(s);
+                            visited.add(s);
                         }
                     }
+                    
+                    str[i] = oldChar;
                 }
             }
             
             level++;
-        }
+        }  
         
         return -1;
     }
-};
+}
