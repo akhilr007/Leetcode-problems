@@ -55,7 +55,7 @@ class Solution {
         
         Arrays.sort(arr, (a, b) -> a.startTime - b.startTime);
         
-        int[] dp = new int[n+1];
+        int[] dp = new int[n];
         Arrays.fill(dp, -1);
         return solve(arr, 0, dp);
     }
