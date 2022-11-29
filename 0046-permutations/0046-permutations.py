@@ -1,27 +1,18 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         
-        permutations = []
-        ans = []
-        freq = [0]*len(nums)
-        # print(freq)
+        permutations=[]
+        size = len(nums)
         
         def permute(idx):
-            if idx>=len(nums):
-                permutations.append(ans.copy())
+            if idx>=size:
+                permutations.append(nums.copy())
                 return
             
-            #print(ans)
-            for i in range(len(nums)):
-                if freq[i] == 0:
-                    ans.append(nums[i])
-                    freq[i]=1
-                    permute(idx+1)
-                    freq[i]=0
-                    ans.pop()
-            
+            for i in range(idx, size):
+                nums[idx], nums[i] = nums[i], nums[idx]
+                permute(idx+1)
+                nums[idx], nums[i] = nums[i], nums[idx]
         permute(0)
         return permutations
     
-        
-        
