@@ -1,17 +1,16 @@
 class Solution {
-    public boolean uniqueOccurrences(int[] arr) {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
         
-        Set<Integer> set = new HashSet<>();
-        Map<Integer, Integer> map = new HashMap<>();
-        for(int number: arr){
-            map.put(number, map.getOrDefault(number, 0) + 1);
-        }
+        unordered_set<int> count;
+        unordered_map<int, int> countMap;
         
-        for(int key: map.keySet()){
-            if(set.contains(map.get(key))==true) return false;
-            set.add(map.get(key));
+        for(int val: arr) countMap[val]++;
+        for(auto& it: countMap){
+            if(count.find(it.second) != count.end()) return false;
+            count.insert(it.second);
         }
         
         return true;
     }
-}
+};
