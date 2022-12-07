@@ -7,8 +7,8 @@ public:
             sum += root->val;
         }
         
-        solve(root->left, low, high, sum);
-        solve(root->right, low, high, sum);
+        if(root->val >= low) solve(root->left, low, high, sum);
+        if(root->val <= high) solve(root->right, low, high, sum);
     }
     
     int rangeSumBST(TreeNode* root, int low, int high) {
