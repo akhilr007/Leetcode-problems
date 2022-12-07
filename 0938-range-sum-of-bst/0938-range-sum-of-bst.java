@@ -8,8 +8,6 @@ class Solution {
         }
         
         if(root.val < low) return rangeSumBST(root.right, low, high);
-        if(root.val > high) return rangeSumBST(root.left, low, high);
-        
-        return 0;
+        return rangeSumBST(root.left, low, high);
     }
 }
