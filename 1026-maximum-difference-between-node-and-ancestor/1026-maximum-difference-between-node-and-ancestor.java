@@ -20,9 +20,26 @@ class Solution {
         bruteForce(root.right);
     }
     
+    int pathMin = Integer.MAX_VALUE, pathMax=Integer.MIN_VALUE;
+    private int optimal(TreeNode root, int pathMin, int pathMax){
+        
+        if(root == null){
+            return Math.abs(pathMax - pathMin);
+        }
+        
+        pathMin = Math.min(pathMin, root.val);
+        pathMax = Math.max(pathMax, root.val);
+        
+        int left = optimal(root.left, pathMin, pathMax);
+        int right = optimal(root.right, pathMin, pathMax);
+        
+        return Math.max(left, right);
+    }
+    
     public int maxAncestorDiff(TreeNode root) {
         
-        bruteForce(root);
-        return maxDiff;
+        //bruteForce(root)
+        return optimal(root, pathMin, pathMax);
+        // return maxDiff;
     }
 }
