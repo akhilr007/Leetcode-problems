@@ -8,8 +8,6 @@ public:
         pMin = min(root->val, pMin);
         maxDiff = max(maxDiff, abs(pMax - pMin));
         
-        cout<<"#root "<<root->val <<" #pMax "<< pMax << " #pMin " << pMin << " #diff "<< maxDiff << endl;
-        
         solve(root->left, pMax, pMin, maxDiff);
         solve(root->right, pMax, pMin, maxDiff);
     }
