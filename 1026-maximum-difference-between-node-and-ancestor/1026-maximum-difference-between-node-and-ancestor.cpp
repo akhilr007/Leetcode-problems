@@ -1,22 +1,21 @@
 class Solution {
 public:
-    void solve(TreeNode* root, int pMax, int pMin, int& maxDiff){
+    int solve(TreeNode* root, int pMax, int pMin){
         
-        if(root == NULL) return;
+        if(root == NULL) return abs(pMax - pMin);
         
         pMax = max(root->val, pMax);
         pMin = min(root->val, pMin);
-        maxDiff = max(maxDiff, abs(pMax - pMin));
         
-        solve(root->left, pMax, pMin, maxDiff);
-        solve(root->right, pMax, pMin, maxDiff);
+        int left = solve(root->left, pMax, pMin);
+        int right = solve(root->right, pMax, pMin);
+        
+        return max(left, right);
     }
     
     int maxAncestorDiff(TreeNode* root) {
         
-        int maxDiff=0;
         int pMax = INT_MIN, pMin=INT_MAX;
-        solve(root, pMax, pMin, maxDiff);
-        return maxDiff;
+        return solve(root, pMax, pMin);
     }
 };
