@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool checkBipartite(int start, vector<vector<int>> graph, int colors[]){
+    bool checkBipartiteBFS(int start, vector<vector<int>> graph, int colors[]){
         
         queue<int> q;
         q.push(start);
@@ -26,16 +26,31 @@ public:
         return true;
     }
     
+    bool checkBipartiteDFS(int node, int color, vector<vector<int>>& graph, int colors[]){
+        
+        colors[node] = color;
+        
+        for(auto adjacentNode: graph[node]){
+            if(colors[adjacentNode] == -1){
+                if(checkBipartiteDFS(adjacentNode, !color, graph, colors)==false)
+                    return false;
+            }
+            else if(colors[adjacentNode] == color) return false;
+        }
+        
+        return true;
+    }
+    
     bool isBipartite(vector<vector<int>>& graph) {
         
         // create an adjacency list
         int n = graph.size();
         int colors[n];
-        for(int i=0; i<n; i++) colors[i] = {-1};
+        for(int i=0; i<n; i++) colors[i] = -1;
         
         for(int i=0; i<n; i++){
             if(colors[i] == -1){
-                if(checkBipartite(i, graph, colors)==false) return false;
+                if(checkBipartiteDFS(i, 0, graph, colors)==false) return false;
             }
         }
         
