@@ -45,30 +45,18 @@ class Solution {
         Queue<int[]> q = new LinkedList<>();
         
         // travel for boundary rows
-        for(int i=0; i<M; i++){
-            if(grid[0][i] == 1 && vis[0][i] == 0){
-                q.add(new int[] {0, i});
-                vis[0][i] = 1;
-            }
-            
-            if(grid[N-1][i] == 1 && vis[N-1][i] == 0){
-                q.add(new int[] {N-1, i});
-                vis[N-1][i] = 1;
+        for(int i=0; i<N; i++){
+            for(int j=0; j<M; j++){
+                
+                if(i==0 || j==0 || i==N-1 || j==M-1){
+                    if(grid[i][j] == 1){
+                        q.add(new int[] {i, j});
+                        vis[i][j] = 1;
+                    }
+                }
             }
         }
         
-        // travel for boundary cols
-        for(int i=0; i<N; i++){
-            if(grid[i][0] == 1 && vis[i][0] == 0){
-                q.add(new int[] {i, 0});
-                vis[i][0] = 1;
-            }
-            
-            if(grid[i][M-1] == 1 && vis[i][M-1] == 0){
-                q.add(new int[] {i, M-1});
-                vis[i][M-1] = 1;
-            }
-        }
         
         int[][] delta = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
         bfs(q, grid, vis, delta);
