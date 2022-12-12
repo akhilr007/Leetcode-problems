@@ -9,91 +9,54 @@ using namespace std;
 
 class Solution{
     public:
-    string findOrder(string dict[], int N, int K) {
-        unordered_map<char, unordered_set<char>> graph;
-        unordered_map<char, int> indegree;
-        
-        // make all char indegree 0
-        for(int i=0; i<N; i++){
-            for(auto ch : dict[i]){
-                indegree[ch]=0;
+    string topologicalSort(int V, vector<int> adj[]){
+
+        vector<int> indegree(V, 0);
+        for(int i=0; i<V; i++){
+            for(auto node: adj[i]){
+                indegree[node]++;
             }
         }
+
+        queue<int> q;
+        for(int i=0; i<V; i++){
+            if(indegree[i] == 0) q.push(i);
+        }
+
+        string ans="";
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+
+            ans += char(node + 'a');
+
+            for(auto nbr: adj[node]){
+                indegree[nbr]--;
+                if(indegree[nbr] == 0) q.push(nbr);
+            }
+        }
+
+        if(ans.length() == V) return ans;
+        return "";
+    }
+    string findOrder(string words[], int N, int K) {
         
+        vector<int> adj[K];
         for(int i=0; i<N-1; i++){
-            string curr = dict[i];
-            string next = dict[i+1];
-            
-            int len = min(curr.length(), next.length());
-            for(int j=0; j<len; j++){
-                
-                char ch1 = curr[j];
-                char ch2 = next[j];
-                
-                if(ch1 != ch2){
-                    
-                    unordered_set<char> set;
-                    
-                    if(graph.find(ch1) != graph.end()){
-                        
-                        set = graph[ch1];
-                        
-                        if(set.find(ch2) == set.end()){
-                            set.insert(ch2);
-                            indegree[ch2]++;
-                            graph[ch1] = set;
-                        }
-                    }
-                    
-                    else{
-                        
-                        set.insert(ch2);
-                        indegree[ch2]++;
-                        graph[ch1] = set;
-                    }
-                    
+            string s1 = words[i];
+            string s2 = words[i+1];
+
+            int len = min(s1.length(), s2.length());
+            for(int p=0; p<len; p++){
+
+                if(s1[p] != s2[p]){
+                    adj[s1[p] - 'a'].push_back(s2[p] - 'a');
                     break;
                 }
             }
         }
-        
-        queue<char> q;
-        
-        for(auto it : indegree){
-            if(it.second == 0){
-                q.push(it.first);
-            }
-        }
-        
-        int count=0;
-        string ans="";
-        
-        while(q.size()>0){
-            
-            char rem = q.front();
-            q.pop();
-            
-            count++;
-            ans += rem;
-            
-            if(graph.find(rem) != graph.end()){
-                unordered_set<char> nbrs = graph[rem];
-                
-                for(auto nbr : nbrs){
-                    indegree[nbr]--;
-                    if(indegree[nbr]==0){
-                        q.push(nbr);
-                    }
-                }
-            }
-        }
-        
-        if(count == indegree.size()){
-            return ans;
-        }
-        else{
-            return "";
-        }
+
+        return topologicalSort(K, adj);
     }
 };
 
