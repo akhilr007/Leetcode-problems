@@ -25,6 +25,8 @@ public:
         return dp[n] = oneStep + twoStep;
     }
     
+    // time complexity -> O(n)
+    // space complexity -> O(n)
     int solveTab(int n){
         
         if(n == 1) return 1;
@@ -39,8 +41,26 @@ public:
         return dp[n];
     }
     
+    int solveOptimal(int n){
+        
+        if(n == 1) return 1;
+        if(n == 2) return 2;
+        
+        int prev1 = 1;
+        int prev2 = 2;
+        
+        int ans;
+        for(int i=3; i<=n; i++){
+            ans = prev1 + prev2;
+            prev1 = prev2;
+            prev2 = ans;
+        }
+        
+        return ans;
+    }
+    
     int climbStairs(int n) {
         
-        return solveTab(n);
+        return solveOptimal(n);
     }
 };
