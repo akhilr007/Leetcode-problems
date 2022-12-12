@@ -12,6 +12,7 @@ public:
         return oneStep + twoStep;
     }
     
+    // time complexity -> O(n) space complexity -> O(n) + O(n) recursion stack space
     int solveMem(int n, vector<int>& dp){
         
         if(n == 1) return 1;
@@ -24,9 +25,22 @@ public:
         return dp[n] = oneStep + twoStep;
     }
     
+    int solveTab(int n){
+        
+        if(n == 1) return 1;
+        vector<int> dp(n+1, 0);
+        dp[1] = 1;
+        dp[2] = 2;
+        
+        for(int i=3; i<=n; i++){
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        
+        return dp[n];
+    }
+    
     int climbStairs(int n) {
         
-        vector<int> dp(n+1, -1);
-        return solveMem(n, dp);
+        return solveTab(n);
     }
 };
