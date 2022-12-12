@@ -1,7 +1,6 @@
 # Alien Dictionary
-## Hard 
-<div class="problem-statement">
-                <p></p><p><span style="font-size:18px">Given a sorted dictionary of an alien language having N words and&nbsp;k starting alphabets of standard dictionary. Find the order of characters in the alien language.<br>
+## Hard
+<div class="problems_problem_content__Xm_eO"><p><span style="font-size:18px">Given a sorted dictionary of an alien language having N words and&nbsp;k starting alphabets of standard dictionary. Find the order of characters in the alien language.<br>
 <strong>Note:</strong>&nbsp;Many orders may be&nbsp;possible for a particular test case, thus&nbsp;you may return any valid order and&nbsp;output will be 1 if the order of string returned by the function is correct else 0 denoting incorrect string returned.</span><br>
 &nbsp;</p>
 
@@ -48,5 +47,4 @@ You don't need to read or print anything. Your task is to complete the function&
 1 ≤ N, M ≤ 300<br>
 1 ≤ K&nbsp;≤ 26<br>
 1 ≤ Length of words&nbsp;≤ 50</span></p>
- <p></p>
-            </div>
+</div>
