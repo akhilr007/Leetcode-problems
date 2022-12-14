@@ -27,6 +27,8 @@ public:
         return dp[idx] = max(notPick, pick);
     }
     
+    // time complexity -> O(n)
+    // space complexity -> O(n)
     int solveTab(vector<int>& nums, int n){
         
         if(n == 1) return nums[0];
@@ -46,9 +48,28 @@ public:
         return dp[n];
     }
     
+    int solveOptimal(vector<int>& nums, int n){
+        
+        
+        int secondLastHouse = 0;
+        int lastHouse = nums[0];
+        
+        for(int i=2; i<=n; i++){
+            
+            int pick = nums[i-1] + secondLastHouse;
+            int notPick = 0 + lastHouse;
+            
+            int currentHouse = max(pick, notPick);
+            secondLastHouse = lastHouse;
+            lastHouse = currentHouse;
+        }
+        
+        return lastHouse;
+    }
+    
     int rob(vector<int>& nums) {
         
         int n = nums.size();
-        return solveTab(nums, n);
+        return solveOptimal(nums, n);
     }
 };
