@@ -1,5 +1,7 @@
 class Solution {
 public:
+    // time complexity -> O(N * wordlength * 26)
+    // space complexity -> O(N + N)
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         
         unordered_set<string> st(wordList.begin(), wordList.end());
