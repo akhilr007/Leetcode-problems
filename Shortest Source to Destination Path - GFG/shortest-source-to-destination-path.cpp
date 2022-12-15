@@ -13,38 +13,39 @@ class Solution {
     int shortestDistance(int N, int M, vector<vector<int>>& A, int X, int Y) {
         
         if(A[0][0] == 0) return -1;
-        vector<vector<int>> dist(N, vector<int> (M, 1e9));
-        
+
+        vector<vector<int>> dist(N, vector<int> (M, 1e9)); 
+
         priority_queue<p, vector<p>, greater<p>> pq;
-        pq.push({0, {0, 0}}); // [dist , row, col]
-        
+        pq.push({0, {0, 0}}); // {distance, {row, col}}
+
         dist[0][0] = 0;
-        
+
         vector<vector<int>> delta = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-        
+
         while(!pq.empty()){
-            
+
             int dis = pq.top().first;
             int row = pq.top().second.first;
             int col = pq.top().second.second;
             pq.pop();
-            
-            if(row == X && col == Y && A[row][col]) return dis;
-            
+
+            if(row == X && col == Y) return dis;
+
             for(int d=0; d<4; d++){
                 int nrow = row + delta[d][0];
                 int ncol = col + delta[d][1];
-                
+
                 if(nrow >= 0 && ncol >= 0 && nrow < N && ncol < M && A[nrow][ncol] == 1){
-                    
+
                     if(dis + 1 < dist[nrow][ncol]){
                         dist[nrow][ncol] = dis + 1;
-                        pq.push( {dist[nrow][ncol], {nrow, ncol} } );
+                        pq.push({ dist[nrow][ncol], {nrow, ncol}});
                     }
                 }
             }
         }
-        
+
         return -1;
     }
 };
