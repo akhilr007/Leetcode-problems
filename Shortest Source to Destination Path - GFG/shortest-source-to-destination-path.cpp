@@ -16,19 +16,19 @@ class Solution {
 
         vector<vector<int>> dist(N, vector<int> (M, 1e9)); 
 
-        priority_queue<p, vector<p>, greater<p>> pq;
-        pq.push({0, {0, 0}}); // {distance, {row, col}}
+        queue<p> q;
+        q.push({0, {0, 0}}); // {distance, {row, col}}
 
         dist[0][0] = 0;
 
         vector<vector<int>> delta = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
-        while(!pq.empty()){
+        while(!q.empty()){
 
-            int dis = pq.top().first;
-            int row = pq.top().second.first;
-            int col = pq.top().second.second;
-            pq.pop();
+            int dis = q.front().first;
+            int row = q.front().second.first;
+            int col = q.front().second.second;
+            q.pop();
 
             if(row == X && col == Y) return dis;
 
@@ -40,7 +40,7 @@ class Solution {
 
                     if(dis + 1 < dist[nrow][ncol]){
                         dist[nrow][ncol] = dis + 1;
-                        pq.push({ dist[nrow][ncol], {nrow, ncol}});
+                        q.push({ dist[nrow][ncol], {nrow, ncol}});
                     }
                 }
             }
