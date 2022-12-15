@@ -11,31 +11,34 @@ class Solution
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int src)
     {
         
-        vector<int> distance(V, 1e9);
+        vector<int> dist(V, 1e9);
+        set<pair<int, int>> st;
+        st.insert({0, src});
+        dist[src] = 0;
         
-        // we need min heap
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({0, src}); // [distance, node]
-        distance[src] = 0;
-
-        while(!pq.empty()){
-
-            int dist = pq.top().first;
-            int node = pq.top().second;
-            pq.pop();
-
-            for(auto edge: adj[node]){
-                int edgeWeight = edge[1];
-                int adjNode = edge[0];
-
-                if(dist + edgeWeight < distance[adjNode]){
-                    distance[adjNode] = dist + edgeWeight;
-                    pq.push({distance[adjNode], adjNode});
+        while(!st.empty()){
+            
+            auto it = *(st.begin());
+            int node = it.second;
+            int dis = it.first;
+            st.erase(it);
+            
+            for(auto nbr : adj[node]){
+                
+                int edgeWeight = nbr[1];
+                int adjNode = nbr[0];
+                
+                if(dis + edgeWeight  < dist[adjNode]){
+                    
+                    if(dist[adjNode] != 1e9) st.erase({ dist[adjNode], adjNode});
+                    
+                    dist[adjNode] = dis + edgeWeight;
+                    st.insert({ dist[adjNode], adjNode });
                 }
             }
         }
-
-        return distance;
+        
+        return dist;
     }
 };
 
