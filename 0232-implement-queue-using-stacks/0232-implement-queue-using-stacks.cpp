@@ -1,52 +1,57 @@
 class MyQueue {
-    
-    private Stack<Integer> s1, s2;
-    private int size;
-    
-    public MyQueue() {
-        s1 = new Stack<>();
-        s2 = new Stack<>();
-        size = 0;
+public:
+    stack<int> st1, st2;
+    MyQueue() {
+        
     }
     
-    public void push(int x) {
-        size++;
-        while(s1.size()>0){
-            s2.push(s1.pop());
+    void push(int x) {
+        
+        if(st1.size()>0){
+            while(!st1.empty()){
+                st2.push(st1.top());
+                st1.pop();
+            }
         }
         
-        s1.push(x);
+        st1.push(x);
         
-        while(s2.size()>0){
-            s1.push(s2.pop());
+        while(!st2.empty()){
+            
+            st1.push(st2.top());
+            st2.pop();
         }
     }
     
-    public int pop() {
-        if(size==0) return -1;
+    int pop() {
         
-        size--;
-        int val = s1.pop();
+        int val = -1;
+        if(st1.size()>0){
+            val = st1.top();
+            st1.pop();
+        }
+        
         return val;
     }
     
-    public int peek() {
-        if(size==0) return -1;
+    int peek() {
         
-        return s1.peek();
+        if(st1.size() > 0) return st1.top();
+        return -1;
     }
     
-    public boolean empty() {
-        if(size==0) return true;
+    bool empty() {
+        
+        if(st1.size() == 0) return true;
         return false;
     }
-}
+};
 
 /**
  * Your MyQueue object will be instantiated and called as such:
- * MyQueue obj = new MyQueue();
- * obj.push(x);
- * int param_2 = obj.pop();
- * int param_3 = obj.peek();
- * boolean param_4 = obj.empty();
+ * MyQueue* obj = new MyQueue();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->peek();
+ * bool param_4 = obj->empty();
  */
