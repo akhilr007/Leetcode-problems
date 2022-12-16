@@ -21,7 +21,7 @@ public:
             int node = it.second.first;
             int dis = it.second.second;
             
-            if(steps > k) continue;
+            if(steps > k) break;
             
             for(auto nbr: adj[node]){
                 int adjNode = nbr.first;
