@@ -1,11 +1,12 @@
 class Solution {
 public:
-    void dfs(int node, vector<int>& vis, vector<int> adj[]){
+    void dfs(int node, vector<int>& vis, vector<int> adj[], int destination){
         
+        if(vis[destination] == true) return;
         vis[node] = true;
         for(auto adjNode: adj[node]){
             if(!vis[adjNode]){
-                dfs(adjNode, vis, adj);
+                dfs(adjNode, vis, adj, destination);
             }
         }
     }
@@ -21,7 +22,7 @@ public:
         }
         
         vector<int> vis(n, 0);
-        dfs(source, vis, adj);
+        dfs(source, vis, adj, destination);
         
         if(vis[destination] == 1) return true;
         return false;
