@@ -14,7 +14,9 @@ public:
         return t[idx] = false;
     }
     
-    bool canJump(vector<int>& nums) {
+    // time complexity -> O(n * n)
+    // space complexity -> O(n)
+    bool solveTabDP(vector<int>& nums){
         
         int n = nums.size();
         vector<int> dp(n, 0);
@@ -29,5 +31,19 @@ public:
             }
         }
         return dp[n-1];
+    }
+    
+    bool canJump(vector<int>& nums) {
+        
+        int n = nums.size();
+        int maxReachable = 0;
+        
+        for(int i=0; i<n; i++){
+            
+            if(i > maxReachable) return false;
+            
+            maxReachable = max(maxReachable, i + nums[i]);
+        }
+        return true;
     }
 };
