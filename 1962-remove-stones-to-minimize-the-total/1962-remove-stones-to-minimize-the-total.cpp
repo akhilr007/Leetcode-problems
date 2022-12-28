@@ -13,13 +13,14 @@ public:
         
         // klogn
         while(k-->0){
-            int val = pq.top();
+            int max_val = pq.top(); // 9
             pq.pop();
-            sum -= val;
             
-            int tempVal = ceil(val/2.0);
-            sum += tempVal;
-            pq.push(tempVal);
+            int removeVal = max_val/2; // 4
+            sum -= removeVal;
+            
+            max_val -= removeVal;
+            pq.push(max_val);
         }
         
         return sum;
