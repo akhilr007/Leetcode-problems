@@ -15,12 +15,12 @@ public:
         while(k-->0){
             int max_val = pq.top(); // 9
             pq.pop();
+            sum -= max_val;
             
-            int removeVal = max_val/2; // 4
-            sum -= removeVal;
+            int reduceVal = ceil(max_val/2.0); // 4
+            sum += reduceVal;
             
-            max_val -= removeVal;
-            pq.push(max_val);
+            pq.push(reduceVal);
         }
         
         return sum;
