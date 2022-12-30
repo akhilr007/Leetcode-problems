@@ -1,77 +1,76 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include<bits/stdc++.h>
 using namespace std;
 
- // } Driver Code Ends
+// } Driver Code Ends
 
 
 class Solution
 {
+    private:
+    void dfs(int node, vector<int> adj[], vector<int>& vis, stack<int>& st){
+        
+        vis[node] = 1;
+        for(auto adjNode: adj[node]){
+            if(!vis[adjNode]){
+                dfs(adjNode, adj, vis, st);
+            }
+        }
+        
+        st.push(node);
+    }
+    
+    void dfs2(int node, vector<int> adjT[], vector<int>& vis){
+        
+        vis[node] = 1;
+        for(auto adjNode: adjT[node]){
+            if(!vis[adjNode]){
+                dfs2(adjNode, adjT, vis);
+            }
+        }
+    }
+    
 	public:
-	void dfs(int src, vector<int> adj[], vector<bool>& vis, stack<int>& st){
-	    
-	    vis[src] = true;
-	    
-	    for(int nbr : adj[src]){
-	        if(vis[nbr] == false){
-	            dfs(nbr, adj, vis, st);
-	        }
-	    }
-	    
-	    st.push(src);
-	}
-	
-	void dfs2(int src, vector<int> graph[], vector<bool>& vis){
-	    
-	    vis[src] = true;
-	    
-	    for(int nbr : graph[src]){
-	        if(vis[nbr] == false){
-	            dfs2(nbr, graph, vis);
-	        }
-	    }
-	    
-	}
-	
 	//Function to find number of strongly connected components in the graph.
     int kosaraju(int V, vector<int> adj[])
     {
-        // 1. random order dfs
+        //code here
+        vector<int> vis(V, 0);
         stack<int> st;
-        vector<bool> vis(V, false);
+        
         for(int i=0; i<V; i++){
-            if(vis[i] == false){
+            if(!vis[i]){
                 dfs(i, adj, vis, st);
             }
         }
         
-        //2. reverse the edges;
-        vector<int> graph[V];
+        vector<int> adjT[V];
         for(int i=0; i<V; i++){
-            vector<int> nbrs = adj[i];
-            for(int nbr : nbrs){
-                graph[nbr].push_back(i);
+            vis[i] = 0;
+            for(auto it: adj[i]){
+                // i-> it
+                // it -> i
+                adjT[it].push_back(i);
             }
         }
         
-        // 3. dfs according to stack
-        for(int i=0; i<V; i++) vis[i] = false;
-        
-        int connectedComponents=0;
-        while(st.size()>0){
-            int src = st.top();
+        int scc=0;
+        while(!st.empty()){
+            
+            int node = st.top();
             st.pop();
-            if(vis[src] == false){
-                dfs2(src, graph, vis);
-                connectedComponents++;
+            
+            if(!vis[node]){
+                scc++;
+                dfs2(node, adjT, vis);
             }
         }
         
-        return connectedComponents;
+        return scc;
     }
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 
 
 int main()
@@ -100,4 +99,5 @@ int main()
     return 0;
 }
 
-  // } Driver Code Ends
+
+// } Driver Code Ends
