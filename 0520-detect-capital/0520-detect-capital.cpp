@@ -18,8 +18,8 @@ public:
             
             if(firstLetter == false && countCapitals > 1) return false;
         }
-        
-        if(firstLetter == true && countCapitals == 1) return true;
-        return (countCapitals == n) || (countCapitals == 0);
+    
+        return (firstLetter == true && countCapitals == 1) ||
+            (countCapitals == n) || (countCapitals == 0);
     }
 };
