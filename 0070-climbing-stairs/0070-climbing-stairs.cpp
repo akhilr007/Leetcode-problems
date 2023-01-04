@@ -2,7 +2,7 @@ class Solution {
 private:
     int solveRec(int n){
         
-        if(n == 1 || n == 0) return 1;
+        if(n == 1 || n == 2) return n;
         
         int oneStep = solveRec(n-1);
         int twoStep = solveRec(n-2);
