@@ -41,6 +41,17 @@ public:
     
     int climbStairs(int n) {
         
-        return solveTab(n);
+        if(n == 1 or n == 2) return n;
+        
+        int first = 1;
+        int second = 2;
+        
+        for(int i=3; i<=n; i++){
+            int temp = first + second;
+            first = second;
+            second = temp;
+        }
+        
+        return second;
     }
 };
