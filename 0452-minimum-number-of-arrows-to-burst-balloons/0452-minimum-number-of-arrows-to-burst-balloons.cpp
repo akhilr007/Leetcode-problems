@@ -6,7 +6,7 @@ public:
         
         vector<int> prev = points[0];
         
-        vector<vector<int>> overlaps;
+        int count = 1;
         for(int i=1; i<points.size(); i++){
             
             int prevStartingPoint = prev[0];
@@ -19,7 +19,7 @@ public:
             if(curStartingPoint > prevEndingPoint){
                 // no overlap
                 prev = cur;
-                overlaps.push_back(prev);
+                count++;
             }
             else{
                 prev[0] = max(prevStartingPoint, curStartingPoint);
@@ -27,8 +27,6 @@ public:
             }
         }
         
-        overlaps.push_back(prev);
-        //if(overlaps.size() == 0) return points.size();
-        return overlaps.size();
+        return count;
     }
 };
