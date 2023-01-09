@@ -54,9 +54,21 @@ class Solution {
         return dp[N-1];
     }
     
+    int solveOptimal(int A[], int N){
+        
+        int maxReachable = 0;
+        for(int i=0; i<N; i++){
+            
+            if(i > maxReachable) return false;
+            maxReachable = max(maxReachable, i + A[i]);
+        }
+        
+        return true;
+    }
+    
     int canReach(int A[], int N) {
         // code here
-        return solveTab(A, N);
+        return solveOptimal(A, N);
     }
 };
 
