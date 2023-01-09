@@ -11,6 +11,8 @@
  */
 class Solution {
 public:
+    // time complexity -> O(n)
+    // space complexity -> O(height of tree) for recursion stack
     void preorderRecursive(TreeNode* root, vector<int>& ans){
         
         if(root == NULL) return;
@@ -22,9 +24,24 @@ public:
     
     vector<int> preorderTraversal(TreeNode* root) {
         
-        vector<int> ans;
+        vector<int> preorder;
+        if(root == NULL) return preorder;
         
-        preorderRecursive(root, ans);
-        return ans;
+        stack<TreeNode*> st; // stack imitates recursion
+        st.push(root);
+        
+        while(!st.empty()){
+            
+            auto node = st.top();
+            st.pop();
+            
+            preorder.push_back(node->val);
+            
+            if(node->right)
+                st.push(node->right);
+            if(node->left)
+                st.push(node->left);
+        }
+        return preorder;
     }
 };
