@@ -53,8 +53,8 @@ struct List{
 };
 
 class LFUCache {
-map<int, Node*> keyNode;
-map<int, List*> freqListMap;
+unordered_map<int, Node*> keyNode;
+unordered_map<int, List*> freqListMap;
 int maxSizeCache ;
 int minFreq;
 int curSize;
