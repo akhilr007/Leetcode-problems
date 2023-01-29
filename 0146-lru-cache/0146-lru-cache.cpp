@@ -4,7 +4,7 @@ public:
     int val;
     Node* next;
     Node* prev;
-
+    
     Node(int key, int val){
         this->key = key;
         this->val = val;
@@ -13,77 +13,75 @@ public:
     }
 };
 
-class LRUCache{
+class LRUCache {
 private:
     int cap;
     unordered_map<int, Node*> cache;
-    Node* head, *tail;
-
+    Node* left;
+    Node* right; // left -> LRU right = most recently used
+    
     void remove(Node* node){
+        
         Node* prev = node->prev;
         Node* nxt = node->next;
-
+        
         prev->next = nxt;
         nxt->prev = prev;
-
-        // free node;
     }
-
+    
     void insert(Node* node){
-
-        Node* prev = tail->prev;
-        Node* nxt = tail;
-
+        
+        Node* prev = right->prev;
+        Node* nxt = right;
+        
         prev->next = node;
         nxt->prev = node;
-
+        
         node->prev = prev;
         node->next = nxt;
     }
-
 public:
-    LRUCache(int capacity){
+    LRUCache(int capacity) {
         cap = capacity;
-        head = new Node(0, 0);
-        tail = new Node(0, 0);
-
-        head->next = tail;
-        tail->prev = head;
-    };
-
-    int get(int key){   
-
+        left = new Node(0, 0);
+        right = new Node(0, 0);
+        
+        left->next = right;
+        right->prev = left;
+    }
+    
+    int get(int key) {
+        
         if(cache.find(key) != cache.end()){
-            // remove the key from linked list and insert it to left of tail so that it becomes latest
-            // key to be used and return its val
             int value = cache[key]->val;
             remove(cache[key]);
             insert(cache[key]);
             return value;
         }
-
-        // if not found, return -1
+        
         return -1;
-
     }
-
-    void put(int key, int val){
-
+    
+    void put(int key, int value) {
+        
         if(cache.find(key) != cache.end()){
             remove(cache[key]);
         }
         
-        cache[key] = new Node(key, val);
+        cache[key] = new Node(key, value);
         insert(cache[key]);
         
         if(cache.size() > cap){
-            Node* LRU = head->next;
-            remove(LRU);
+            Node* LRU = left->next;
+            remove(cache[LRU->key]);
             cache.erase(LRU->key);
         }
-
-        
-
-        
     }
 };
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
