@@ -73,7 +73,7 @@ public:
         
         if(cache.size() > cap){
             Node* LRU = left->next;
-            remove(cache[LRU->key]);
+            remove(LRU);
             cache.erase(LRU->key);
         }
     }
