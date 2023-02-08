@@ -40,7 +40,7 @@ public:
                 farthestJump = max(farthestJump, i+nums[i]);
                 
             }
-            l = r;
+            l = r+1;
             r = farthestJump;
             minSteps++;
         }
