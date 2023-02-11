@@ -15,8 +15,9 @@ public:
         queue<pair<int, pair<int, string>>> q;
         q.push({0, {0, "NULL"}});
         
-        set<pair<int, string>> vis;
-        vis.insert({0, "NULL"});
+        vector<bool> vred(n, false), vblue(n, false);
+        vred[0] = true;
+        vblue[0] = true;
         
         vector<int> answer(n, -1);
         
@@ -34,8 +35,8 @@ public:
             
             if (edgeColor != "RED"){
                 for(auto& node : red[node]){
-                    if(vis.find({node, "RED"}) == vis.end()){
-                        vis.insert({node, "RED"});
+                    if(vred[node] == false){
+                        vred[node] = true;
                         q.push({node, {length+1, "RED"}});
                     }
                 }
@@ -44,8 +45,8 @@ public:
             
             if(edgeColor != "BLUE"){
                 for(auto& node: blue[node]){
-                    if(vis.find({node, "BLUE"}) == vis.end()){
-                        vis.insert({node, "BLUE"});
+                    if(vblue[node] == false){
+                        vblue[node] = true;
                         q.push({node, {length+1, "BLUE"}});
                     }
                 }
