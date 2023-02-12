@@ -6,14 +6,14 @@ public:
         int passengers = 0;
         
         for(int& child: adj[node]){
-            if(child != par){
-                
-                int p = dfs(child, node, adj, seats);
-                
-                passengers += p;
-                
-                res += (int)ceil(p*1.0/seats);
-            }
+            if(child == par)
+                continue;
+            
+            int p = dfs(child, node, adj, seats);
+            
+            passengers += p;
+            
+            res += (int)ceil(p * 1.0 / seats);
         }
         
         return passengers + 1;
