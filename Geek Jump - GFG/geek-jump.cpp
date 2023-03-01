@@ -21,8 +21,18 @@ class Solution {
     }
     int minimumEnergy(vector<int>& height, int n) {
        
-       vector<int> dp(n, -1);
-       return f(n-1, height, dp);
+       vector<int> dp(n, 0);
+       
+       for(int i=1; i<n; i++){
+           
+           int one_step = dp[i-1] + abs(height[i] - height[i-1]);
+           int two_step = 1e8;
+           if(i > 1) two_step = dp[i-2] + abs(height[i] - height[i-2]);
+           
+           dp[i] = min(one_step, two_step);
+       }
+       
+       return dp[n-1];
     }
 };
 
