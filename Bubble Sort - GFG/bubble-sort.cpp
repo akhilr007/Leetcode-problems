@@ -24,21 +24,17 @@ class Solution
     //Function to sort the array using bubble sort algorithm.
     void bubbleSort(int arr[], int n)
     {
-        // pushes the max element to the back of an arr
         
-        for(int i=n-1; i>=0; i--){
+        // greater element ko arr ke last me daal deta hai
+        
+        for(int i=0; i<=n-1; i++){
             
-            int didSwap = 0;
-            for(int j=0; j<=i-1; j++){
+            for(int j=0; j<n-1-i; j++){
                 
                 if(arr[j] > arr[j+1]){
                     swap(arr[j], arr[j+1]);
-                    didSwap = 1;
                 }
             }
-            
-            if(didSwap == 0)
-                break;
         }
     }
 };
