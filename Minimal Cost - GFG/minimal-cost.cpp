@@ -29,8 +29,27 @@ class Solution {
     }
     int minimizeCost(vector<int>& height, int n, int k) {
         
-        vector<int> dp(n, -1);
-        return f(n-1, height, k, dp);
+        vector<int> dp(n, 0);
+        
+        for(int i=1; i<n; i++){
+            
+            int res = 1e8;
+            
+            for(int j=1; j<=k; j++){
+                
+                
+                if(i-j >= 0){
+                    
+                    int jump = abs(height[i] - height[i-j]) + dp[i-j];
+                    res = min(res, jump);
+                    
+                }
+            }
+            
+            dp[i] = res;
+        }
+        
+        return dp[n-1];
     }
 };
 
