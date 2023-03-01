@@ -35,7 +35,7 @@ class Solution
             dp[i] = max(notPick, pick);
         }
         
-        return max(dp[n-2], dp[n-1]);
+        return dp[n-1];
         
     }
 };
