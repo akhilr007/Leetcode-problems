@@ -13,23 +13,21 @@ void swap(int *xp, int *yp)
 class Solution
 {
     public:
-     
     void selectionSort(int arr[], int n)
     {
-       //code here
+       // min no ko select karte ho aur usko first index pe dalte ho
        for(int i=0; i<=n-1; i++){
            
-           int min_index = i;
+           int minIndex = i;
            
-           for(int j=i; j<=n-1; j++){
+           for(int j=i; j<n; j++){
                
-               if(arr[j] < arr[min_index])
-               {
-                   min_index = j;
+               if(arr[j] < arr[minIndex]){
+                   minIndex = j;
                }
            }
            
-           swap(arr[min_index], arr[i]);
+           swap(arr[i], arr[minIndex]);
        }
     }
 };
