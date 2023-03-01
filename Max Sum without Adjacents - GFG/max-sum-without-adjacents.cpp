@@ -23,8 +23,21 @@ public:
 	}
 	int findMaxSum(int *arr, int n) {
 	    
-	    vector<int> dp(n, -1);
-	    return f(n-1, arr, dp);
+	    vector<int> dp(n, 0);
+	   // return f(n-1, arr, dp);
+	   
+	   dp[0] = arr[0];
+	   
+	   for(int i=1; i<n; i++){
+	       
+	       int not_take =  0 + dp[i-1];
+	       int take = arr[i];
+	       if(i>1) take += dp[i-2];
+	       
+	       dp[i] = max(not_take, take);
+	   }
+	   
+	   return dp[n-1];
 	}
 };
 
