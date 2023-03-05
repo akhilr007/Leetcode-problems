@@ -2,47 +2,55 @@ class Solution {
 public:
     int minJumps(vector<int>& arr) {
         
-        unordered_map<int, vector<int>> m;
-        for(int i=0; i<arr.size(); i++){
-            m[arr[i]].push_back(i);
+        int n = arr.size();
+        
+        unordered_map<int, vector<int>> mp;
+        for(int i=0; i<n; i++){
+            mp[arr[i]].push_back(i);
         }
         
-        int n=arr.size();
-        vector<bool> visit(n, false);
+        vector<bool> visited(n, false);
+        
         queue<int> q;
         q.push(0);
+        visited[0] = true;
         
-        int level=0;
-        
+        int steps = 0;
         while(!q.empty()){
+            
             int size = q.size();
-            for(int i=0; i<size; i++){
+            while(size-- > 0){
                 
-                int head = q.front(); q.pop();
+                int cur = q.front();
+                q.pop();
                 
-                if(head == n-1) return level;
+                if(cur == n-1)
+                    return steps;
                 
-                if(head < 0 || head > n || visit[head]) continue;
+                int left = cur - 1;
+                int right = cur + 1;
                 
-                if(head-1 > 0 && !visit[head]){
-                    q.push(head-1);
+                if(left >= 0 && !visited[left]){
+                    q.push(left);
+                    visited[left] = true;
                 }
                 
-                if(head+1 < n && !visit[head]){
-                    q.push(head+1);
+                if(right < n && !visited[right]){
+                    q.push(right);
+                    visited[right] = true;
                 }
                 
-                if(m.find(arr[head]) != m.end()){
-                    for(int idx : m[arr[head]]){
-                        if(idx > 0 && idx < n && !visit[idx]){
-                            q.push(idx);
-                        }
+                for(int &idx : mp[arr[cur]]){
+                    if(!visited[idx]){
+                        q.push(idx);
+                        visited[idx] = true;
                     }
-                    m.erase(arr[head]);
                 }
-                visit[head] = true;
+                
+                mp.erase(arr[cur]);
             }
-            level++;
+            
+            steps++;
         }
         
         return -1;
