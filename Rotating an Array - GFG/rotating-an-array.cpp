@@ -11,20 +11,25 @@ class Solution{
 public:
     void leftRotate(int arr[], int n, int d) {
         
-        d = d % n;
+        // d = d % n;
         
-        int temp[d];
-        for(int i=0; i<d; i++){
-            temp[i] = arr[i];
-        }
+        // int temp[d];
+        // for(int i=0; i<d; i++){
+        //     temp[i] = arr[i];
+        // }
         
-        for(int i=d; i<n; i++){
-            arr[i-d] = arr[i];
-        }
+        // for(int i=d; i<n; i++){
+        //     arr[i-d] = arr[i];
+        // }
         
-        for(int i=n-d; i<n; i++){
-            arr[i] = temp[i-(n-d)];
-        }
+        // for(int i=n-d; i<n; i++){
+        //     arr[i] = temp[i-(n-d)];
+        // }
+        
+        reverse(arr, arr+d); // reverse first d
+        reverse(arr+d, arr+n);
+        
+        reverse(arr, arr+n);
     }
 };
 
