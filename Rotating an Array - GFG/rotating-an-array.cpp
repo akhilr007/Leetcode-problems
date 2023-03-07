@@ -12,6 +12,7 @@ public:
     void leftRotate(int arr[], int n, int d) {
         
         // d = d % n;
+        d = d % n;
         
         // int temp[d];
         // for(int i=0; i<d; i++){
