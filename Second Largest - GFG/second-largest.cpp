@@ -9,25 +9,24 @@ class Solution{
 public:	
 	// Function returns the second
 	// largest elements
-	int print2largest(int arr[], int n) {
+	int print2largest(int nums[], int n) {
 	    // code here
 	    
-	    int maximumElement = arr[0];
-	    int maximumElement2 = -1;
-	    
-	    for(int i=0; i<n; i++){
-	        
-	        if(arr[i] > maximumElement){
-	            maximumElement2 = maximumElement;
-	            maximumElement = arr[i];
-	        }
-	        else if(arr[i] > maximumElement2 and arr[i] < maximumElement){
-	            maximumElement2 = arr[i];
-	        }
-	        
-	    }
-	    
-	    return maximumElement2;
+	    int largest = nums[0];
+        int secondLargest = -1;
+
+        for(int i=0; i<n; i++){
+
+            if(nums[i] > largest){
+                secondLargest = largest;
+                largest = nums[i];
+            }
+            else if(nums[i] > secondLargest && nums[i] != largest){
+                secondLargest = nums[i];
+            }
+        }
+
+        return secondLargest;
 	}
 };
 
