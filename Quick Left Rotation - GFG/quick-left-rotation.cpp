@@ -7,14 +7,23 @@ class Solution{
 	
 	
 	public:
-	void leftRotate(int arr[], int k, int n) 
+	void leftRotate(int nums[], int k, int n) 
 	{ 
-	   // Your code goes here
-	   k = k % n;
-	   
-	   reverse(arr, arr+k);
-	   reverse(arr+k, arr+n);
-	   reverse(arr, arr+n);
+	   // Your code goes her
+        k = k % n;
+        
+        int temp[k];
+        for(int i=0; i<k; i++){
+            temp[i] = nums[i];
+        }
+
+        for(int i=k; i<n; i++){
+            nums[i-k] = nums[i];
+        }
+
+        for(int i=n-k; i<n; i++){
+            nums[i] = temp[i-(n-k)];
+        }
 	} 
 		 
 
