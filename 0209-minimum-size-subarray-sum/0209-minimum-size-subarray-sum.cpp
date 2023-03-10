@@ -1,43 +1,53 @@
 class Solution {
 public:
+    
+    bool maxSubarrayOfSizeK(vector<int>& nums, int k, int target){
+        
+        int sum=0;
+        int j;
+        for(j=0; j<k; j++){
+            sum += nums[j];
+        }
+        
+        if(sum >= target)
+            return true;
+        
+        int i=0;
+        while(j<nums.size()){
+            
+            sum += nums[j] - nums[i];
+            j++;
+            i++;
+            
+            if(sum >= target)
+                return true;
+        }
+        
+        return false;
+    }
+    
     int minSubArrayLen(int target, vector<int>& nums) {
         
         int n = nums.size();
         
-        int ans = INT_MAX;
+        int low = 1;
+        int high = n;
         
-        int i=0;
-        int j=0;
+        int ans = n+1;
         
-        int sum = 0;
-        
-        while(j < n){
+        while(low <= high){
             
-            sum += nums[j];
+            int mid = (low + high) / 2;
             
-            if(sum < target)
-                j++;
-            
-            if(sum >= target){
-                
-                int len = j-i+1;
-                ans = min(ans, len);
-
-                while(sum >= target){
-                    
-                    sum -= nums[i];
-                    i++;
-                    
-                    if(sum >= target){
-                        int len = j-i+1;
-                        ans = min(ans, len);
-                    }
-                    
-                }
-                j++;
+            if(maxSubarrayOfSizeK(nums, mid, target)){
+                ans = mid;
+                high = mid - 1;
+            }
+            else{
+                low = mid + 1;
             }
         }
         
-        return ans == INT_MAX ? 0 : ans;
+        return ans == n+1 ? 0 : ans;
     }
 };
