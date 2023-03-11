@@ -1,6 +1,6 @@
 class Solution {
 public:
-    // time complexity -> O(n logn) space complexity -> O(1)
+    // time complexity -> O(n log(sum - max + 1)) space complexity -> O(1)
     /*
     
     agar k = nums.size()
