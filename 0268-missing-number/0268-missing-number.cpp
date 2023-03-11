@@ -56,6 +56,7 @@ public:
         return totalSum - sumOfNums;
     }
     
+    // time complexity -> O(n) space complexity -> O(1)
     int missingNumber(vector<int>& nums) {
         
         int n = nums.size();
