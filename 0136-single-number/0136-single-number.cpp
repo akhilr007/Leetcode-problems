@@ -42,6 +42,8 @@ public:
         
     }
     
+    // optimal
+    // time complexity -> O(n) space complexity -> O(1)
     int singleNumber(vector<int>& nums) {
         
         int n = nums.size();
