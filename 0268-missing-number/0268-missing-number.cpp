@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // time complexity -> O(n2) space complexity -> O(1)
     int bruteForce(vector<int>& nums){
         
         int n = nums.size();
@@ -21,6 +22,7 @@ public:
         return -1;
     }
     
+    // time complexity -> O(n) space complxity -> O(n)
     int better(vector<int>& nums){
         
         int n = nums.size();
@@ -38,8 +40,22 @@ public:
         return -1;
     }
     
+    int optimal1(vector<int>& nums){
+        
+        int n = nums.size();
+        
+        int totalSum = 0;
+        totalSum = (n * (n+1))/2;
+        
+        int sumOfNums = 0;
+        for(auto &x : nums)
+            sumOfNums += x;
+        
+        return totalSum - sumOfNums;
+    }
+    
     int missingNumber(vector<int>& nums) {
         
-        return better(nums);
+        return optimal1(nums);
     }
 };
