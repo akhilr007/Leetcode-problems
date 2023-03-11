@@ -8,7 +8,7 @@ public:
     
     high = sum of all elements hoga
     */
-    bool isEligible(vector<int>& nums, int max_sum, int k){
+    int numberOfSubarraysByKeepingLimit(vector<int>& nums, int max_sum, int k){
         
         int cnt=1;
         int sum=0;
@@ -23,7 +23,7 @@ public:
             }
         }
         
-        return cnt <= k;
+        return cnt;
     }
     
     int splitArray(vector<int>& nums, int k) {
@@ -39,7 +39,7 @@ public:
             
             int mid = (low + high) /2 ;
             
-            if(isEligible(nums, mid, k)){
+            if(numberOfSubarraysByKeepingLimit(nums, mid, k) <= k){
                 ans = mid;
                 high = mid - 1;
             }
