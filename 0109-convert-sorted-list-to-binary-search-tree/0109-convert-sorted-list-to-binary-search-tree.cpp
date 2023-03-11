@@ -38,16 +38,29 @@ public:
     
     TreeNode* sortedListToBST(ListNode* head) {
         
-        if(head == NULL)
+        if(!head)
             return NULL;
         
-        ListNode* cur = head;
-        vector<int> v;
-        while(cur != NULL){
-            v.push_back(cur->val);
-            cur = cur->next;
+        if(!head->next)
+            return new TreeNode(head->val);
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* slow_prev = NULL;
+        
+        while(fast != NULL and fast->next != NULL){
+            
+            slow_prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
         }
         
-        return createTree(v, 0, v.size()-1);
+        TreeNode* root = new TreeNode(slow->val);
+        slow_prev->next = NULL;
+        
+        root->left = sortedListToBST(head);
+        root->right = sortedListToBST(slow->next);
+        
+        return root;
     }
 };
