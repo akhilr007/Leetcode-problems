@@ -1,5 +1,13 @@
 class Solution {
 public:
+    // time complexity -> O(n logn) space complexity -> O(1)
+    /*
+    
+    agar k = nums.size()
+    to largest sum of any subarray max_element of individual element hoga
+    
+    high = sum of all elements hoga
+    */
     bool isEligible(vector<int>& nums, int max_sum, int k){
         
         int cnt=1;
