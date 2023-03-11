@@ -40,6 +40,8 @@ public:
         return -1;
     }
     
+    // time complexity -> O(n) space complexity -> O(1)
+    // can be problematic if n is 10^5 we have to store it in long long
     int optimal1(vector<int>& nums){
         
         int n = nums.size();
@@ -56,6 +58,17 @@ public:
     
     int missingNumber(vector<int>& nums) {
         
-        return optimal1(nums);
+        int n = nums.size();
+        
+        int xor1=0;
+        int xor2=0;
+        
+        for(int i=0; i<n; i++){
+            
+            xor1 = xor1 ^ (i+1);
+            xor2 = xor2 ^ nums[i];
+        }
+        
+        return xor1 ^ xor2;
     }
 };
