@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // time compleixty -> O(n^2) space complexity -> O(1)
     int bruteForce(vector<int>& nums){
         
         int n = nums.size();
@@ -22,6 +23,7 @@ public:
         return -1;
     }
     
+    // time complexity -> O(n) space complexity -> O(n)
     int better(vector<int>& nums){
         
         int n = nums.size();
@@ -41,6 +43,14 @@ public:
     }
     
     int singleNumber(vector<int>& nums) {
-        return better(nums);
+        
+        int n = nums.size();
+        
+        int uniqueNumber = 0;
+        for(auto &x : nums){
+            uniqueNumber = uniqueNumber ^ x;
+        }
+        
+        return uniqueNumber;
     }
 };
