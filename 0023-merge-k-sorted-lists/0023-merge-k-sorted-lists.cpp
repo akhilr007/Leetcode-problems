@@ -10,6 +10,7 @@
  */
 class Solution {
 public:
+    // time complexity -> O(N * logK) -> N -> (size of l1 and l2)
     ListNode* merge(ListNode* l1, ListNode* l2){
         
         if(l1 == NULL || l2 == NULL){
