@@ -1,45 +1,44 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
 
- // } Driver Code Ends
-
+// } Driver Code Ends
 class Solution{
     public:
     int lenOfLongSubarr(int A[],  int N, int K) 
     { 
-        unordered_map<int, int> mp;
+        int maxlen=0;
         
-        int sum=0;
-        int maxLen=0;
+        map<long long, int> preSumMap;
+        long long sum = 0;
         
         for(int i=0; i<N; i++){
+            
             
             sum += A[i];
             
             if(sum == K){
-                maxLen = i+1;
+                maxlen = max(maxlen, i+1);
             }
             
-            if(mp.find(sum) == mp.end()){
-                mp[sum] = i;
+            int rem = sum - K;
+            if(preSumMap.find(rem) != preSumMap.end()){
+                maxlen = max(maxlen, i - preSumMap[rem]);
             }
             
-            if(mp.find(sum-K) != mp.end()){
-                
-                if(maxLen < i- mp[sum-K]){
-                    maxLen = i - mp[sum-K];
-                }
-            }
+            // works in 
+            if(preSumMap.find(sum) == preSumMap.end())
+                preSumMap[sum] = i;
         }
         
-        return maxLen;
+        
+        return maxlen;
     } 
 
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 
 int main() {
 	//code
@@ -59,4 +58,5 @@ int main() {
 	}
 	
 	return 0;
-}  // } Driver Code Ends
+}
+// } Driver Code Ends
