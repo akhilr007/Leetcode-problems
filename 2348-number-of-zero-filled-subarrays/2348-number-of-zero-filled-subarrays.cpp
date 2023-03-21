@@ -4,22 +4,15 @@ public:
         
         int n = nums.size();
         
-        long long cnt=0;
-        long long freq=0;
+        long long cnt = 0;
         
-        for(int i=0; i<n; i++){
+        for(int i=0, j=0; i<n; i++){
             
-            if(nums[i] == 0){
-                freq++;
+            if(nums[i] != 0){
+                j = i+1;
             }
-            else{
-                cnt += (freq * (freq + 1)) / 2;
-                freq = 0;
-            }
-        }
-        
-        if(freq){
-            cnt += (freq * (freq + 1)) / 2;
+            
+            cnt += i-j+1;
         }
         
         return cnt;
