@@ -1,34 +1,38 @@
-class UnionFind{
+class UnionFind{   
 public:
     vector<int> size, parent;
     UnionFind(int n){
         size.resize(n, 1);
         parent.resize(n);
-        for(int i=0; i<n; i++) parent[i] = i;
-    }
-    
-    int findUltimateParent(int node){
-        if(node == parent[node]){
-            return node;
+        
+        for(int i=0; i<n; i++){
+            parent[i] = i;
         }
-        
-        return parent[node] = findUltimateParent(parent[node]);
     }
     
-    void unionBySize(int u, int v){
+    int findUltimateParent(int x){
         
-        int parentU = findUltimateParent(u);
-        int parentV = findUltimateParent(v);
+        if(x == parent[x])
+            return x;
         
-        if(parentU == parentV) return;
+        return parent[x] = findUltimateParent(parent[x]);
+    }
+    
+    void unionBySize(int x, int y){
         
-        if(size[parentU] < size[parentV]){
-            parent[parentU] = parentV;
-            size[parentV] += size[parentU];
+        int parentX = findUltimateParent(x);
+        int parentY = findUltimateParent(y);
+        
+        if(parentX == parentY)
+            return;
+        
+        if(size[parentX] < size[parentY]){
+            parent[parentX] = parentY;
+            size[parentY] += size[parentX];
         }
         else{
-            parent[parentV] = parentU;
-            size[parentU] += size[parentV];
+            parent[parentY] = parentX;
+            size[parentX] += size[parentY];
         }
     }
 };
@@ -36,11 +40,12 @@ public:
 class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
-     
+        
         UnionFind uf(n);
         
-        int countExtraEdges = 0;
-        for(auto it: connections){
+        int countExtraEdges=0;
+        for(auto &it : connections){
+            
             int u = it[0];
             int v = it[1];
             
@@ -54,13 +59,13 @@ public:
         
         int numberOfComponents=0;
         for(int i=0; i<n; i++){
-            if(uf.parent[i] == i) numberOfComponents++;
+            if(uf.parent[i] == i)
+                numberOfComponents++;
         }
         
-        int edgesRequiredToConnectEveryComponent = numberOfComponents-1;
-        if(countExtraEdges >= edgesRequiredToConnectEveryComponent){
-            return edgesRequiredToConnectEveryComponent;
-        }
+        int edgesRequiredToMakeConnection = numberOfComponents - 1;
+        if(countExtraEdges >= edgesRequiredToMakeConnection)
+            return edgesRequiredToMakeConnection;
         
         return -1;
     }
