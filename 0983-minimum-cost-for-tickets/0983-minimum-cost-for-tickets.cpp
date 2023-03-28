@@ -25,7 +25,8 @@ public:
     int tabulation(vector<int>& days, vector<int>& costs){
         
         int n = days.size();
-        vector<int> dp(n+1, 0);
+        vector<int> dp(n+1, 1e9);
+        dp[n] = 0;
         
         for(int index=n-1; index>=0; index--){
             
