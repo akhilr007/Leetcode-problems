@@ -22,10 +22,32 @@ public:
         return dp[index] = min(day1Pass, min(day7Pass, day30Pass));
     }
     
-    int mincostTickets(vector<int>& days, vector<int>& costs) {
+    int tabulation(vector<int>& days, vector<int>& costs){
         
         int n = days.size();
-        vector<int> dp(n+1, -1);
-        return solve(0, days, costs, n, dp);
+        vector<int> dp(n+1, 0);
+        
+        for(int index=n-1; index>=0; index--){
+            
+            int day1Pass = costs[0] + dp[index+1];
+        
+            int i;
+            for(i=index; i<n && days[i] < days[index] + 7; i++);
+
+            int day7Pass = costs[1] + dp[i];
+
+            for(i=index; i<n && days[i] < days[index] + 30; i++);
+
+            int day30Pass = costs[2] + dp[i];
+
+            dp[index] = min(day1Pass, min(day7Pass, day30Pass));
+        }
+        
+        return dp[0];
+    }
+    
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        
+        return tabulation(days, costs);
     }
 };
