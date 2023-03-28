@@ -49,6 +49,26 @@ public:
     
     int mincostTickets(vector<int>& days, vector<int>& costs) {
         
-        return tabulation(days, costs);
+        int ans = 0;
+        queue<pair<int, int>> monthly;
+        queue<pair<int, int>> weekly;
+        
+        for(int day: days){
+            
+            while(!monthly.empty() && monthly.front().first + 30 <= day){
+                monthly.pop();
+            }
+            
+            while(!weekly.empty() && weekly.front().first + 7 <= day){
+                weekly.pop();
+            }
+            
+            monthly.push({day, ans + costs[2]});
+            weekly.push({day, ans + costs[1]});
+            
+            ans = min({ans+costs[0], monthly.front().second, weekly.front().second});
+        }
+        
+        return ans;
     }
 };
