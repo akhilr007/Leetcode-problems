@@ -1,33 +1,23 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    // time complexity -> O(n)
-    // space complexity -> O(height of tree) for recursion stack
-    void preorderRecursive(TreeNode* root, vector<int>& ans){
+    void preorder(TreeNode* root, vector<int>& res){
         
-        if(root == NULL) return;
+        if(root == NULL)
+            return;
         
-        ans.push_back(root->val);
-        preorderRecursive(root->left, ans);
-        preorderRecursive(root->right, ans);
+        res.push_back(root->val);
+        preorder(root->left, res);
+        preorder(root->right, res);
     }
     
-    vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> preorderIterative(TreeNode* root){
         
-        vector<int> preorder;
-        if(root == NULL) return preorder;
+        vector<int> res;
+        if(root == NULL)
+            return res;
         
-        stack<TreeNode*> st; // stack imitates recursion
+        stack<TreeNode*> st;
+        
         st.push(root);
         
         while(!st.empty()){
@@ -35,13 +25,19 @@ public:
             auto node = st.top();
             st.pop();
             
-            preorder.push_back(node->val);
+            res.push_back(node->val);
             
             if(node->right)
                 st.push(node->right);
             if(node->left)
                 st.push(node->left);
         }
-        return preorder;
+        return res;
+        
+    }
+    
+    vector<int> preorderTraversal(TreeNode* root) {
+        
+        return preorderIterative(root);
     }
 };
