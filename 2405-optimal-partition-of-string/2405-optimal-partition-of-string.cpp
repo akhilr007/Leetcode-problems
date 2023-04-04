@@ -4,7 +4,7 @@ public:
         
         int n = s.length();
         
-        set<char> st;
+        unordered_set<char> st;
         int i=0;
         
         int cnt=0;
