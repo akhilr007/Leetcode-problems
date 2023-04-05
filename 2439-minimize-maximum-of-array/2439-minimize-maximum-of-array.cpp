@@ -1,17 +1,44 @@
 class Solution {
 public:
-    int minimizeArrayValue(vector<int>& nums) {
-     
-        int n = nums.size();
-        long long total = nums[0];
-        int res = nums[0];
+    bool isValid(vector<int>& nums, int expected_max){
         
-        for(int i=1; i<n; i++){
+        vector<long long> arr(begin(nums), end(nums));
+        int n = nums.size();
+        
+        for(int i=0; i<n-1; i++){
             
-            total += nums[i];
-            double avgSum = ceil(total * 1.0 / (i+1));
-            res = max(res, (int)avgSum);
+            if(arr[i] > expected_max){
+                return false;
+            }
+            
+            long long buffer = expected_max - arr[i]; // itna tak bad sakta hai current element
+            arr[i+1] = arr[i+1] - buffer;
         }
-        return res;
+        
+        return arr[n-1] <= expected_max;
+    }
+    
+    int minimizeArrayValue(vector<int>& nums) {
+        
+        int n = nums.size();
+        
+        int maxL = nums[0];
+        int maxR = *max_element(begin(nums), end(nums));
+        
+        int result;
+        while(maxL <= maxR){
+            
+            int mid_max = maxL + (maxR - maxL) / 2;
+            
+            if(isValid(nums, mid_max)){
+                result = mid_max;
+                maxR = mid_max - 1;
+            }
+            else{
+                maxL = mid_max + 1;
+            }
+        }
+        
+        return result;
     }
 };
