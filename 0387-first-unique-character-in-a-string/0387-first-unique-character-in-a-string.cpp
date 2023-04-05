@@ -2,13 +2,13 @@ class Solution {
 public:
     int firstUniqChar(string str) {
         
-        unordered_map<char, int> mpp;
+        int freqMap[26] = {0};
         for(auto &s: str){
-            mpp[s]++;
+            freqMap[s-'a']++;
         }
         
         for(int i=0; i<str.length(); i++){
-            if(mpp[str[i]] == 1){
+            if(freqMap[str[i]-'a'] == 1){
                 return i;
             }
         }
