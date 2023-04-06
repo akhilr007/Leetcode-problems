@@ -3,7 +3,7 @@ public:
     int height(TreeNode* root){
         
         if(root == NULL)
-            return -1;
+            return 0;
         
         int lh = height(root->left);
         int rh = height(root->right);
@@ -19,7 +19,7 @@ public:
         int diameterLeft = diameterOfBinaryTree(root->left);
         int diameterRight = diameterOfBinaryTree(root->right);
         
-        int curNodeDiameter = height(root->left) + height(root->right) + 2; // 2 for edges
+        int curNodeDiameter = height(root->left) + height(root->right) ; // 2 for edges
         
         return max({diameterLeft, diameterRight, curNodeDiameter});
             
