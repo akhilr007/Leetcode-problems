@@ -1,29 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int solve(TreeNode* root, int& maxSum){
-        if(root == NULL) return 0;
+    int dfs(TreeNode* root, int &max_sum){
         
-        int left = solve(root->left, maxSum);
-        int right = solve(root->right, maxSum);
+        if(root == NULL)
+            return 0;
         
-        // neeche hi answer mil gaya
-        int subtreePath = root->val + left + right;
+        int left = dfs(root->left, max_sum);
+        int right = dfs(root->right, max_sum);
         
-        // koi ek path left ya right mil gaya
-        int singlePath = max(left, right) + root->val;
+        // mujhe neeche hi answer mil gaya [left path, root, right path]
+        int subtree_with_left_and_right = left + right + root->val;
         
-        // left right dono kharab only root acha
-        int rootPath = root->val;
+        // right ya left me se koi ek choose karo kyuki ek me se kisi me -ve val h
+        int subtree_with_left_or_right = root->val + max(left, right);
         
-        maxSum = max({subtreePath, singlePath, rootPath, maxSum});
+        // right and left dono hi -ve h to sirf root pick karo
+        int only_root = root->val;
         
-        return max(singlePath, rootPath);
+        max_sum = max({max_sum, subtree_with_left_and_right, subtree_with_left_or_right, only_root});
+        
+        // subtree path ko return nai kar sakte kyuki wo ek complete path h aur hum turn ho gaye 
+        return max(only_root, subtree_with_left_or_right);
+        
     }
-    
     int maxPathSum(TreeNode* root) {
         
-        int maxSum=INT_MIN;
-        solve(root, maxSum);
-        return maxSum;
+        int max_sum = INT_MIN;
+        dfs(root, max_sum);
+        return max_sum;
     }
 };
