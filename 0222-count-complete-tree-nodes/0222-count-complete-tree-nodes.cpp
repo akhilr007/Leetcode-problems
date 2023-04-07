@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    
+    // time complexity -> O((log n)^2)
     int countNodes(TreeNode* root) {
         
         if(root == NULL)
