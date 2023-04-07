@@ -1,69 +1,52 @@
-class Solution{
+class Solution {
 public:
-    void travelInBoundary(vector<vector<int>>& grid, vector<vector<int>>& vis, queue<pair<int, int>>& q, int N, int M){
-
-        for(int i=0; i<N; i++){
-            for(int j=0; j<M; j++){
-
-                if(i == 0 || j == 0 || i == N-1 || j == M-1){
-                    if(grid[i][j] == 1){
-                        q.push({i, j});
-                        vis[i][j] = 1;
-                    }
-                }
+    void dfs(int r, int c, vector<vector<int>>& grid, vector<vector<int>> &visited){
+        
+        if(r<0 || r>=grid.size() || c<0 || c>=grid[0].size() || grid[r][c] == 0 || visited[r][c] == 1)
+            return;
+        
+        visited[r][c] = 1;
+        
+        dfs(r-1, c, grid, visited);
+        dfs(r, c-1, grid, visited);
+        dfs(r+1, c, grid, visited);
+        dfs(r, c+1, grid, visited);
+    }
+    
+    int numEnclaves(vector<vector<int>>& grid) {
+        
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        vector<vector<int>> visited(n, vector<int> (m, 0));
+        // dfs on boundary
+        // column boundary
+        for(int row=0; row<n; row++){
+            if(grid[row][0] == 1 and visited[row][0] == 0)
+                dfs(row, 0, grid, visited);
+            
+            if(grid[row][m-1] == 1 and visited[row][m-1] == 0)
+                dfs(row, m-1, grid, visited);
+        }
+        
+        // row boundary
+        for(int col=0; col<m; col++){
+            if(grid[0][col] == 1 and visited[0][col] == 0)
+                dfs(0, col, grid, visited);
+            
+            if(grid[n-1][col] == 1 and visited[n-1][col] == 0)
+                dfs(n-1, col, grid, visited);
+        }
+        
+        int count = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                
+                if(grid[i][j] == 1 and visited[i][j] == 0)
+                    count++;
             }
         }
-    }
-
-    void bfs(vector<vector<int>>& grid, vector<vector<int>>& vis, queue<pair<int, int>>& q, int N, int M, vector<vector<int>>& delta){
-
-        while(!q.empty()){
-
-            int row = q.front().first;
-            int col = q.front().second;
-            q.pop();
-
-            for(int i=0; i<delta.size(); i++){
-
-                int nrow = row + delta[i][0];
-                int ncol = col + delta[i][1];
-
-                if(nrow >= 0 && nrow < N && ncol >= 0 && ncol < M && grid[nrow][ncol] == 1 && vis[nrow][ncol] == 0){
-                    q.push({nrow, ncol});
-                    vis[nrow][ncol] = 1;
-                }
-            }
-        }
-    }
-
-    int findTheEnclaves(vector<vector<int>>& grid, vector<vector<int>>& vis, int N, int M){
-
-        int cnt=0;
-        for(int i=0; i<N; i++){
-            for(int j=0; j<M; j++){
-
-                if(grid[i][j] == 1 && vis[i][j] == 0) cnt++;
-            }
-        }
-
-        return cnt;
-    }
-
-    int numEnclaves(vector<vector<int>>& grid){
-
-        int N = grid.size();
-        int M = grid[0].size();
-
-        vector<vector<int>> vis(N, vector<int>(M, 0));
-        queue<pair<int, int>> q;
-
-        // travel in boundary - rows and cols to get 1 
-        travelInBoundary(grid, vis, q, N, M);
-
-        vector<vector<int>> delta = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-        bfs(grid, vis, q, N, M, delta);
-
-        int numberOfEnclaves = findTheEnclaves(grid, vis, N, M);
-        return numberOfEnclaves;
+        
+        return count;
     }
 };
