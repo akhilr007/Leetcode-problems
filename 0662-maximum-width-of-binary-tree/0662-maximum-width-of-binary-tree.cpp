@@ -18,7 +18,7 @@ public:
             
             for(int i=0; i<size; i++){
                 
-                long cur_id = q.front().second - mmin;
+                long cur_id = q.front().second;
                 auto node = q.front().first;
                 q.pop();
                 
