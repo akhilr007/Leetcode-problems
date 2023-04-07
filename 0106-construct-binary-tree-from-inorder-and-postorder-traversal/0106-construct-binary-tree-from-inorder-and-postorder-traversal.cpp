@@ -1,43 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    int findIndex(vector<int>& inorder, int element){
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
         
-        for(int i=0; i<inorder.size(); i++){
-            if(inorder[i] == element)
-                return i;
+        map<int, int> mp;
+        int n = inorder.size();
+        
+        for(int i=0; i<n; i++){
+            mp[inorder[i]] = i;
         }
         
-        return -1;
-    }
-    
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder, int& index, int start, int end, unordered_map<int, int>& mpp){
-        
-        if(index<0 || start > end)
-            return NULL;
-        
-        int element = postorder[index--];
-        int position = mpp[element];
-        
-        TreeNode* root = new TreeNode(element);
-        
-        root->right = buildTree(inorder, postorder, index, position+1, end, mpp);
-        root->left = buildTree(inorder, postorder, index, start, position-1, mpp);
+        TreeNode* root = buildTree(inorder, 0, n-1, postorder, 0, n-1, mp);
         
         return root;
     }
     
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+    TreeNode* buildTree(vector<int>& inorder, int is, int ie, vector<int>& postorder, int ps, int pe, map<int, int>& mp){
         
-        int n = postorder.size();
+        if(is > ie or ps > pe)
+            return NULL;
         
-        int index = n-1;
+        TreeNode* root = new TreeNode(postorder[pe]);
+        int inRoot = mp[root->val];
+        int numsLeft = inRoot - is;
         
-        unordered_map<int, int> mpp;
-        for(int i=0; i<n; i++){
-            mpp[inorder[i]] = i;
-        }
+        root->left = buildTree(inorder, is, inRoot-1, postorder, ps, ps+numsLeft-1, mp);
+        root->right = buildTree(inorder, inRoot+1, ie, postorder, ps+numsLeft, pe-1, mp);
         
-        TreeNode* root = buildTree(inorder, postorder, index, 0, n-1, mpp);
         return root;
     }
 };
