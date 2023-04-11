@@ -3,26 +3,24 @@ public:
     string removeStars(string s) {
         
         int n = s.length();
-        stack<char> st;
+        vector<char> temp(n);
         
+        int j=0;
         for(int i=0; i<n; i++){
-            
-            char ch = s[i];
-            if(ch != '*')
-                st.push(ch);
+            if(s[i] == '*'){
+                j--;
+            }
             else{
-                
-                if(!st.empty()) st.pop();
+                temp[j] = s[i];
+                j++;
             }
         }
         
         string res="";
-        while(!st.empty()){
-            res += st.top();
-            st.pop();
+        for(int i=0; i<j; i++){
+            res.push_back(temp[i]);
         }
         
-        reverse(begin(res), end(res));
         return res;
     }
 };
