@@ -25,11 +25,33 @@ public:
         
     }
     
-    int maxValueOfCoins(vector<vector<int>>& piles, int k) {
+    int maxValueOfCoins(vector<vector<int>>& piles, int K) {
         
         int n = piles.size();
         
-        vector<vector<int>> dp(n, vector<int> (k+1, -1));
-        return solve(0, k, piles, dp);
+        vector<vector<int>> dp(n+1, vector<int> (K+1, 0));
+        
+        for(int i=1; i<=n; i++)
+        {
+            for(int k=1; k<=K; k++)
+            {
+                dp[i][k] = dp[i-1][k];
+                
+                int sum=0;
+                int picked = 1;
+                for(int val: piles[i-1])
+                {
+                    if(k - picked < 0)
+                        break;
+                    
+                    sum += val;
+                    
+                    dp[i][k] = max(dp[i][k], dp[i-1][k-picked] + sum);
+                    picked++;
+                }
+            }
+        }
+        
+        return dp[n][K];
     }
 };
