@@ -22,19 +22,20 @@ public:
     
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         
-        vector<TreeNode*> rootToNodeP, rootToNodeQ;
+        if(root == NULL)
+            return NULL;
 
-        getPath(root, p, rootToNodeP);
-        getPath(root, q, rootToNodeQ);
+        if(root == p || root == q)
+            return root;
 
-        int n = rootToNodeP.size() , m = rootToNodeQ.size();
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
 
-        int i;
-        for(i=0; i<n && i<m; i++){
-            if(rootToNodeP[i] != rootToNodeQ[i])
-                break;
-        }
-
-        return rootToNodeP[i-1];
+        if(left == NULL)
+            return right;
+        else if(right == NULL)
+            return left;
+        else
+            return root;
     }
 };
