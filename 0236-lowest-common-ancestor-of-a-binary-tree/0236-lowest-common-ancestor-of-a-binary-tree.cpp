@@ -31,7 +31,7 @@ public:
 
         int i;
         for(i=0; i<n && i<m; i++){
-            if(rootToNodeP[i]->val != rootToNodeQ[i]->val)
+            if(rootToNodeP[i] != rootToNodeQ[i])
                 break;
         }
 
