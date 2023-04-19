@@ -22,6 +22,7 @@ public:
     int longestZigZag(TreeNode* root) {
         
         solve(root, 0, true);
+        solve(root, 0, false);
         return maxPath;
     }
 };
