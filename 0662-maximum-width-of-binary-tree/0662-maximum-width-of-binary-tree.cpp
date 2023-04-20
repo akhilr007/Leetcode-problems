@@ -14,26 +14,24 @@ public:
             
             int size = q.size();
             int first, last;
-            
             for(int i=0; i<size; i++){
                 
+                auto node = q.front().first;
                 long current_index = q.front().second;
-                TreeNode* node = q.front().first;
-                
                 q.pop();
                 
                 if(i == 0)
                     first = current_index;
-                if(i == size - 1)
+                if(i == size-1)
                     last = current_index;
                 
                 if(node->left)
-                    q.push( {node->left, current_index * 2 + 1} );
+                    q.push( {node->left, 2 * current_index + 1 });
                 if(node->right)
-                    q.push( {node->right, current_index * 2 + 2} );
+                    q.push({node->right, 2 * current_index + 2});
             }
             
-            maxWidth = max(maxWidth, (last - first) + 1);
+            maxWidth = max(maxWidth, last - first + 1);
         }
         
         return maxWidth;
