@@ -1,16 +1,15 @@
 class Solution {
 public:
-    TreeNode* insertIntoBST(TreeNode* root, int val) {
-        
+    TreeNode* insertIntoBST(TreeNode* root, int val){
+
         if(root == NULL)
             return new TreeNode(val);
-        
+
         TreeNode* curr = root;
-        
         while(true){
-            
-            // agar val ka value bada h to right me jao
+
             if(curr->val <= val){
+                
                 if(curr->right != NULL)
                     curr = curr->right;
                 else{
@@ -27,6 +26,7 @@ public:
                 }
             }
         }
+
         return root;
     }
 };
