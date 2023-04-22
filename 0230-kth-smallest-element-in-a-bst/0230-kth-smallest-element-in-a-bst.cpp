@@ -1,28 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    void dfs(TreeNode* root, int k, int& kthElement, int &count){
+    void inorder(TreeNode* root, int& k, int& ans){
         
         if(root == NULL)
             return;
         
-        dfs(root->left, k, kthElement, count);
+        inorder(root->left, k, ans);
         
-        count += 1;
-        if(count == k){
-            kthElement = root->val;
+        k--;
+        if(k == 0)
+        {
+            ans = root->val;
             return;
         }
         
-        dfs(root->right, k, kthElement, count);
+        inorder(root->right, k, ans);
+        
         
     }
-    
     int kthSmallest(TreeNode* root, int k) {
         
-        int kthElement = 0;
-        int count = 0;
-        dfs(root, k, kthElement, count);
+        int ans=0;
+        inorder(root, k, ans);
         
-        return kthElement;
+        return ans;
     }
 };
