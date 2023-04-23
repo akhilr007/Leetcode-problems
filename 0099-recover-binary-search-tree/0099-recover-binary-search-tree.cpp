@@ -1,36 +1,39 @@
 class Solution {
+private:
+    TreeNode* first, *last, *middle, *prev;
 public:
-    void inorder(TreeNode* root, vector<int>& arr){
+    void inorder(TreeNode* root){
         
         if(root == NULL)
             return;
         
-        inorder(root->left, arr);
+        inorder(root->left);
         
-        arr.push_back(root->val);
+        if(prev != NULL && (prev->val > root->val)){
+            
+            if(first == NULL){
+                first = prev;
+                middle = root;
+            }
+            else{
+                last = root;
+            }
+        }
         
-        inorder(root->right, arr);
+        prev = root;
         
+        inorder(root->right);
     }
-    void dfs(TreeNode* root, int& index, vector<int>& arr){
-        
-        if(root == NULL)
-            return;
-        
-        dfs(root->left, index, arr);
-        
-        root->val = arr[index++];
-        
-        dfs(root->right, index, arr);
-    }
+    
     void recoverTree(TreeNode* root) {
+        first = last = middle = prev = NULL;
+        inorder(root);
         
-        vector<int> arr;
-        inorder(root, arr);
-        
-        sort(begin(arr), end(arr));
-        
-        int index = 0;
-        dfs(root, index, arr);
+        if(first && last){
+            swap(first->val, last->val);
+        }
+        else{
+            swap(first->val, middle->val);
+        }
     }
 };
