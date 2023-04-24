@@ -20,25 +20,27 @@ class Solution {
         int m = grid.length;
         int n = grid[0].length;
         
-        int[][] dp = new int[m][n];
+        int[] prev = new int[n];
+        int[] cur = new int[n];
         
         for(int i=0; i<m; i++){
             
             for(int j=0; j<n; j++){
                 
                 if(i == 0 && j == 0){
-                    dp[i][j] = grid[i][j];
+                    cur[j] = grid[i][j];
                     continue;
                 }
                 
                 int up = 1000005, left = 1000005;
-                if(i>=1) up = grid[i][j] + dp[i-1][j];
-                if(j>=1) left = grid[i][j] + dp[i][j-1];
+                if(i>=1) up = grid[i][j] + prev[j];
+                if(j>=1) left = grid[i][j] + cur[j-1];
                 
-                dp[i][j] = Math.min(up, left);
+                cur[j] = Math.min(up, left);
             }
+            prev = cur;
         }
         
-        return dp[m-1][n-1];
+        return prev[n-1];
     }
 }
