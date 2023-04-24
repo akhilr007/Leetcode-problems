@@ -1,39 +1,43 @@
 class Solution {
-public:
-    int f(int i, int j, int n, vector<vector<int>>& triangle, 
-         vector<vector<int>>& dp){
+    public int solve(int i, int j, List<List<Integer>> triangle, int[][] dp){
         
-        if(i == n-1) return triangle[i][j];
+        if(i == triangle.size() - 1)
+            return triangle.get(i).get(j);
+        if(dp[i][j] != -1)
+            return dp[i][j];
         
-        if(dp[i][j] != -1) return dp[i][j];
+        int down = 1000005, downRight = 1000005;
+        down = triangle.get(i).get(j) + solve(i+1, j, triangle, dp);
+        downRight = triangle.get(i).get(j) + solve(i+1, j+1, triangle, dp);
         
-        int down = triangle[i][j] + f(i+1, j, n, triangle, dp);
-        int downRight = triangle[i][j] + f(i+1, j+1, n, triangle, dp);
-        
-        return dp[i][j] = min(down, downRight);
+        return dp[i][j] = Math.min(down, downRight);
     }
     
-    int minimumTotal(vector<vector<int>>& triangle) {
+    public int minimumTotal(List<List<Integer>> triangle) {
         
-        int n=triangle.size();
+        int m = triangle.size();
+        int n = triangle.get(m-1).size();
         
-        vector<int> cur(n, 0), front(n, 0);
+        int[] cur = new int[n];
+        int[] front = new int[n];
         
-        for(int j=0; j<n; j++)
-            front[j] = triangle[n-1][j];
+        for(int j=0; j<n; j++){
+            front[j] = triangle.get(m-1).get(j);
+        }
         
-        for(int i=n-2; i>=0; i--){
+        for(int i=m-2; i>=0; i--){
+            
             for(int j=i; j>=0; j--){
                 
-                int down = triangle[i][j] + front[j];
-                int downRight = triangle[i][j] + front[j+1];
-                
-                cur[j] = min(down, downRight);
+                int down = triangle.get(i).get(j) + front[j];
+                int downRight = triangle.get(i).get(j) + front[j+1];
+
+                cur[j] = Math.min(down, downRight);
             }
             
-            front = cur;
+            front = cur.clone();
         }
         
         return front[0];
     }
-};
+}
