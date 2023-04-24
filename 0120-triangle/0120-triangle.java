@@ -27,8 +27,8 @@ class Solution {
             
             for(int j=i; j>=0; j--){
                 
-                int down = triangle.get(i).get(j) + solve(i+1, j, triangle, dp);
-                int downRight = triangle.get(i).get(j) + solve(i+1, j+1, triangle, dp);
+                int down = triangle.get(i).get(j) + dp[i+1][j];
+                int downRight = triangle.get(i).get(j) + dp[i+1][j+1];
 
                 dp[i][j] = Math.min(down, downRight);
             }
