@@ -23,26 +23,30 @@ class Solution {
         
         int n = matrix.length;
         
-        int[][] dp = new int[n][n];
+        int[] prev = new int[n];
+        int[] cur = new int[n];
+        
         for(int j=0; j<n; j++)
-            dp[0][j] = matrix[0][j];
+            prev[j] = matrix[0][j];
         
         for(int i=1; i<n; i++){
             
             for(int j=0; j<n; j++){
                 
                 int downLeft = 1000005, down=1000005, downRight=1000005;
-                if(j>=1) downLeft = matrix[i][j] + dp[i-1][j-1];
-                if(j+1<n) downRight = matrix[i][j] + dp[i-1][j+1];
-                down = matrix[i][j] + dp[i-1][j];
+                if(j>=1) downLeft = matrix[i][j] + prev[j-1];
+                if(j+1<n) downRight = matrix[i][j] + prev[j+1];
+                down = matrix[i][j] + prev[j];
 
-                dp[i][j] = Math.min(downLeft, Math.min(down, downRight));
+                cur[j] = Math.min(downLeft, Math.min(down, downRight));
             }
+            
+            prev = cur.clone();
         }
         
         int ans = 1000005;
         for(int j=0; j<n; j++){
-            ans = Math.min(ans, dp[n-1][j]);
+            ans = Math.min(ans, prev[j]);
         }
         
         return ans;
