@@ -24,12 +24,25 @@ class Solution {
         int n = matrix.length;
         
         int[][] dp = new int[n][n];
-        for(int[] row: dp)
-            Arrays.fill(row, -1);
+        for(int j=0; j<n; j++)
+            dp[0][j] = matrix[0][j];
+        
+        for(int i=1; i<n; i++){
+            
+            for(int j=0; j<n; j++){
+                
+                int downLeft = 1000005, down=1000005, downRight=1000005;
+                if(j>=1) downLeft = matrix[i][j] + dp[i-1][j-1];
+                if(j+1<n) downRight = matrix[i][j] + dp[i-1][j+1];
+                down = matrix[i][j] + dp[i-1][j];
+
+                dp[i][j] = Math.min(downLeft, Math.min(down, downRight));
+            }
+        }
         
         int ans = 1000005;
         for(int j=0; j<n; j++){
-            ans = Math.min(ans, solve(n-1, j, matrix, dp));
+            ans = Math.min(ans, dp[n-1][j]);
         }
         
         return ans;
