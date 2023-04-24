@@ -4,16 +4,16 @@ class Solution {
         if(j<0 || j>=matrix.length)
             return 1000005;
         
-        if(i == matrix.length - 1){
+        if(i == 0){
             return matrix[i][j];
         }
         
         if(dp[i][j] != -1)
             return dp[i][j];
         
-        int downLeft = matrix[i][j] + solve(i+1, j-1, matrix, dp);
-        int downRight = matrix[i][j] + solve(i+1, j+1, matrix, dp);
-        int down = matrix[i][j] + solve(i+1, j, matrix, dp);
+        int downLeft = matrix[i][j] + solve(i-1, j-1, matrix, dp);
+        int downRight = matrix[i][j] + solve(i-1, j+1, matrix, dp);
+        int down = matrix[i][j] + solve(i-1, j, matrix, dp);
         
         return dp[i][j] = Math.min(downLeft, Math.min(down, downRight));
         
@@ -28,8 +28,8 @@ class Solution {
             Arrays.fill(row, -1);
         
         int ans = 1000005;
-        for(int i=0; i<n; i++){
-            ans = Math.min(ans, solve(0, i, matrix, dp));
+        for(int j=0; j<n; j++){
+            ans = Math.min(ans, solve(n-1, j, matrix, dp));
         }
         
         return ans;
