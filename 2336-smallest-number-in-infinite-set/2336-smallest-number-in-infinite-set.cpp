@@ -1,7 +1,6 @@
 class SmallestInfiniteSet {
 public:
-    unordered_set<int> st;
-    priority_queue <int, vector<int>, greater<int>> pq;
+    set<int> st;
     int curSmallest;
     
     SmallestInfiniteSet() {
@@ -12,9 +11,8 @@ public:
         
         int result;
         
-        if(!pq.empty()){
-            result = pq.top();
-            pq.pop();
+        if(!st.empty()){
+            result = *st.begin();
             st.erase(st.begin());
             return result;
         }
@@ -30,7 +28,6 @@ public:
         if(num >= curSmallest || st.find(num) != st.end())
             return;
         
-        pq.push(num);
         st.insert(num);
     }
 };
