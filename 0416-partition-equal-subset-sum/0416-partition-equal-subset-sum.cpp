@@ -24,36 +24,36 @@ public:
         int n = nums.size();
         
         int total_sum = accumulate(begin(nums), end(nums), 0);
-        cout << total_sum << endl;
         
         if(total_sum % 2)
             return false;
         
         int target = total_sum / 2;
-        cout << target << endl;
         
-        vector<vector<int>> dp(n, vector<int>(target+1, 0));
+        vector<int> prev(target+1, 0), cur(target+1, 0);
         
         for(int index=0; index<n; index++)
-            dp[index][0] = 1;
+            prev[0] = 1;
         
         if(nums[0] <= target)
-            dp[0][nums[0]] = 1;
+            prev[nums[0]] = 1;
         
         for(int index=1; index<n; index++)
         {
             for(int sum=1; sum<=target; sum++)
             {
                 
-                bool not_taken = dp[index-1][sum];
+                bool not_taken = prev[sum];
                 bool taken = false;
                 if(nums[index] <= sum)
-                    taken = dp[index-1][sum-nums[index]];
+                    taken = prev[sum-nums[index]];
                 
-                dp[index][sum] = not_taken || taken;
+                cur[sum] = not_taken || taken;
             }
+            
+            prev = cur;
         }
         
-        return dp[n-1][target];
+        return prev[target];
     }
 };
