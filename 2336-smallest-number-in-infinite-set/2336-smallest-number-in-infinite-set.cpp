@@ -1,34 +1,43 @@
 class SmallestInfiniteSet {
 public:
-    vector<bool> nums;
-    int i;
+    unordered_set<int> st;
+    priority_queue <int, vector<int>, greater<int>> pq;
+    int curSmallest;
     
     SmallestInfiniteSet() {
-        nums = vector<bool>(1001, true);
-        i = 1;
+        curSmallest = 1;
     }
     
     int popSmallest() {
         
-        int result = i;
-        nums[i] = false;
+        int result;
         
-        for(int j=i+1; j<1001; j++){
-            if(nums[j] == true)
-            {
-                i = j;
-                break;
-            }
+        if(!pq.empty()){
+            result = pq.top();
+            pq.pop();
+            st.erase(st.begin());
+            return result;
         }
+        
+        result = curSmallest;
+        curSmallest ++;
         
         return result;
     }
     
     void addBack(int num) {
         
-        nums[num] = true;
-        if(num < i){
-            i = num;
-        }
+        if(num >= curSmallest || st.find(num) != st.end())
+            return;
+        
+        pq.push(num);
+        st.insert(num);
     }
 };
+
+/**
+ * Your SmallestInfiniteSet object will be instantiated and called as such:
+ * SmallestInfiniteSet* obj = new SmallestInfiniteSet();
+ * int param_1 = obj->popSmallest();
+ * obj->addBack(num);
+ */
