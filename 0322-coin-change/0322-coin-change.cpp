@@ -78,7 +78,7 @@ public:
         int n = coins.size();
         
         vector<vector<int>> dp(n, vector<int> (amount+1, -1));
-        int ans = optimal(coins, amount);
+        int ans = tabulation(coins, amount);
         return ans >= 1e8 ? -1 : ans;
 ;    }
 };
