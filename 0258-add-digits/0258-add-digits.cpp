@@ -2,26 +2,12 @@ class Solution {
 public:
     int addDigits(int num) {
         
-        int sum = INT_MAX;
+        if(num == 0)
+            return 0;
         
-        int temp = num;
+        if(num % 9 == 0)
+            return 9;
         
-        while(sum > 9){
-            
-            sum = 0;
-            
-            while(temp > 0) {
-
-                int lastDigit = temp % 10;
-                temp /= 10;
-
-                sum += lastDigit;
-            }
-            
-            temp = sum;
-        }
-        
-        
-        return sum == INT_MAX ? 0 : sum;
+        return num % 9;
     }
 };
