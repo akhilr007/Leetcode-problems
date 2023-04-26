@@ -41,6 +41,32 @@ public:
         return dp[n-1][amount];
     }
     
+    int optimal(vector<int>& coins, int amount){
+        
+        int n = coins.size();
+        vector<int> prev(amount+1, 0), cur(amount+1, 0);
+        
+        for(int a=0; a<=amount; a++){
+            if(a%coins[0] == 0)
+                prev[a] = 1;
+        }
+        
+        for(int index=1; index<n; index++){
+            for(int a=0; a<=amount; a++){
+                
+                int not_taken = prev[a];
+                int taken = 0;
+                if(coins[index] <= a)
+                    taken = cur[a-coins[index]];
+
+                cur[a] = not_taken + taken;
+            }
+            prev = cur;
+        }
+        
+        return prev[amount];
+    }
+    
     int change(int amount, vector<int>& coins) {
         
         int n = coins.size();
