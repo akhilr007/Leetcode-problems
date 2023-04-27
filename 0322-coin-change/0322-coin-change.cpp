@@ -24,25 +24,27 @@ public:
     int tabulation(vector<int> coins, int amount){
         
         int n = coins.size();
-        vector<vector<int>> dp(n, vector<int> (amount + 1, 1e8));
-        
+        vector<vector<int>> dp(n, vector<int> (amount+1, 1e8));
+
         for(int a=0; a<=amount; a++){
             if(a % coins[0] == 0)
                 dp[0][a] = a / coins[0];
         }
-        
-        for(int index=1; index<n; index++){
-            for(int a=0; a<=amount; a++){
-                
+
+        for(int index=1; index<n; index ++){
+
+            for(int a=0; a<=amount; a++) {
+
                 int not_taken = dp[index-1][a];
+
                 int taken = 1e8;
                 if(coins[index] <= a)
                     taken = 1 + dp[index][a-coins[index]];
-                
+
                 dp[index][a] = min(not_taken, taken);
             }
         }
-        
+
         return dp[n-1][amount];
     }
     
