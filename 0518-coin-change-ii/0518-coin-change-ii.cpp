@@ -73,6 +73,6 @@ public:
         int n = coins.size();
         
         vector<vector<int>> dp(n, vector<int> (amount+1, -1));
-        return tabulation(coins, amount);
+        return solve(n-1, amount, coins, dp);
     }
 };
