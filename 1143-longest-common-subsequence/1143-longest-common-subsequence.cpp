@@ -42,6 +42,31 @@ public:
         return dp[n][m];
     }
     
+    int optimal(string s1, string s2){
+        
+        int n = s1.size();
+        int m = s2.size();
+        
+        vector<int> prev(m+1, 0), cur(m+1, 0);
+        
+        for(int i=1; i<=n; i++){
+            
+            for(int j=1; j<=m; j++) {
+                
+                int ans = 0;
+                if(s1[i-1] == s2[j-1])
+                    ans = 1 + prev[j-1];
+                else
+                    ans = max(prev[j], cur[j-1]);
+                
+                cur[j] = ans;
+            }
+            prev = cur;
+        }
+        
+        return prev[m];
+    }
+    
     int longestCommonSubsequence(string text1, string text2) {
         
         int n = text1.size();
