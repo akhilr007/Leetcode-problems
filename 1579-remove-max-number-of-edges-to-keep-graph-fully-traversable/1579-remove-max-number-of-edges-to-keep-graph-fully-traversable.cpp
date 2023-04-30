@@ -48,10 +48,9 @@ public:
         UnionFind alice(n+1);
         UnionFind bob(n+1);
         
-        auto lambda = [&](vector<int> &v1, vector<int>& v2){
+        sort(begin(edges), end(edges), [&](auto const &v1, auto const& v2){
             return v1[0] > v2[0];
-        };
-        sort(begin(edges), end(edges), lambda);
+        });
         
         int alice_edges = 0;
         int bob_edges = 0;
