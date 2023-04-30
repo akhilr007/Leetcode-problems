@@ -1,101 +1,103 @@
-class Solution {
+class UnionFind {
+private:
+    vector<int> parent, size;
 public:
-    static bool sortByType(const vector<int>& a, vector<int>& b){
-        return a[0]>b[0];
-    }
-    
-    int find(int x, vector<int>& parent){
-        if(parent[x] == x){
-            return x;
+    UnionFind(int n){
+        parent.resize(n);
+        size.resize(n);
+        
+        for(int i=0; i<n; i++){
+            parent[i] = i;
+            size[i] = 1;
         }
-        
-        int temp = find(parent[x], parent);
-        parent[x] = temp;
-        return temp;
     }
     
-    bool unionSet(int x, int y, vector<int>&rank, vector<int>& parent){
+    int findParent(int x){
+        if(parent[x] == x)
+            return x;
         
-        int lx = find(x, parent);
-        int ly = find(y, parent);
+        return parent[x] = findParent(parent[x]);
+    }
+    
+    bool unionBySize(int u, int v){
         
-        if(lx != ly){
-            
-            if(rank[lx] > rank[ly]){
-                parent[ly]=lx;
-            }
-            else if(rank[ly] > rank[lx]){
-                parent[lx] = ly;
-            }
-            else{
-                parent[ly] = lx;
-                rank[lx]++;
-            }
-            return true;
+        int parentU = findParent(u);
+        int parentV = findParent(v);
+        
+        if(parentU == parentV)
+            return false;
+        
+        if(size[parentU] < size[parentV]){
+            parent[parentU] = parentV;
+            size[parentV] += size[parentU];
         }
         else{
-            return false;
+            parent[parentV] = parentU;
+            size[parentU] += size[parentV];
         }
+        
+        return true;
     }
-    
+};
+
+
+class Solution {
+public:
     int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
         
-        sort(edges.begin(), edges.end(), sortByType);
+        UnionFind alice(n+1);
+        UnionFind bob(n+1);
         
-        vector<int> rankA(n+1,0), rankB(n+1,0), parentA(n+1,0), parentB(n+1,0);
-        for(int i=1; i<=n; i++){
-            rankA[i]=rankB[i]=1;
-            parentA[i] = parentB[i]=i;
-        }
+        auto lambda = [&](vector<int> &v1, vector<int>& v2){
+            return v1[0] > v2[0];
+        };
+        sort(begin(edges), end(edges), lambda);
         
-        int mergeA=1;
-        int mergeB=1;
+        int alice_edges = 0;
+        int bob_edges = 0;
         
-        int removeEdges=0;
+        int remove_edges = 0;
         
-        for(auto e : edges){
-            
+        for(auto& e: edges)
+        {
             if(e[0] == 3){
-                //both alice and bob
-                bool tempA = unionSet(e[1], e[2], rankA, parentA);
-                bool tempB = unionSet(e[1], e[2], rankB, parentB);
                 
-                if(tempA == true){
-                    mergeA++;
-                }
-                if(tempB == true){
-                    mergeB++;
-                }
+                bool a = alice.unionBySize(e[1], e[2]);
+                bool b = bob.unionBySize(e[1], e[2]);
                 
-                if(tempA == false && tempB == false){
-                    removeEdges++;
-                }
+                if(a == true)
+                    alice_edges ++;
+                
+                if(b == true)
+                    bob_edges ++;
+                
+                if(a == false && b == false)
+                    remove_edges ++;
             }
             else if(e[0] == 1){
-                // alice
-                bool tempA = unionSet(e[1], e[2], rankA, parentA);
-                if(tempA == true){
-                    mergeA++;
-                }
-                else{
-                    removeEdges++;
-                }
+                
+                bool a = alice.unionBySize(e[1], e[2]);
+                
+                if(a == true)
+                    alice_edges ++;
+                else
+                    remove_edges ++;
             }
-            else{
-                bool tempB = unionSet(e[1], e[2], rankB, parentB);
-                if(tempB == true){
-                    mergeB++;
+            else if(e[0] == 2){
+                
+                bool b = bob.unionBySize(e[1], e[2]);
+                
+                if(b == true){
+                    bob_edges ++;
                 }
-                else{
-                    removeEdges++;
-                }
+                else
+                    remove_edges++;
             }
         }
         
-        if(mergeA != n || mergeB != n) return -1;
+        if(alice_edges != n-1 || bob_edges != n-1)
+            return -1;
         
-        return removeEdges;
-        
-        
+        return remove_edges;
     }
 };
