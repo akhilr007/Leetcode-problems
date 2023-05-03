@@ -99,6 +99,8 @@ public:
         
         for(int index=n-1; index>=0; index--){
             
+            // we can remove canBuy loop as it runs for only 0 and 1
+            // so cur[1] for buy and cur[0] -> for sell
             int bought = -prices[index] + ahead[0];
             int notBought = 0 + ahead[1];
 
