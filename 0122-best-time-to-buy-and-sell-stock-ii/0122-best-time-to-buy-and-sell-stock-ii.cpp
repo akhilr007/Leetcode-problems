@@ -95,27 +95,28 @@ public:
     int mostOptimal(vector<int>& prices){
         
         int n = prices.size();
-        
-        int aheadNotBuy, aheadBuy, curBuy, curNotBuy;
+
+        int aheadBuy, aheadNotBuy, curBuy, curNotBuy;
         aheadNotBuy = aheadBuy = 0;
-        
+
         for(int index=n-1; index>=0; index--){
-            
+
             int bought = -prices[index] + aheadNotBuy;
             int notBought = 0 + aheadBuy;
 
             curBuy = max(bought, notBought);
-
+        
+        
             int sold = prices[index] + aheadBuy;
             int notSold = 0 + aheadNotBuy;
 
             curNotBuy = max(sold, notSold);
-                
-            
+
             aheadBuy = curBuy;
             aheadNotBuy = curNotBuy;
+            
         }
-        
+
         return aheadBuy;
     }
     
@@ -138,6 +139,6 @@ public:
         
         int n = prices.size();
         vector<vector<int>> dp(n, vector<int> (2, -1));
-        return solve(0, 1, prices, n, dp);
+        return mostOptimal(prices);//solve(0, 1, prices, n, dp);
     }
 };
