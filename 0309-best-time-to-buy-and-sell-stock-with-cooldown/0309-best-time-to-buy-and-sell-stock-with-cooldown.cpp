@@ -30,25 +30,18 @@ public:
         vector<vector<int>> dp(n+2, vector<int> (2, 0));
         
         for(int index=n-1; index>=0; index--){
-            
-            for(int canBuy=0; canBuy<=1; canBuy++){
                 
-                int profit = 0;
-                if(canBuy){
-                    int bought = -prices[index] + dp[index+1][0];
-                    int notBought = 0 + dp[index+1][1];
+            
+            int bought = -prices[index] + dp[index+1][0];
+            int notBought = 0 + dp[index+1][1];
 
-                    profit = max(bought, notBought);
-                }
-                else{
-                    int sold = prices[index] + dp[index+2][1];
-                    int notSold = 0 + dp[index+1][0];
+            dp[index][1] = max(bought, notBought);
+            
+            int sold = prices[index] + dp[index+2][1];
+            int notSold = 0 + dp[index+1][0];
 
-                    profit = max(sold, notSold);
-                }
-
-                dp[index][canBuy] = profit;
-            }
+            dp[index][0] = max(sold, notSold);
+            
         }
         
         return dp[0][1];
