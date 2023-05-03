@@ -58,11 +58,44 @@ public:
         return dp[0][1];
     }
     
+    int optimal(vector<int>& prices, int fee){
+        
+        int n = prices.size();
+        
+        vector<int> ahead(2, 0), cur(2, 0);
+        
+        for(int index=n-1; index>=0; index--){
+            
+            for(int canBuy=0; canBuy<=1; canBuy++){
+                
+                int profit = 0;
+                
+                if(canBuy){
+                    int bought = -prices[index] + ahead[0];
+                    int notBought = 0 + ahead[1];
+
+                    profit = max(bought, notBought);
+                }
+                else{
+                    int sold = prices[index] - fee + ahead[1];
+                    int notSold = 0 + ahead[0];
+
+                    profit = max(sold, notSold);
+                }
+                cur[canBuy] = profit;
+            }
+            
+            ahead = cur;
+        }
+        
+        return ahead[1];
+    }
+    
     int maxProfit(vector<int>& prices, int fee) {
         
         int n = prices.size();
         
         vector<vector<int>> dp(n, vector<int> (2, -1));
-        return tabulation(prices, fee);
+        return optimal(prices, fee);
     }
 };
