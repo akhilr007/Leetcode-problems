@@ -120,10 +120,25 @@ public:
         return aheadBuy;
     }
     
+    int greedy(vector<int>& prices){
+        
+        int n = prices.size();
+        
+        int maxProfit = 0;
+        
+        for(int i=1; i<n; i++){
+            
+            if(prices[i] > prices[i-1]){
+                maxProfit += prices[i] - prices[i-1];
+            }
+        }
+        return maxProfit;
+    }
+    
     int maxProfit(vector<int>& prices) {
         
         int n = prices.size();
         vector<vector<int>> dp(n, vector<int> (2, -1));
-        return mostOptimal(prices);
+        return greedy(prices);
     }
 };
