@@ -97,6 +97,6 @@ public:
         
         int n = prices.size();
         vector<vector<int>> dp(n, vector<int> (2, -1));
-        return tabulation(prices);
+        return optimal(prices);
     }
 };
