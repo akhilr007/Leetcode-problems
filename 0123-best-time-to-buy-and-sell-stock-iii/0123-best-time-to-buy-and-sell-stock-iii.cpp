@@ -101,11 +101,41 @@ public:
         return ahead[1][2];
     }
     
+    int solveT(int index, int ts, vector<int>& prices, int n, vector<vector<int>>& dp){
+        
+        if(index >= n || ts >= 4)
+            return 0;
+        
+        if(dp[index][ts] != -1)
+            return dp[index][ts];
+        
+        int profit = 0;
+        if(ts % 2 == 0){
+            // buy
+            int bought = -prices[index] + solveT(index+1, ts+1, prices, n, dp);
+            int notBought = 0 + solveT(index+1, ts, prices, n, dp);
+            
+            profit = max(bought, notBought);
+        }
+        else{
+            // sell
+            int sold = prices[index] + solveT(index+1, ts+1, prices, n, dp);
+            int notSold = 0 + solveT(index+1, ts, prices, n, dp);
+            
+            profit = max(sold, notSold);
+        }
+        
+        return dp[index][ts] = profit;
+    }
+    
     int maxProfit(vector<int>& prices) {
         
         int n = prices.size();
         
-        vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3, -1)));
-        return optimal(prices);
+        //vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3, -1)));
+        //return optimal(prices);
+        
+        vector<vector<int>> dp(n, vector<int> (4, -1));
+        return solveT(0, 0, prices, n, dp);
     }
 };
