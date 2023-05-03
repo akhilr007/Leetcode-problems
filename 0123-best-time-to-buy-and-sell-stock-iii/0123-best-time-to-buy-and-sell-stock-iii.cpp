@@ -26,6 +26,41 @@ public:
         return dp[index][canBuy][cap] = profit;
     }
     
+    int tabulation(vector<int>& prices){
+        
+        int n = prices.size();
+        vector<vector<vector<int>>> dp(n+1, vector<vector<int>> (2, vector<int> (3, 0)));
+        
+        for(int index=n-1; index>=0; index--){
+            
+            for(int canBuy=0; canBuy<=1; canBuy++) {
+                
+                for(int cap=0; cap<=2; cap++){
+                    
+                    int profit=0;
+                    if(canBuy){
+                        int bought = -prices[index] + dp[index+1][0][cap];
+                        int notBought = 0 + dp[index+1][1][cap];
+
+                        profit = max(bought, notBought);
+                    }
+                    else{
+                        int sold = prices[index] + dp[index+1][1][cap-1];
+                        int notSold = 0 + dp[index+1][0][cap];
+
+                        profit = max(sold, notSold);
+                    }
+
+                    return dp[index][canBuy][cap] = profit;
+                    
+                }
+                
+            }
+        }
+        
+        return dp[0][1][2];
+    }
+    
     int maxProfit(vector<int>& prices) {
         
         int n = prices.size();
