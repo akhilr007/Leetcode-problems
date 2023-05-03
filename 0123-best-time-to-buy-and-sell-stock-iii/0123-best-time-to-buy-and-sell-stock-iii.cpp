@@ -128,6 +128,38 @@ public:
         return dp[index][ts] = profit;
     }
     
+    int tabulationT(vector<int>& prices){
+        
+        int n = prices.size();
+        
+        vector<vector<int>> dp(n+1, vector<int> (5, 0));
+        
+        for(int index=n-1; index>=0; index--){
+            for(int ts=3; ts>=0; ts--){
+                
+                int profit = 0;
+                if(ts%2 == 0){
+                    // buy
+                    int bought = -prices[index] + dp[index+1][ts+1];
+                    int notBought = 0 + dp[index+1][ts];
+
+                    profit = max(bought, notBought);
+                }
+                else{
+                    // sell
+                    int sold = prices[index] + dp[index+1][ts+1];
+                    int notSold = 0 + dp[index+1][ts];
+
+                    profit = max(sold, notSold);
+                }
+                
+                dp[index][ts] = profit;
+            }
+        }
+        
+        return dp[0][0];
+    }
+    
     int maxProfit(vector<int>& prices) {
         
         int n = prices.size();
@@ -136,6 +168,6 @@ public:
         //return optimal(prices);
         
         vector<vector<int>> dp(n, vector<int> (4, -1));
-        return solveT(0, 0, prices, n, dp);
+        return tabulationT(prices);
     }
 };
