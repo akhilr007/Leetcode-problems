@@ -35,6 +35,7 @@ public:
             
             for(int canBuy=0; canBuy<=1; canBuy++) {
                 
+                // for every cap = 0 , result will be 0 so no point of starting with it
                 for(int cap=1; cap<=2; cap++){
                     
                     int profit=0;
@@ -62,11 +63,49 @@ public:
         return dp[0][1][2];
     }
     
+    int optimal(vector<int>& prices){
+        
+        int n = prices.size();
+        vector<vector<int>> ahead(2, vector<int> (3, 0));
+        vector<vector<int>> cur(2, vector<int> (3, 0));
+        
+        for(int index=n-1; index>=0; index--){
+            
+            for(int canBuy=0; canBuy<=1; canBuy++) {
+                
+                // for every cap = 0 , result will be 0 so no point of starting with it
+                for(int cap=1; cap<=2; cap++){
+                    
+                    int profit=0;
+                    if(canBuy){
+                        int bought = -prices[index] + ahead[0][cap];
+                        int notBought = 0 + ahead[1][cap];
+
+                        profit = max(bought, notBought);
+                    }
+                    else{
+                        int sold = prices[index] + ahead[1][cap-1];
+                        int notSold = 0 + ahead[0][cap];
+
+                        profit = max(sold, notSold);
+                    }
+
+                    cur[canBuy][cap] = profit;
+                    
+                }
+                
+                ahead = cur;
+            }
+        }
+        
+        return ahead[1][2];
+    }
+    
     int maxProfit(vector<int>& prices) {
         
         int n = prices.size();
         
         vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3, -1)));
-        return tabulation(prices);
+        return optimal(prices);
     }
 };
