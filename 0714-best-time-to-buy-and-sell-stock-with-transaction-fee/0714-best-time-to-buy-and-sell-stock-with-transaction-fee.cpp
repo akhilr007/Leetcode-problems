@@ -91,11 +91,35 @@ public:
         return ahead[1];
     }
     
+    int mostOptimal(vector<int>& prices, int fee){
+        
+        int n = prices.size();
+        
+        vector<int> ahead(2, 0), cur(2, 0);
+        
+        for(int index=n-1; index>=0; index--){
+            
+            int bought = -prices[index] + ahead[0];
+            int notBought = 0 + ahead[1];
+
+            cur[1] = max(bought, notBought);
+
+            int sold = prices[index] - fee + ahead[1];
+            int notSold = 0 + ahead[0];
+            
+            cur[0] = max(sold, notSold);
+
+            ahead = cur;
+        }
+        
+        return ahead[1];
+    }
+    
     int maxProfit(vector<int>& prices, int fee) {
         
         int n = prices.size();
         
         vector<vector<int>> dp(n, vector<int> (2, -1));
-        return optimal(prices, fee);
+        return mostOptimal(prices, fee);
     }
 };
