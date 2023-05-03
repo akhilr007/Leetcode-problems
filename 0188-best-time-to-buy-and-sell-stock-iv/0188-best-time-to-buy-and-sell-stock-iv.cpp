@@ -60,11 +60,44 @@ public:
         return dp[0][0];
     }
     
+    int optimal(vector<int>& prices, int k){
+        
+        int n = prices.size();
+        vector<int> ahead(2*k+1, 0), cur(2*k+1, 0);
+        
+        for(int index=n-1; index>=0; index--){
+            
+            for(int transactionNo=2*k-1; transactionNo>=0; transactionNo--){
+                
+                int profit = 0;
+                if(transactionNo % 2 == 0){
+                    // buy
+                    int bought = -prices[index] + ahead[transactionNo+1];
+                    int notBought = 0 + ahead[transactionNo];
+
+                    profit = max(bought, notBought);
+                }
+                else{
+                     // sell
+                    int sold = prices[index] + ahead[transactionNo+1];
+                    int notSold = 0 + ahead[transactionNo];
+
+                    profit = max(sold, notSold);
+                }
+                
+                cur[transactionNo] = profit;
+            }
+            ahead = cur;
+        }
+        
+        return ahead[0];
+    }
+    
     int maxProfit(int k, vector<int>& prices) {
         
         int n = prices.size();
         
         vector<vector<int>> dp(n, vector<int>(2*k, -1));
-        return tabulation(prices, k);
+        return optimal(prices, k);
     }
 };
