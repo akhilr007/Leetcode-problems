@@ -35,7 +35,7 @@ public:
             
             for(int canBuy=0; canBuy<=1; canBuy++) {
                 
-                for(int cap=0; cap<=2; cap++){
+                for(int cap=1; cap<=2; cap++){
                     
                     int profit=0;
                     if(canBuy){
@@ -51,9 +51,10 @@ public:
                         profit = max(sold, notSold);
                     }
 
-                    return dp[index][canBuy][cap] = profit;
+                    dp[index][canBuy][cap] = profit;
                     
                 }
+                
                 
             }
         }
@@ -66,6 +67,6 @@ public:
         int n = prices.size();
         
         vector<vector<vector<int>>> dp(n, vector<vector<int>> (2, vector<int> (3, -1)));
-        return solve(0, 1, 2, prices, n, dp);
+        return tabulation(prices);
     }
 };
