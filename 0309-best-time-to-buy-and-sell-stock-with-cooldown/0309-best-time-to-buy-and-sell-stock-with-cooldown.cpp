@@ -1,54 +1,34 @@
 class Solution {
-private:
-    int f(int ind, int buy, vector<int>& prices, vector<vector<int>>& dp){
-        
-        if(ind >= prices.size()){
-            return 0;
-        }
-        
-        if(dp[ind][buy] != -1){
-            return dp[ind][buy];
-        }
-        
+public:
+    int solve(int index, int canBuy, vector<int>& prices, int n, vector<vector<int>>& dp){
+
+        if(index >= n) return 0;
+
+        if(dp[index][canBuy] != -1)
+            return dp[index][canBuy];
+
         int profit = 0;
-        
-        if(buy){
-            
-            profit += max( -prices[ind] + f(ind+1, 0, prices, dp),
-                         0 + f(ind+1, 1, prices, dp) ); 
+        if(canBuy){
+            int bought = -prices[index] + solve(index+1, 0, prices, n, dp);
+            int notBought = 0 + solve(index+1, 1, prices, n, dp);
+
+            profit = max(bought, notBought);
         }
         else{
-            
-            profit += max( prices[ind] + f(ind+2, 1, prices, dp),
-                         0 + f(ind+1, 0, prices, dp) );
+            int sold = prices[index] + solve(index+2, 1, prices, n, dp);
+            int notSold = 0 + solve(index+1, 0, prices, n, dp);
+
+            profit = max(sold, notSold);
         }
-        
-        return dp[ind][buy] = profit;
-        
+
+        return dp[index][canBuy] = profit;
     }
-    
-public:
+
     int maxProfit(vector<int>& prices) {
         
         int n = prices.size();
         
-        vector<vector<int>> dp(n+2, vector<int> (2, 0));
-        //return f(0, 1, prices, dp);
-        
-        for(int ind = n-1; ind >= 0; ind--){
-            for(int buy=0; buy<=1; buy++){
-                
-                if(buy){
-                    dp[ind][buy] = max(-prices[ind] + dp[ind+1][0],
-                                      0 + dp[ind+1][1]);
-                }
-                else{
-                    dp[ind][buy] = max(prices[ind] + dp[ind+2][1],
-                                      0 + dp[ind+1][0]);
-                }
-            }
-        }
-        
-        return dp[0][1];
+        vector<vector<int>> dp(n, vector<int> (2, -1));
+        return solve(0, 1, prices, n, dp);
     }
 };
