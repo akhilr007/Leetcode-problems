@@ -28,11 +28,43 @@ public:
         return dp[index][transactionNo] = profit;
     }
     
+    int tabulation(vector<int>& prices, int k){
+        
+        int n = prices.size();
+        vector<vector<int>> dp(n+1, vector<int> (2*k+1, 0));
+        
+        for(int index=n-1; index>=0; index--){
+            
+            for(int transactionNo=2*k-1; transactionNo>=0; transactionNo--){
+                
+                int profit = 0;
+                if(transactionNo % 2 == 0){
+                    // buy
+                    int bought = -prices[index] + dp[index+1][transactionNo+1];
+                    int notBought = 0 + dp[index+1][transactionNo];
+
+                    profit = max(bought, notBought);
+                }
+                else{
+                     // sell
+                    int sold = prices[index] + dp[index+1][transactionNo+1];
+                    int notSold = 0 + dp[index+1][transactionNo];
+
+                    profit = max(sold, notSold);
+                }
+                
+                dp[index][transactionNo] = profit;
+            }
+        }
+        
+        return dp[0][0];
+    }
+    
     int maxProfit(int k, vector<int>& prices) {
         
         int n = prices.size();
         
         vector<vector<int>> dp(n, vector<int>(2*k, -1));
-        return solve(0, 0, k, prices, dp);
+        return tabulation(prices, k);
     }
 };
