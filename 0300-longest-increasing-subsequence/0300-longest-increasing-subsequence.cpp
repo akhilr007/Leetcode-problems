@@ -28,11 +28,11 @@ public:
             
             for(int prev_index=index-1; prev_index>=-1; prev_index--){
                 
-                int notTake = 0 + dp[index+1][prev_index];
+                int notTake = 0 + dp[index+1][prev_index+1];
         
                 int take = 0;
                 if(prev_index == -1 || nums[index] > nums[prev_index])
-                    take = 1 + dp[index+1][index];
+                    take = 1 + dp[index+1][index+1];
 
                 dp[index][prev_index+1] = max(notTake, take);
             }
@@ -47,6 +47,6 @@ public:
         int n = nums.size();
         
         vector<vector<int>> dp(n, vector<int> (n+1, -1));
-        return solve(0, -1, nums, dp);
+        return tabulation(nums);
     }
 };
