@@ -69,7 +69,23 @@ public:
         
         int n = nums.size();
         
-        vector<vector<int>> dp(n, vector<int> (n+1, -1));
-        return optimal(nums);
+        // vector<vector<int>> dp(n, vector<int> (n+1, -1));
+        // return optimal(nums);
+        
+        vector<int> temp;
+        temp.push_back(nums[0]);
+        
+        for(int i=1; i<n; i++){
+            
+            if(nums[i] > temp.back()){
+                temp.push_back(nums[i]);
+            }
+            else{
+                int index = lower_bound(begin(temp), end(temp), nums[i]) - begin(temp);
+                temp[index] = nums[i];
+            }
+        }
+        
+        return temp.size();
     }
 };
