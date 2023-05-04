@@ -42,11 +42,34 @@ public:
         
     }
     
+    int optimal(vector<int>& nums){
+        
+        int n = nums.size();
+        
+        vector<int> dp(n, 1);
+        // dp[i] -> LIS that ends on i
+        
+        int maxi = 0;
+        for(int index=0; index<n; index++){
+            for(int prev_index=0; prev_index<index; prev_index++){
+                
+                if(nums[index] > nums[prev_index]){
+                    
+                    dp[index] = max(dp[index], 1+dp[prev_index]);
+                }
+            }
+            
+            maxi = max(maxi, dp[index]);
+        }
+        
+        return maxi;
+    }
+    
     int lengthOfLIS(vector<int>& nums) {
         
         int n = nums.size();
         
         vector<vector<int>> dp(n, vector<int> (n+1, -1));
-        return tabulation(nums);
+        return optimal(nums);
     }
 };
