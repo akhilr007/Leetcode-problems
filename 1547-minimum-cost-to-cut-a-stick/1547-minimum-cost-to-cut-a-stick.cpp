@@ -61,6 +61,6 @@ public:
         sort(begin(cuts), end(cuts));
 
         vector<vector<int>> dp(size+1, vector<int> (size+1, -1));
-        return solve(1, size, cuts, dp);
+        return tabulation(n, cuts);
     }
 };
