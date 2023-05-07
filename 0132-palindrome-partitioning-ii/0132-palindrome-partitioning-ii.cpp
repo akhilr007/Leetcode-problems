@@ -63,6 +63,6 @@ public:
         int n = s.size();
 
         vector<int> dp(n, -1);
-        return solve(0, n, s, dp) - 1 ; // subtract -1 from solution because at the end we are making 1 partition extra
+        return tabulation(s) ; // subtract -1 from solution because at the end we are making 1 partition extra
     }
 };
