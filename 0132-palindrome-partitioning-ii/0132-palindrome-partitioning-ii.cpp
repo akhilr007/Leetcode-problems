@@ -35,10 +35,34 @@ public:
         return dp[i] = minCuts;
     }
     
+    int tabulation(string s){
+        
+        int n = s.size();
+        vector<int> dp(n+1, 0);
+        
+        for(int i=n-1; i>=0; i--){
+            
+            int minCuts = 1e9;
+            
+            for(int j=i; j<n; j++){
+                
+                if(isPalindrome(i, j, s)){
+                    int cost = 1 + dp[j+1];
+                    minCuts = min(minCuts, cost);
+                }
+            }
+            
+            dp[i] = minCuts;
+        }
+        
+        return dp[0] - 1;
+    }
+    
     int minCut(string s) {
         
         int n = s.size();
         
+        return tabulation(s);
         vector<int> dp(n, -1);
         return solve(0, n, s, dp) - 1; // it makes cuts then go to end so -1 from ans;
     }
