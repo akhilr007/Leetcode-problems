@@ -54,6 +54,8 @@ public:
     int maxCoins(vector<int>& nums){
 
         int n = nums.size();
+        
+        return tabulation(nums);
 
         nums.push_back(1);
         nums.insert(nums.begin(), 1);
