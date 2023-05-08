@@ -5,6 +5,7 @@ public:
         int n = matrix.size();
         int m = matrix[0].size();
         
+        // dp[i][j] -> how many squares end at right bottom (i,j)
         vector<vector<int>> dp(n, vector<int> (m, 0));
         
         for(int j=0; j<m; j++) dp[0][j] = matrix[0][j];
