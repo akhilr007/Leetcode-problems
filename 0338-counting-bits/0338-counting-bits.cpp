@@ -16,13 +16,22 @@ public:
     
     vector<int> countBits(int n) {
         
-        vector<int> result(n+1, 0);
+        if(n == 0) return {0};
+       
+        vector<int> dp(n+1, 0);
         
-        vector<int> dp(n+1, -1);
+        dp[0] = 0;
+        dp[1] = 1;
         
-        for(int index=0; index<=n; index++){
-            result[index] = solve(index, dp);
+        for(int index=2; index<=n; index++){
+            
+            int n = index;
+            if(n % 2 == 0)
+                dp[n] = dp[n/2];
+            else
+                dp[n] = 1 + dp[n/2];
         }
-        return result;
+        
+        return dp;
     }
 };
