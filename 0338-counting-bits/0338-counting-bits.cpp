@@ -7,14 +7,7 @@ public:
         for(int index=0; index<=n; index++){
             int number = index;
             
-            int count=0;
-            while(number>0){
-                if((number & 1) == 1)
-                    count ++;
-                number = number >> 1;
-            }
-            
-            result.push_back(count);
+            result.push_back(__builtin_popcount(number));
         }
         return result;
     }
