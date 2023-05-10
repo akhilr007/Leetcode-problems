@@ -2,30 +2,14 @@ class Solution {
 public:
     vector<int> sortByBits(vector<int>& arr) {
         
-        vector<pair<int, int>> result;
-        
-        for(int index=0; index<arr.size(); index++){
+        sort(begin(arr), end(arr), [](const auto &a, const auto &b){
             
-            int number = arr[index];
-            int count = 0;
+            int countA = __builtin_popcount(a);
+            int countB = __builtin_popcount(b);
             
-            while(number > 0){
-                if((number & 1) == 1)
-                    count ++;
-                
-                number = number >> 1;
-            }
-            
-            result.push_back({count, arr[index]});
-        }
+            return countA == countB ? a < b : countA < countB;
+        });
         
-        sort(begin(result), end(result));
-        
-        vector<int> ans;
-        
-        for(auto p: result)
-            ans.push_back(p.second);
-        
-        return ans;
+        return arr;
     }
 };
