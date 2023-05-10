@@ -23,13 +23,9 @@ public:
         dp[0] = 0;
         dp[1] = 1;
         
-        for(int index=2; index<=n; index++){
+        for(int index=1; index<=n; index++){
             
-            int n = index;
-            if(n % 2 == 0)
-                dp[n] = dp[n/2];
-            else
-                dp[n] = 1 + dp[n/2];
+            dp[index] = dp[(index >> 1)] + (index & 1);
         }
         
         return dp;
