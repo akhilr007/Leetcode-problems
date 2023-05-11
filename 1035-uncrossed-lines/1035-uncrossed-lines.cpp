@@ -41,6 +41,32 @@ public:
         return dp[0][0];
     }
     
+    int optimal(vector<int>& nums1, vector<int>& nums2) {
+        
+        int n = nums1.size();
+        int m = nums2.size();
+        vector<int> front(m+1, 0), cur(m+1, 0);
+        
+        for(int i=n-1; i>=0; i--){
+            
+            for(int j=m-1; j>=0; j--){
+                
+                if(nums1[i] == nums2[j]){
+                    int take = 1 + front[j+1];
+                    int not_take = cur[j+1];
+
+                    cur[j] = max(take, not_take);
+                }
+
+                else cur[j] = max(cur[j+1], front[j]);
+            }
+            
+            front = cur;
+        }
+        
+        return front[0];
+    }
+    
     int maxUncrossedLines(vector<int>& nums1, vector<int>& nums2) {
         
         int n = nums1.size();
@@ -48,6 +74,6 @@ public:
         
         vector<vector<int>> dp(n, vector<int> (m, -1));
         
-        return tabulation(nums1, nums2);
+        return optimal(nums1, nums2);
     }
 };
