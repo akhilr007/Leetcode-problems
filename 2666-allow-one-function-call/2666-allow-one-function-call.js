@@ -8,9 +8,8 @@ const once = function(fn) {
         if(count < 1)
         {
             count++;
-            return fn(...args);
+            return fn.apply(this, args);
         }
-        else return undefined;
         
     }
 };
