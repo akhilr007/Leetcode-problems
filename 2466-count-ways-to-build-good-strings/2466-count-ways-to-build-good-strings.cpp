@@ -21,10 +21,34 @@ public:
         
     }
     
+    int tabulation(int low, int high, int zero, int one){
+        
+        vector<int> dp(high+1, 0);
+        
+        for(int len=high; len>=0; len--){
+            
+            int zeroWays = 0;
+            if(len + zero <= high) zeroWays = dp[len + zero];
+
+    
+            int oneWays = 0;
+            if(len + one <= high) oneWays = dp[len + one];
+
+            int ans = 0;
+            if(len >= low && len <= high)
+                ans = 1;
+
+            dp[len] = (zeroWays + oneWays + ans) % mod;
+        
+        }
+        
+        return dp[0];
+    }
+    
     int countGoodStrings(int low, int high, int zero, int one) {
         
         int len = 0;
         vector<int> dp(high+1, -1);
-        return solve(len, zero, one, low, high, dp);
+        return tabulation(low, high, zero, one);
     }
 };
