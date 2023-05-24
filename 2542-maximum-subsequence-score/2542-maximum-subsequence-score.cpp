@@ -33,7 +33,7 @@ public:
             pairs.push_back({ nums1[i], nums2[i] });
         }
         
-        sort(begin(pairs), end(pairs), [&](const pair<int, int>&a, const pair<int, int>& b){
+        sort(begin(pairs), end(pairs), [&](auto &a, auto& b){
             return a.second > b.second;
         });
         
