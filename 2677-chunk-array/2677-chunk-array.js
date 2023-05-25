@@ -10,16 +10,8 @@ const chunk = function(arr, size) {
     
     while(index < arr.length){
         
-        let count = size;
-        const temp = [];
-        
-        while(count-- > 0 && index < arr.length){
-            
-            temp.push(arr[index]);
-            index++;
-        }
-        
-        chunked_array.push(temp);
+        chunked_array.push(arr.slice(index, index+size));
+        index += size;
     }
     return chunked_array;
 };
