@@ -1,27 +1,40 @@
+/*
+0 -> i-1 = 0
+i -> j-1 = 1
+j -> k-1 = 2
+k -> n = unidentified
+*/
+
 class Solution {
+    public void swap(int a, int b, int[] nums){
+        
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+    
     public void sortColors(int[] nums) {
         
-        int count0 = 0, count1 = 0, count2 = 0;
+        int n = nums.length;
         
-        for(int num: nums){
+        int low = 0;
+        int mid = 0;
+        int high = n-1;
+        
+        while(mid <= high){
             
-            if(num == 0)
-                count0++;
-            else if(num == 1)
-                count1++;
-            else
-                count2++;
+            if(nums[mid] == 0){
+                swap(low, mid, nums);
+                low++;
+                mid++;
+            }
+            else if(nums[mid] == 1){
+                mid++;
+            }
+            else{
+                swap(mid, high, nums);
+                high--;
+            }
         }
-        
-        for(int i=0; i<count0; i++)
-            nums[i] = 0;
-        
-        for(int i=count0; i<count0 + count1; i++)
-            nums[i] = 1;
-        
-        for(int i=count0+count1; i<nums.length; i++)
-            nums[i] = 2;
-        
-
     }
 }
