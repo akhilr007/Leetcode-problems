@@ -2,38 +2,21 @@ class Solution {
     public int[] rearrangeArray(int[] nums) {
         
         int n = nums.length;
-        
-        int[] positives = new int[n/2];
-        int[] negatives = new int[n/2];
-        int i=0, j=0;
-        
-        for(int num: nums){
-            if(num > 0){
-                positives[i] = num;
-                i++;
-            }
-            else{
-                negatives[j] = num;
-                j++;
-            }
-        }
-        
         int[] result = new int[n];
         
-        i=0;
-        j=0;
-        int k=0;
-        boolean flag = true;
+        int positiveIndex = 0;
+        int negativeIndex = 1;
         
-        while(i<n/2 || j<n/2){
+        for(int i=0; i<n; i++){
             
-            if(flag == true){
-                result[k++] = positives[i++];
+            if(nums[i] > 0){
+                result[positiveIndex] = nums[i];
+                positiveIndex += 2;
             }
             else{
-                result[k++] = negatives[j++]; 
+                result[negativeIndex] = nums[i];
+                negativeIndex += 2;
             }
-            flag = !flag;
         }
         
         return result;
