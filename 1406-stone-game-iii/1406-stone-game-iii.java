@@ -19,6 +19,26 @@ class Solution {
         return dp[index] = result;
     }
     
+    int tabulation(int[] stones){
+        
+        int n = stones.length;
+        
+        int[] dp = new int[n+1];
+        
+        for(int index=n-1; index>=0; index--){
+            
+            int sum = 0;
+
+            for(int i=index; i<index+3 && i<stones.length; i++){
+
+                sum += stones[i];
+                dp[i] = Math.max(dp[i], sum - dp[i+1]);
+            }
+        }
+        
+        return dp[0];
+    }
+    
     public String stoneGameIII(int[] stones) {
         
         int n = stones.length;
