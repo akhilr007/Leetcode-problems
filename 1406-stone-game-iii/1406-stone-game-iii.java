@@ -28,12 +28,15 @@ class Solution {
         for(int index=n-1; index>=0; index--){
             
             int sum = 0;
+            int result = Integer.MIN_VALUE;
 
             for(int i=index; i<index+3 && i<stones.length; i++){
 
                 sum += stones[i];
-                dp[i] = Math.max(dp[i], sum - dp[i+1]);
+                result = Math.max(result, sum - dp[i+1]);
             }
+            
+            dp[index] = result;
         }
         
         return dp[0];
@@ -46,7 +49,7 @@ class Solution {
         int[] dp = new int[n];
         Arrays.fill(dp, -1);
         
-        int diff = solve(0, stones, dp);
+        int diff = tabulation(stones);
         
         if(diff > 0){
             return "Alice";
