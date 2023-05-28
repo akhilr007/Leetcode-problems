@@ -18,6 +18,32 @@ class Solution {
         return dp[i][j] = result;
     }
     
+    public int tabulation(int[] temp){
+        
+        int size = temp.length;
+        int[][] dp = new int[size][size];
+        
+        for(int i=size-2; i>=1; i--){
+            
+            for(int j=1; j<=size-2; j++){
+                
+                if(i > j)
+                    continue;
+                
+                int result = Integer.MAX_VALUE;
+                for(int ind=i; ind<=j; ind++){
+                    
+                    int cost = temp[j+1] - temp[i-1] + dp[i][ind-1] + dp[ind+1][j];
+                    result = Math.min(cost, result);
+                }
+                
+                dp[i][j] = result;
+            }
+        }
+        
+        return dp[1][size-2];
+    }
+    
     public int minCost(int n, int[] cuts) {
         
         int size = cuts.length;
@@ -36,6 +62,6 @@ class Solution {
         for(int[] row: dp){
             Arrays.fill(row, -1);
         }
-        return solve(1, temp.length-2, temp, dp);
+        return tabulation(temp);
     }
 }
