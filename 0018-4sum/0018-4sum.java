@@ -3,38 +3,47 @@ class Solution {
         
         int n = nums.length;
         
-        HashSet<List<Integer>> ans = new HashSet<>();
-        HashSet<Long> hashset;
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
         
         for(int i=0; i<n; i++){
-    
+            
+            if(i>0 && nums[i] == nums[i-1])
+                continue;
+            
             for(int j=i+1; j<n; j++){
                 
-                hashset = new HashSet<>();
+                if(j>i+1 && nums[j] == nums[j-1])
+                    continue;
                 
-                for(int k=j+1; k<n; k++){
+                int l=j+1;
+                int r=n-1;
+                
+                while(l<r){
                     
                     long sum = nums[i];
                     sum += nums[j];
-                    sum += nums[k];
-                    long fourth = target - sum;
+                    sum += nums[l];
+                    sum += nums[r];
                     
-                    if(hashset.contains(fourth) == true){
-                        
-                        List<Integer> list = Arrays.asList(nums[i], nums[j], nums[k], (int)fourth);
-                        Collections.sort(list);
-                        
-                        ans.add(list);
+                    if(sum < target){
+                        l++;
                     }
-                    
-                    hashset.add((long)nums[k]);
+                    else if(sum > target){
+                        r--;
+                    }
+                    else{
+                        result.add(Arrays.asList(nums[i], nums[j], nums[l], nums[r]));
+                        l++;
+                        r--;
+                        
+                        while(l<r && nums[l] == nums[l-1]) l++;
+                        while(l<r && nums[r] == nums[r+1]) r--;
+                    }
                 }
             }
         }
         
-        List<List<Integer>> result = new ArrayList<>(ans);
         return result;
-        
-        
     }
 }
