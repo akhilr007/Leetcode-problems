@@ -1,35 +1,48 @@
 class MyHashSet {
-    List<Integer> hash;
+    private final int bucketSize = 15000;
+    private List<List<Integer>> buckets;
+    
     public MyHashSet() {
-        hash = new ArrayList<>();
+        buckets = new ArrayList<>(bucketSize);
+        for(int i=0; i<bucketSize; i++){
+            buckets.add(null);
+        }
     }
     
     public void add(int key) {
         
-        for(int i=0; i<hash.size(); i++){
-            if(hash.get(i) == key)
-                return;
-        }
+        int index = key % bucketSize;
+        List<Integer> childList = buckets.get(index);
         
-        hash.add(key);
+        if(childList == null){
+            List<Integer> list = new LinkedList<>();
+            list.add(key);
+            buckets.set(index, list);
+        }
+        else{
+            if(!childList.contains(key)){
+                childList.add(key);
+            }
+        }
     }
     
     public void remove(int key) {
         
-        for(int i=0; i<hash.size(); i++){
-            if(hash.get(i) == key)
-                hash.remove(i);
+        int index = key % bucketSize;
+        List<Integer> childList = buckets.get(index);
+        
+        if(childList != null){
+            childList.remove(Integer.valueOf(key));
         }
+        
     }
     
     public boolean contains(int key) {
         
-        for(int i=0; i<hash.size(); i++){
-            if(hash.get(i) == key)
-                return true;
-        }
+        int index = key % bucketSize;
+        List<Integer> childList = buckets.get(index);
         
-        return false;
+        return childList != null && childList.contains(key);
     }
 }
 
