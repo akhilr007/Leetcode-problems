@@ -1,43 +1,34 @@
 class UndergroundSystem {
 public:
-    unordered_map<int, pair<string, int>> info;
-    unordered_map<string, vector<int>> arrivals;
+    unordered_map<int, pair<string, int>> arrivals;
+    unordered_map<string, pair<double, double>> info;
     
     UndergroundSystem() {
         
     }
     
     void checkIn(int id, string stationName, int t) {
-        info[id].first = stationName;
-        info[id].second = t;
+        
+        arrivals[id].first = stationName;
+        arrivals[id].second = t;
     }
     
     void checkOut(int id, string stationName, int t) {
         
-        auto passenger = info[id];
+        auto arrival = arrivals[id];
         
-        string travelDetails = passenger.first + "-" + stationName;
-        int startTime = passenger.second;
+        string key = arrival.first + "-" + stationName;
         
-    
-        arrivals[travelDetails].push_back(t-startTime);
+        int travelTime = t - arrival.second;
         
+        info[key].first += travelTime;
+        info[key].second++;
     }
     
     double getAverageTime(string startStation, string endStation) {
         
-        string travelDetails = startStation + "-" + endStation;
-        auto details = arrivals[travelDetails];
-        
-        double averageTime = 0;
-        int totalTravelTime = details.size();
-        
-        for(auto t: details){
-            averageTime += t;
-        }
-        
-        averageTime = averageTime / totalTravelTime;
-        return averageTime;
+        string key = startStation + "-" + endStation;
+        return info[key].first / info[key].second;
     }
 };
 
