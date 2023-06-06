@@ -1,22 +1,12 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        // [0 ... n]
         
-        for(int i=0; i<=nums.length; i++){
-            boolean isFound = false;
-            
-            for(int j=0; j<nums.length; j++){
-                
-                if(nums[j] == i){
-                    isFound = true;
-                    break;
-                }
-            }
-            
-            if(isFound == false)
+        Arrays.sort(nums);
+        for(int i=0; i<nums.length; i++){
+            if(i != nums[i])
                 return i;
         }
         
-        return -1;
+        return nums.length;
     }
 }
