@@ -1,17 +1,27 @@
 class Solution {
+    public void swap(int i, int j, int[] nums){
+        
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    
     public int removeDuplicates(int[] nums) {
         
-        List<Integer> uniqueElements = new ArrayList<>();
-        for(int num: nums){
-            if(uniqueElements.size() == 0 || uniqueElements.get(uniqueElements.size()-1) != num){
-                uniqueElements.add(num);
+        int i=0, j=i+1;
+        for(; j<nums.length;){
+            
+            if(nums[i] == nums[j]){
+                j++;
+            }
+            else{
+                swap(i+1, j, nums);
+                i++;
+                j++;
             }
         }
         
-        for(int i=0; i<uniqueElements.size(); i++){
-            nums[i] = uniqueElements.get(i);
-        }
+        return i+1;
         
-        return uniqueElements.size();
     }
 }
