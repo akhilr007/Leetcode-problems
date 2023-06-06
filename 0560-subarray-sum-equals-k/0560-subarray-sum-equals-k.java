@@ -1,20 +1,23 @@
 class Solution {
     public int subarraySum(int[] nums, int k) {
         
-        HashMap<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> hm = new HashMap<>();
+        hm.put(0, 1);
         
-        map.put(0, 1);
-        
+        int sum = 0;
         int count = 0;
-        int preSum = 0;
         
-        for(int num: nums){
+        for(int i=0; i<nums.length; i++){
             
-            preSum += num;
-            int remove = preSum - k;
+            sum += nums[i];
             
-            count += map.getOrDefault(remove, 0);
-            map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+            int remove = sum - k;
+            
+            if(hm.containsKey(remove) == true){
+                count += hm.get(remove);
+            }
+            
+            hm.put(sum, hm.getOrDefault(sum, 0) + 1);
         }
         
         return count;
