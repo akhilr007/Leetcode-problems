@@ -32,9 +32,9 @@ public:
         int m = grid.size();
         int n = grid[0].size();
         
-        for(int i=0; i<m; i++){
+        for(auto& row: grid){
             
-            int index = findFirstNegativeIndexInEachRow(grid[i]);
+            int index = findFirstNegativeIndexInEachRow(row);
             
             totalNegativeNumbers += (n - index);
         }
