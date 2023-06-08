@@ -32,11 +32,14 @@ public:
         int m = grid.size();
         int n = grid[0].size();
         
+        int curNegIndex = n-1;
         for(auto& row: grid){
             
-            int index = findFirstNegativeIndexInEachRow(row);
+            while(curNegIndex >=0 && row[curNegIndex]<0)
+                curNegIndex--;
             
-            totalNegativeNumbers += (n - index);
+            // curNegIndex points to last positive element
+            totalNegativeNumbers += n-curNegIndex-1; // -1 for reducing the positive element
         }
         
         return totalNegativeNumbers;
