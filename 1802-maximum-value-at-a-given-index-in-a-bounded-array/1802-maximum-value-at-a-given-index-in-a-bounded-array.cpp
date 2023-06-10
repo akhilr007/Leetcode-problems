@@ -2,7 +2,7 @@ class Solution {
 public:
     long long getSumByFormula(long long count, long long val){
         
-        return (long long)(count * val) - (long long)(count * (count+1))/2;
+        return (count * val) - (count * (count+1))/2;
     }
     
     int better(int n, int index, int maxSum){
