@@ -23,7 +23,6 @@ public:
         
         auto it = snaps[index].upper_bound(snap_id);
         it--;
-        
         return it->second;
     }
 };
