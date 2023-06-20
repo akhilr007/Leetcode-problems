@@ -2,29 +2,21 @@ class Solution {
 public:
     vector<int> brute(vector<int>& nums, int k){
         int n = nums.size();
-        vector<int> result(n);
+        vector<int> result(n, -1);
         
-        for(int i=0; i<n; i++){
+        for(int i=k; i<n-k; i++){
             
-            if(i-k>=0 && i+k<n){
-                int sum = 0;
-                int cnt=0;
-                for(int j=i-k; j<=i+k; j++){
-                    sum += nums[j];
-                    cnt++;
-                }
-                
-                result[i] = (sum / cnt);
-            }
-            else{
-                result[i] = -1;
+            int sum=0;
+            for(int j=i-k; j<=i+k; j++){
+                sum += nums[j];
+                result[i] = (sum / (2*k+1));
             }
         }
         
         return result;
     }
     
-    vector<int> getAverages(vector<int>& nums, int k) {
+    vector<int> better(vector<int>& nums, int k){
         
         if(k == 0)
             return nums;
@@ -53,5 +45,35 @@ public:
         }
         
         return averages;
+    }
+    
+    vector<int> getAverages(vector<int>& nums, int k) {
+        
+        if(k == 0)
+            return nums;
+        
+        int n = nums.size();
+        vector<int> result(n, -1);
+        
+        if(2*k+1 > n)
+            return result;
+        
+        long long windowSum = 0;
+        
+        for(int i=0; i<2*k+1; i++){
+            windowSum += nums[i];
+        }
+        
+        result[k] = windowSum / (2*k+1);
+        
+        for(int i=2*k+1; i<n; i++){
+            
+            windowSum = windowSum - nums[i-(2*k+1)] + nums[i];
+            result[i-k] = windowSum / (2*k+1); 
+        }
+        
+        return result;
+        
+        
     }
 };
