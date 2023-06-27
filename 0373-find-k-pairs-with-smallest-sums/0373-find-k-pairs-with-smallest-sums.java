@@ -17,7 +17,7 @@ class Solution {
         int n = a.length;
         int m = b.length;
         
-        PriorityQueue<Pair> pq = new PriorityQueue<>((p1, p2) -> Integer.compare(p2.sum, p1.sum));
+        PriorityQueue<Pair> pq = new PriorityQueue<>((p1, p2) -> p2.sum - p1.sum);
         
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
