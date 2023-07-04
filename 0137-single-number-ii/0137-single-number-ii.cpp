@@ -4,18 +4,27 @@ public:
         
         int n = nums.size();
         
-        unordered_map<int, int> m;
-        for(auto num: nums)
-            m[num]++;
-        
         int result = 0;
         
-        for(auto [key, value] : m){
-            if(value == 1){
-                result = key;
-                break;
+        for(int bit=0; bit<32; bit++){
+            
+            // kth bit
+            int temp = 1 << bit;
+            
+            int countZero=0, countOne=0;
+            for(auto& num: nums){
+                
+                if((num & temp) == 0)
+                    countZero++;
+                else
+                    countOne++;
+            }
+            
+            if(countOne % 3 == 1){
+                result = (result | temp);
             }
         }
+        
         return result;
     }
 };
