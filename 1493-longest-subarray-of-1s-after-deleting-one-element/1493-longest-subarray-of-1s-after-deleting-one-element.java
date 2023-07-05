@@ -69,6 +69,25 @@ class Solution {
     
     public int longestSubarray(int[] nums) {
         
-        return better(nums);
+        int n = nums.length;
+        
+        int i=0;
+        int j=0;
+        
+        int result = 0;
+        int lastZeroIndex=-1;
+        
+        while(j<n){
+            
+            if(nums[j] == 0){
+                i = lastZeroIndex+1;
+                lastZeroIndex = j;
+            }
+            
+            result = Math.max(result, j-i);
+            j++;
+        }
+        
+        return result;
     }
 }
