@@ -1,4 +1,24 @@
 class Solution {
+    public int brute(int[] nums){
+        int n = nums.length;
+        
+        int result = 0;
+        int countZero = 0;
+        
+        for(int i=0; i<n; i++){
+            
+            if(nums[i] == 0){
+                
+                countZero++;
+                result = Math.max(result, findMax(nums, i, n));
+            }
+        }
+        
+        if(countZero == 0)
+            return n-1;
+        
+        return result;
+    }
     public int findMax(int[] nums, int skipIndex, int n){
         
         int curLength=0;
@@ -21,25 +41,34 @@ class Solution {
         return maxLength;
     }
     
-    public int longestSubarray(int[] nums) {
+    public int better(int[] nums){
         
         int n = nums.length;
         
+        int i=0;
         int result = 0;
-        int countZero = 0;
+        int zeroCount = 0;
         
-        for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
             
-            if(nums[i] == 0){
+            if(nums[j] == 0)
+                zeroCount++;
+            
+            while(zeroCount > 1){
+                if(nums[i] == 0)
+                    zeroCount--;
                 
-                countZero++;
-                result = Math.max(result, findMax(nums, i, n));
+                i++;
             }
+            
+            result = Math.max(result, j-i);
         }
         
-        if(countZero == 0)
-            return n-1;
-        
         return result;
+    }
+    
+    public int longestSubarray(int[] nums) {
+        
+        return better(nums);
     }
 }
