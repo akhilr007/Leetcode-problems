@@ -93,10 +93,39 @@ class Solution {
         return result;
     }
     
+    int optimal(String answerKey, int k){
+        
+        int i=0;
+        int j=0;
+        
+        int countT=0, countF=0;
+        
+        while(j<n){
+            
+            if(answerKey.charAt(j) == 'T')
+                countT++;
+            else
+                countF++;
+            
+            while(Math.min(countT, countF) > k){
+                if(answerKey.charAt(i) == 'T')
+                    countT--;
+                else
+                    countF--;
+                i++;
+            }
+            
+            result = Math.max(result, j-i+1);
+            j++;
+        }
+        
+        return result;
+    }
+    
     public int maxConsecutiveAnswers(String answerKey, int k) {
         
         n = answerKey.length();
         
-        return better(answerKey, k);
+        return optimal(answerKey, k);
     }
 }
