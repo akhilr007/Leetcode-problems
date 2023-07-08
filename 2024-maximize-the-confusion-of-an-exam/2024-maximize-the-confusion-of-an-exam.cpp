@@ -102,8 +102,35 @@ public:
         return result;
     }
     
+    int optimal(string answerKey, int k){
+        
+        int n = answerKey.length();
+        
+        int countT = 0;
+        int countF = 0;
+        
+        int i=0;
+        int j=0;
+        
+        int result = 0;
+        
+        while(j<n){
+            
+            answerKey[j] == 'T' ? countT++ : countF++;
+            
+            while(min(countT, countF) > k){
+                answerKey[i] == 'T' ? countT-- : countF--;
+                i++;
+            }
+            
+            result = max(result, j-i+1);
+            j++;
+        }
+        return result;
+    }
+    
     int maxConsecutiveAnswers(string answerKey, int k) {
         
-        return better(answerKey, k);
+        return optimal(answerKey, k);
     }
 };
