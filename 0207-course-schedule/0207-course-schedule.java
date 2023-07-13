@@ -47,19 +47,19 @@ class Solution {
     boolean topoSort(List<List<Integer>> adj, int[] indegree, int numCourses){
         
         Queue<Integer> q = new LinkedList<>();
-        
-        int count=0;
+    
         for(int i=0; i<indegree.length; i++){
             if(indegree[i]==0){
                 q.offer(i);
-                count++;
             }
         }
         
         
+        int count=0;
         while(q.size()>0){
             
             int u = q.poll();
+            count++;
             
             for(int v: adj.get(u)){
                 
@@ -67,7 +67,6 @@ class Solution {
                 
                 if(indegree[v] == 0){
                     q.offer(v);
-                    count++;
                 }
             }
         }
