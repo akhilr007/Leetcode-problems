@@ -18,7 +18,7 @@ class Solution {
         return false;
     }
     
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    boolean dfs(int numCourses, int[][] prerequisites) {
         
         boolean[] visited = new boolean[numCourses];
         boolean[] inRecursion = new boolean[numCourses];
@@ -42,5 +42,56 @@ class Solution {
         }
         
         return true;
+    }
+    
+    boolean topoSort(List<List<Integer>> adj, int[] indegree, int numCourses){
+        
+        Queue<Integer> q = new LinkedList<>();
+        
+        int count=0;
+        for(int i=0; i<indegree.length; i++){
+            if(indegree[i]==0){
+                q.offer(i);
+                count++;
+            }
+        }
+        
+        
+        while(q.size()>0){
+            
+            int u = q.poll();
+            
+            for(int v: adj.get(u)){
+                
+                indegree[v]--;
+                
+                if(indegree[v] == 0){
+                    q.offer(v);
+                    count++;
+                }
+            }
+        }
+        
+        return count == numCourses ? true : false;
+    }
+    
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i=0; i<numCourses; i++){
+            adj.add(new ArrayList<>());
+        }
+        
+        // create graph
+        int[] indegree = new int[numCourses];
+        for(int i=0; i<prerequisites.length; i++){
+            int u = prerequisites[i][0];
+            int v = prerequisites[i][1];
+            
+            adj.get(v).add(u); 
+            indegree[u]++;
+        }
+        
+        return topoSort(adj, indegree, numCourses);
     }
 }
