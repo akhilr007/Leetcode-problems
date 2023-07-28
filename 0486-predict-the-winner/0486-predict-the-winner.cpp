@@ -1,5 +1,11 @@
 class Solution {
 public:
+    /*
+     player 1 has two options either i or j, 
+     now if player1 takes any option then player 2 takes
+     so player1 score will be player1 score - player2 score
+     if p1 - p2 >= 0 , p1 wins
+    */
     int solve(int i, int j, vector<int>& nums, vector<vector<int>>& dp){
         
         if(i>j)
