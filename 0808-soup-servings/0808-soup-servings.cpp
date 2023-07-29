@@ -24,6 +24,7 @@ public:
     
     double soupServings(int n) {
         
+        // for large value of n, since b will never serve 100 ml so a will always become empty before b, so we can say for large value of n a's probability will be 1
         if(n >= 4000)
             return 1.0;
         
