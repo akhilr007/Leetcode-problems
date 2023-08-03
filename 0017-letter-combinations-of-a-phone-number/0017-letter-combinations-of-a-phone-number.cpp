@@ -2,16 +2,17 @@ class Solution {
 public:
     const vector<string> digitToCharMapping = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
     
-    void dfs(int i, string curString, string& digits, vector<string>& result){
+    void dfs(int i, string& curString, string& digits, vector<string>& result){
         
-        if(curString.length() == digits.length()){
+        if(i >= digits.length()){
             result.push_back(curString);
             return;
         }
         
         int digitIndex = digits[i]-'0';
         for(char ch: digitToCharMapping[digitIndex]){
-            dfs(i+1, curString+ch, digits, result);
+            curString[i] = ch;
+            dfs(i+1, curString, digits, result);
         }
     }
     vector<string> letterCombinations(string digits) {
@@ -20,8 +21,8 @@ public:
             return {};
         
         vector<string> result;
-        
-        dfs(0, "", digits, result);
+        string curString(digits.length(), ' ');
+        dfs(0, curString, digits, result);
         return result;
         
     }
