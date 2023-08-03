@@ -1,29 +1,33 @@
 class Solution {
 public:
-    const vector<string> digitToCharMapping = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    const string digitToCharMapping [10] = {"", "", "abc", 
+                                            "def", "ghi", "jkl",
+                                            "mno", "pqrs", "tuv", "wxyz"};
     
-    void dfs(int i, string& curString, string& digits, vector<string>& result){
+    void dfs(int index, string& curString, string& digits, vector<string>& result){
         
-        if(i >= digits.length()){
+        if(index >= digits.size()){
             result.push_back(curString);
             return;
         }
         
-        int digitIndex = digits[i]-'0';
+        int digitIndex = digits[index]-'0'; //'2' -> 2
         for(char ch: digitToCharMapping[digitIndex]){
-            curString[i] = ch;
-            dfs(i+1, curString, digits, result);
+            curString.push_back(ch);
+            dfs(index+1, curString, digits, result);
+            curString.pop_back();
         }
     }
-    vector<string> letterCombinations(string digits) {
+    
+    vector<string> letterCombinations(string& digits) {
         
         if(digits.length()==0)
             return {};
         
         vector<string> result;
-        string curString(digits.length(), ' ');
+        string curString;
+        
         dfs(0, curString, digits, result);
         return result;
-        
     }
 };
