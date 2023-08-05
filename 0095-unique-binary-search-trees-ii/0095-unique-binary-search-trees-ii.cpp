@@ -1,11 +1,15 @@
 
 class Solution {
 public:
+    map<pair<int, int>, vector<TreeNode*>> mp;
     vector<TreeNode*> solve(int start, int end){
         
         if(start > end){
             return { NULL };
         }
+        
+        if(mp.find({start, end}) != mp.end())
+            return mp[{start, end}];
         
         vector<TreeNode*> result;
         
@@ -27,7 +31,7 @@ public:
             }
         }
         
-        return result;
+        return mp[{start, end}] = result;
     }
     
     vector<TreeNode*> generateTrees(int n) {
