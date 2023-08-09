@@ -3,17 +3,15 @@ public:
     bool isValid(vector<int>& nums, int p, int diff){
         
         int count=0;
-        for(int i=0; i<nums.size()-1; ){
+        for(int i=0; i<nums.size()-1;){
             
             int curDiff = abs(nums[i]-nums[i+1]);
-            if(curDiff <= diff)
-            {
+            if(curDiff <= diff){
                 count++;
                 i += 2;
             }
-            else
-            {
-                i += 1;
+            else{
+                i++;
             }
         }
         
@@ -22,11 +20,13 @@ public:
     
     int minimizeMax(vector<int>& nums, int p) {
         
-        sort(begin(nums), end(nums));
-        int l=0;
-        int r=nums[nums.size()-1]-nums[0];
+        int N = nums.size();
+        sort(nums.begin(), nums.end());
         
-        int result;
+        int l=0;
+        int r=nums[N-1]-nums[0];
+        
+        int result = r;
         
         while(l <= r){
             
@@ -37,7 +37,7 @@ public:
                 r = mid - 1;
             }
             else{
-                l = mid +1;
+                l = mid + 1;
             }
         }
         
